@@ -35,6 +35,9 @@ public class WingTemplate extends ConfigManager {
 		cfg.addDefault("SneakingDegreeAddition", 20);
 		cfg.addDefault("ShowWhenRunning", false);
 		cfg.addDefault("tilt", 10);
+		cfg.addDefault("mirrow", true);
+		cfg.addDefault("moveup", 0);
+		cfg.addDefault("moveback", 0);
 		cfg.addDefault("Animated", true);
 		
 		ArrayList<String> pt = new ArrayList<String>();

@@ -18,12 +18,19 @@ public class Wing {
 
 	// Die Neigung der Wings in Grad
 	public int tilt = 0;
+	
+	// If show when running is enabled
+	// the tilt can also be adjusted >D
+	public int runTilt = 0;
 
 	// Das Pattern der Wings mit Codes
 	public ParticleCode[][] pattern;
 
 	// Animiert ja/nein
 	public boolean animated = true;
+	
+	// If the Pattern should be mirrored
+	public boolean mirrow = true;
 
 	// Grad Zahl die addiert wird beim Sneaken (damit es so aussieht als ob die ein
 	// wenig zusammen gehen)
@@ -38,9 +45,12 @@ public class Wing {
 	// Falls ja werden die Wings weiterhin auch beim Rennen angezeigt.
 	public boolean showWhenRunning = false;
 
-	// Moves the Wings behind the Body
+	// Moves the Wings behind the Body (MULTIPLIES the Direction Vector)
 	public double moveback = 0;
 
+	//Moves the Wing overall up on the Y coordinate
+	public double moveup = 0;
+	
 	// The Item which is going in the GUI;
 	public ItemStack item;
 	public Material material;
@@ -61,12 +71,14 @@ public class Wing {
 		sneakAddition = config.getInt("SneakingDegreeAddition");
 		degreeAddition = config.getInt("DegreeAddition");
 		moveback = config.getDouble("moveback");
+		moveup = config.getDouble("moveup");
 		material = Material.valueOf(config.getString("Item.Material"));
 		itemName = config.getString("Item.Name");
 		creator = config.getString("creator");
 		permission = config.getString("permission");
 		file = config.getFile();
-
+		mirrow = config.getBoolean("mirrow");
+		runTilt = config.getInt("runtilt");
 	}
 
 	public Wing register() {
@@ -171,6 +183,32 @@ public class Wing {
 
 		return item.build();
 
+	}
+
+	
+	
+	public int getRunTilt() {
+		return runTilt;
+	}
+
+	public void setRunTilt(int runTilt) {
+		this.runTilt = runTilt;
+	}
+
+	public boolean isMirrow() {
+		return mirrow;
+	}
+
+	public void setMirrow(boolean mirrow) {
+		this.mirrow = mirrow;
+	}
+
+	public double getMoveup() {
+		return moveup;
+	}
+
+	public void setMoveup(double moveup) {
+		this.moveup = moveup;
 	}
 
 	public File getFile() {

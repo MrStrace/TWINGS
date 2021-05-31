@@ -26,8 +26,8 @@ import dev.strace.twings.utils.objects.Wing;
 public class SendWings {
 
 	private void sendColor(Wing wing, double space, double x, double y, double fire, double defX, Location location,
-			boolean left) {
-		double tilt = wing.getTilt();
+			boolean left, int tilt) {
+
 		for (int i = 0; i < wing.pattern.length; i++) {
 			ParticleCode[] alone = wing.pattern[i];
 			for (int j = 0; j < alone.length; j++) {
@@ -41,10 +41,13 @@ public class SendWings {
 					Vector v2 = getBackVector(location, left);
 					v = rotateAroundAxisY(v, fire);
 
-					if (left == false)
-						v2.setY(0).multiply(-0.15);
-					else
-						v2.setY(0).multiply(0.15);
+					if (wing.isMirrow()) {
+						if (left == false)
+							v2.setY(0).multiply(-0.15);
+						else
+							v2.setY(0).multiply(0.15);
+					}else
+						v2.setY(0).multiply(-0.5);
 
 					location.add(vpitch);
 					location.add(v);
@@ -67,11 +70,12 @@ public class SendWings {
 	}
 
 	private boolean isRunning(Player p, Wing wing) {
-		if (wing.showWhenRunning == true)
+		if (wing.showWhenRunning == true && PlayerMoveListener.moving.contains(p))
 			return false;
 
 		if (PlayerMoveListener.moving.contains(p))
 			return true;
+
 		return false;
 
 	}
@@ -100,49 +104,62 @@ public class SendWings {
 			addition += animated.get(p);
 			sneakAddition += animated.get(p);
 		}
-		if (isRunning(p, wing))
+		int tilt = 0;
+		if (isRunning(p, wing)) {
 			return;
+		} else {
+			tilt = wing.getTilt() + wing.getRunTilt();
+		}
 		Location ploc = p.getLocation().clone();
 		ploc.setPitch(-45);
 		Location location = p.getLocation().clone().subtract(ploc.getDirection().setY(0).multiply(wing.getMoveback()));
 		int patternlenght = wing.getPattern()[0].length;
 
 		double space = 0.07;
-		double defX = location.getX() - (space * patternlenght) + space;
+		double defX;
+		if (wing.isMirrow())
+			defX = location.getX() - (space * patternlenght) + space;
+		else
+			defX = location.getX() - (space * patternlenght / 2) + space;
 		double x = defX;
-		double y = location.clone().getY() + 1.4;
+		double y = location.clone().getY() + 1.4 + wing.getMoveup();
 		double fire = -((location.getYaw() + (180 + addition)) / 60);
 		if (!p.isSneaking()) {
 
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 
-			sendColor(wing, space, x, y, fire, defX, location, false);
+			sendColor(wing, space, x, y, fire, defX, location, false, tilt);
 
-			defX = location.getX() + (space * patternlenght);
-			x = defX;
-			y = location.clone().getY() + 1.4;
-			fire = -((location.getYaw() + (180 - addition)) / 60);
-			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-			sendColor(wing, space, x, y, fire, defX, location, true);
-
+			if (wing.isMirrow()) {
+				defX = location.getX() + (space * patternlenght);
+				x = defX;
+				y = location.clone().getY() + 1.4 + wing.getMoveup();
+				fire = -((location.getYaw() + (180 - addition)) / 60);
+				fire += (location.getYaw() < -180 ? Math.PI : 2.985);
+				sendColor(wing, space, x, y, fire, defX, location, true, tilt);
+			}
 			return;
 		}
 
 		space = 0.06;
-		defX = location.getX() - (space * patternlenght) + space;
+		if (wing.isMirrow())
+			defX = location.getX() - (space * patternlenght) + space;
+		else
+			defX = location.getX() - (space * patternlenght / 2) + space;
 		x = defX;
-		y = location.clone().getY() + 1.1;
+		y = location.clone().getY() + 1.1 + wing.getMoveup();
 		fire = -((location.getYaw() + (180 + sneakAddition)) / 60);
 		fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-		sendColor(wing, space, x, y, fire, defX, location, false);
-
-		defX = location.getX() + (space * patternlenght);
-		x = defX;
-		y = location.clone().getY() + 1.1;
-		fire = -((location.getYaw() + (180 - sneakAddition)) / 60);
-		fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-		sendColor(wing, space, x, y, fire, defX, location, true);
-
+		sendColor(wing, space, x, y, fire, defX, location, false, tilt);
+		if (wing.isMirrow()) {
+			defX = location.getX() + (space * patternlenght);
+			x = defX;
+			y = location.clone().getY() + 1.1 + wing.getMoveup();
+			fire = -((location.getYaw() + (180 - sneakAddition)) / 60);
+			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
+			sendColor(wing, space, x, y, fire, defX, location, true, tilt);
+		}
+		return;
 	}
 
 	public void drawWings(Location l, Wing wing) {
@@ -159,14 +176,14 @@ public class SendWings {
 			double fire = -((location.getYaw() + (180 + addition)) / 60);
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 
-			sendColor(wing, space, x, y, fire, defX, location, false);
+			sendColor(wing, space, x, y, fire, defX, location, false, wing.getTilt());
 
 			defX = location.getX() + (space * patternlenght);
 			x = defX;
 			y = location.clone().getY() + 1.4;
 			fire = -((location.getYaw() + (180 - addition)) / 60);
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-			sendColor(wing, space, x, y, fire, defX, location, true);
+			sendColor(wing, space, x, y, fire, defX, location, true, wing.getTilt());
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -181,18 +198,18 @@ public class SendWings {
 			double space = 0.1;
 			double defX = location.getX() - (space * patternlenght) + space;
 			double x = defX;
-			double y = location.clone().getY() + 1.4;
+			double y = location.clone().getY() + 1.4 + wing.getMoveup();
 			double fire = -((location.getYaw() + (180 + addition)) / 60);
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 
-			sendColor(wing, space, x, y, fire, defX, location, false);
+			sendColor(wing, space, x, y, fire, defX, location, false, wing.getTilt());
 
 			defX = location.getX() + (space * patternlenght);
 			x = defX;
-			y = location.clone().getY() + 1.4;
+			y = location.clone().getY() + 1.4 + wing.getMoveup();
 			fire = -((location.getYaw() + (180 - addition)) / 60);
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-			sendColor(wing, space, x, y, fire, defX, location, true);
+			sendColor(wing, space, x, y, fire, defX, location, true, wing.getTilt());
 
 		} catch (Exception e) {
 
@@ -240,12 +257,11 @@ public class SendWings {
 			final float newZ = (float) (loc.getZ() + (1 * Math.sin(Math.toRadians(loc.getYaw() + 90 * 1)))); // + 90
 			final float newX = (float) (loc.getX() + (1 * Math.cos(Math.toRadians(loc.getYaw() + 90 * 1))));
 			return new Vector(newX - loc.getX(), 0, newZ - loc.getZ());
+		} else {
+			final float newZ = (float) (loc.getZ() - (1 * Math.sin(Math.toRadians(loc.getYaw() + 90 * 1)))); // + 90
+			final float newX = (float) (loc.getX() - (1 * Math.cos(Math.toRadians(loc.getYaw() + 90 * 1))));
+			return new Vector(newX - loc.getX(), 0, newZ - loc.getZ());
 		}
-
-		final float newZ = (float) (loc.getZ() - (1 * Math.sin(Math.toRadians(loc.getYaw() + 90 * 1)))); // + 90
-		final float newX = (float) (loc.getX() - (1 * Math.cos(Math.toRadians(loc.getYaw() + 90 * 1))));
-		return new Vector(newX - loc.getX(), 0, newZ - loc.getZ());
-
 	}
 
 	public static void sendParticles(ParticleCode code, Location L) {
