@@ -1,0 +1,8 @@
+name: TWINGS
+author: Strace
+version: 2.0
+main: dev.strace.twings.Main
+
+commands:
+  wings:
+    aliases: [twings, twing, wing]
