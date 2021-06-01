@@ -68,12 +68,18 @@ public class CurrentWings extends ConfigManager {
 				current.remove(p.getUniqueId());
 			return;
 		}
-		System.out.println(file.getName());
 		current.put(p.getUniqueId(), file);
 		set(p.getUniqueId().toString(), file.getName());
 		save();
 	}
 
+	public void removeCurrentWing(Player p) {
+		
+		current.remove(p.getUniqueId());
+		set(p.getUniqueId().toString(), null);
+		save();
+	}
+	
 	public static HashMap<UUID, File> getCurrent() {
 		return current;
 	}
