@@ -43,9 +43,9 @@ public class SendWings {
 
 					if (wing.isMirrow()) {
 						if (left == false)
-							v2.setY(0).multiply(-0.15);
+							v2.setY(0).multiply(-0.25);
 						else
-							v2.setY(0).multiply(0.15);
+							v2.setY(0).multiply(0.25);
 					}else
 						v2.setY(0).multiply(-0.5);
 
