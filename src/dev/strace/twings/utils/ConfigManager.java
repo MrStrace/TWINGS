@@ -89,7 +89,7 @@ public class ConfigManager {
 			System.out.println("[TWINGS] "+this.fileName + "Could'nt be saved.");
 			return false;
 		}
-		System.out.println("[TWINGS] "+this.fileName + " loaded and saved.");
+		// System.out.println("[TWINGS] "+this.fileName + " loaded and saved.");
 		return true;
 	}
 

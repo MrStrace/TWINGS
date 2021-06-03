@@ -12,7 +12,6 @@ import dev.strace.twings.Main;
 import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
-import dev.strace.twings.utils.WingUtils;
 
 public class Wing {
 
@@ -31,6 +30,9 @@ public class Wing {
 	
 	// If the Pattern should be mirrored
 	public boolean mirrow = true;
+	
+	// Tilts the wings before rotating if true
+	public boolean tiltBefore = false;
 
 	// Grad Zahl die addiert wird beim Sneaken (damit es so aussieht als ob die ein
 	// wenig zusammen gehen)
@@ -79,6 +81,7 @@ public class Wing {
 		file = config.getFile();
 		mirrow = config.getBoolean("mirrow");
 		runTilt = config.getInt("runtilt");
+		tiltBefore = config.getBoolean("tiltbefore");
 	}
 
 	public Wing register() {
@@ -116,7 +119,7 @@ public class Wing {
 		this.setPattern(pattern);
 
 		item = createItemStack();
-
+		System.out.println(this.getFile().getName() + "LOADED" );
 		return this;
 	}
 
@@ -187,6 +190,14 @@ public class Wing {
 
 	
 	
+	public boolean isTiltBefore() {
+		return tiltBefore;
+	}
+
+	public void setTiltBefore(boolean tiltBefore) {
+		this.tiltBefore = tiltBefore;
+	}
+
 	public int getRunTilt() {
 		return runTilt;
 	}

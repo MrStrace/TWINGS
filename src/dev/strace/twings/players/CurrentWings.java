@@ -1,12 +1,12 @@
 package dev.strace.twings.players;
 
 import java.io.File;
+
 import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
-import dev.strace.twings.Main;
 import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.WingUtils;
 
@@ -39,7 +39,7 @@ public class CurrentWings extends ConfigManager {
 		// Feur jeden UUID-Eintrag wird nun in die HashMap der zugehoerige Wert
 		// hinzugefuegt.
 		for (String uid : this.getStringList("")) {
-			for(File file : new WingUtils().winglist.keySet()) {
+			for(File file : WingUtils.winglist.keySet()) {
 				if(file.getName().equalsIgnoreCase(getString(uid))) {
 					current.put(UUID.fromString(uid), file);
 					break;

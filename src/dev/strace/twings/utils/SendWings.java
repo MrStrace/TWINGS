@@ -46,13 +46,17 @@ public class SendWings {
 							v2.setY(0).multiply(-0.25);
 						else
 							v2.setY(0).multiply(0.25);
-					}else
+					} else
 						v2.setY(0).multiply(-0.5);
 
 					location.add(vpitch);
 					location.add(v);
 					location.add(v2);
+					if (wing.isTiltBefore())
+						location.setY(location.getY() + wing.getMoveup());
 					sendParticles(alone[j], location);
+					if (wing.isTiltBefore())
+						location.setY(location.getY() - wing.getMoveup());
 					location.subtract(vpitch);
 					location.subtract(v2);
 					location.subtract(v);
@@ -122,7 +126,9 @@ public class SendWings {
 		else
 			defX = location.getX() - (space * patternlenght / 2) + space;
 		double x = defX;
-		double y = location.clone().getY() + 1.4 + wing.getMoveup();
+		double y = location.clone().getY() + 1.4;
+		if (!wing.isTiltBefore())
+			y +=wing.getMoveup();
 		double fire = -((location.getYaw() + (180 + addition)) / 60);
 		if (!p.isSneaking()) {
 
@@ -133,7 +139,9 @@ public class SendWings {
 			if (wing.isMirrow()) {
 				defX = location.getX() + (space * patternlenght);
 				x = defX;
-				y = location.clone().getY() + 1.4 + wing.getMoveup();
+				y = location.clone().getY() + 1.4;
+				if (!wing.isTiltBefore())
+					y += wing.getMoveup();
 				fire = -((location.getYaw() + (180 - addition)) / 60);
 				fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 				sendColor(wing, space, x, y, fire, defX, location, true, tilt);
@@ -147,14 +155,18 @@ public class SendWings {
 		else
 			defX = location.getX() - (space * patternlenght / 2) + space;
 		x = defX;
-		y = location.clone().getY() + 1.1 + wing.getMoveup();
+		y = location.clone().getY() + 1.1;
+		if (!wing.isTiltBefore())
+			y +=wing.getMoveup();
 		fire = -((location.getYaw() + (180 + sneakAddition)) / 60);
 		fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 		sendColor(wing, space, x, y, fire, defX, location, false, tilt);
 		if (wing.isMirrow()) {
 			defX = location.getX() + (space * patternlenght);
 			x = defX;
-			y = location.clone().getY() + 1.1 + wing.getMoveup();
+			y = location.clone().getY() + 1.1;
+			if (!wing.isTiltBefore())
+				y +=wing.getMoveup();
 			fire = -((location.getYaw() + (180 - sneakAddition)) / 60);
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 			sendColor(wing, space, x, y, fire, defX, location, true, tilt);

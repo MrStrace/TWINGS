@@ -47,8 +47,12 @@ public class API {
 	public API(String fileName) {
 		utils = new WingUtils();
 		file = new File(Main.instance.getDataFolder() + "/wings/"+fileName);
-		cfg = YamlConfiguration.loadConfiguration(file);
 		wing = WingUtils.winglist.get(file);
+	}
+	
+	public API loadCfg() {
+		cfg = YamlConfiguration.loadConfiguration(file);
+		return this;
 	}
 
 	/**

@@ -17,6 +17,7 @@ import dev.strace.twings.players.PlayWings;
 import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.SendWings;
+import dev.strace.twings.utils.WingPreview;
 import dev.strace.twings.utils.WingReader;
 import dev.strace.twings.utils.WingTemplate;
 
@@ -73,6 +74,9 @@ public class Main extends JavaPlugin {
 		// Players getting there old Wings equipped (Important after reload)
 		new CurrentWings().onEnable();
 
+		// Enables the Wing previews
+		new WingPreview().enablePreview();
+		
 		// enablePreview();
 		System.out.println("[TWINGS] Enabled!");
 	}
