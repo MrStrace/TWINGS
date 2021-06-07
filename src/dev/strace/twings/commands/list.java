@@ -38,7 +38,7 @@ public class list extends SubCommands {
 		switch (args.length) {
 		case 1:
 			// First Line of the Wing list.
-			p.sendMessage(Main.getInstance().getPrefix() + " §7List of all Particles:");
+			p.sendMessage(Main.getInstance().getMsg().getList());
 			for (File file : WingUtils.winglist.keySet()) {
 				Wing wing = WingUtils.winglist.get(file);
 				/*
@@ -46,7 +46,7 @@ public class list extends SubCommands {
 				 * displayed.
 				 */
 				if (p.hasPermission(wing.getPermission()))
-					p.sendMessage(" §7- §f" + file.getName().replace(".yml", "").replace(" ", "_"));
+					p.sendMessage(Main.getInstance().getMsg().getListpoint(wing));
 			}
 			break;
 
