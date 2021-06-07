@@ -10,7 +10,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.LocationBuilder;
-import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.WingPreview;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.gui.WingEditGUI;
@@ -79,7 +78,8 @@ public class InventoryClickListener implements Listener {
 				if (p.hasPermission("twings.setpreview") || p.hasPermission("twings.admin")) {
 					LocationBuilder lb = new LocationBuilder();
 					lb.setLocation(wing.getFile().getName().replace(".yml", ""), p.getLocation());
-					p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &aPreview Location set."));
+					p.sendMessage(Main.getInstance().getMsg().getPreviewSet(wing));
+					p.closeInventory();
 					return;
 				}
 			}
@@ -93,7 +93,8 @@ public class InventoryClickListener implements Listener {
 					lb.set(wing.getFile().getName().replace(".yml", ""), null);
 					// Saves the file.
 					lb.save();
-					p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cPreview removed."));
+					p.sendMessage(Main.getInstance().getMsg().getPreviewRemoved(wing));
+					p.closeInventory();
 					return;
 				}
 			}
@@ -103,22 +104,25 @@ public class InventoryClickListener implements Listener {
 	public void handleEditMenu(InventoryClickEvent e, Player p, Wing wing) {
 		if (e.getCurrentItem().equals(wing.getItem())) {
 			/*
-			 * Sets the Preview Location
+			 * Sets the Particle in Edit mode.
 			 */
 			if (e.getClick().equals(ClickType.LEFT)) {
 
 				if (p.hasPermission("twings.setedit") || p.hasPermission("twings.admin")) {
+					p.sendMessage(Main.getInstance().getMsg().getEditmodeset(wing));
 					WingPreview.edit = wing;
+					p.closeInventory();
 					return;
 				}
 			}
 
 			/*
-			 * Removes the Preview Location
+			 * Removes the Particles out of Edit mode.
 			 */
 			if (e.getClick().equals(ClickType.RIGHT)) {
 				if (p.hasPermission("twings.setpreview") || p.hasPermission("twings.admin")) {
 					WingPreview.edit = null;
+					p.closeInventory();
 					return;
 				}
 			}
@@ -132,15 +136,10 @@ public class InventoryClickListener implements Listener {
 				if (!CurrentWings.getCurrent().isEmpty()) {
 					if (!CurrentWings.getCurrent().get(p.getUniqueId()).exists())
 						return;
-					p.sendMessage(Main.getInstance().getConfigString("Messages.remove")
-							.replace("%prefix%", Main.getInstance().getPrefix())
-							.replace("%WingName%", MyColors.format(WingUtils.winglist
-									.get(CurrentWings.getCurrent().get(p.getUniqueId())).getItemName())));
+					p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
 				}
 				if (Main.instance.getConfig().getBoolean("Messages.onEquip")) {
-					p.sendMessage(Main.getInstance().getConfigString("Messages.choose")
-							.replace("%prefix%", Main.getInstance().getPrefix())
-							.replace("%WingName%", MyColors.format(wing.getItemName())));
+					p.sendMessage(Main.getInstance().getMsg().getUnequip(wing));
 				}
 				new CurrentWings().setCurrentWing(p, wing.getFile());
 				p.playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 0.4f, 10f);
