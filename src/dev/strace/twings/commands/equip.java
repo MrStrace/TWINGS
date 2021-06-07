@@ -74,7 +74,7 @@ public class equip extends SubCommands {
 			 * This will be added in the config soon.
 			 * 
 			 */
-			p.sendMessage(Main.getInstance().getPrefix() + " §cParticle not found. All Particles: §d(/twings equip)");
+			p.sendMessage(Main.getInstance().getPrefix() + " §cParticle not found. All Particles: §d(/twings list)");
 			break;
 		default:
 			break;
