@@ -15,6 +15,7 @@ import dev.strace.twings.listener.PlayerMoveListener;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.players.PlayWings;
 import dev.strace.twings.utils.ConfigManager;
+import dev.strace.twings.utils.Messages;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.SendWings;
 import dev.strace.twings.utils.WingPreview;
@@ -34,6 +35,7 @@ public class Main extends JavaPlugin {
 	public static Main instance;
 	public static Plugin plugin;
 	public ConfigManager config;
+	public Messages msg;
 
 	@Override
 	public void onEnable() {
@@ -51,6 +53,9 @@ public class Main extends JavaPlugin {
 		// Config is getting written (Defaults)
 		registerConfig();
 
+		// Init lang.yml
+		msg = new Messages().init();
+		
 		// Init Template.yml (a Example of an Wing)
 		new WingTemplate();
 
@@ -124,9 +129,6 @@ public class Main extends JavaPlugin {
 		config.addDefault("Prefix", "&e&lTWings");
 		config.addDefault("Wings.showwithperms", false);
 		config.addDefault("Wings.updaterate", 3);
-		config.addDefault("Messages.onEquip", true);
-		config.addDefault("Messages.choose", "%prefix% &9you have equipped %WingName%!");
-		config.addDefault("Messages.remove", "%prefix% &9you have unequipped %WingName%!");
 		config.addDefault("Menu.title", "%prefix% &9Choose your Wings!");
 		config.addDefault("Menu.symbol", "⏹");
 		config.addDefault("Menu.creator", "&c&lCreator:&f %creator%");
