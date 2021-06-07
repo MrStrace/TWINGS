@@ -91,6 +91,8 @@ public class InventoryClickListener implements Listener {
 				if (p.hasPermission("twings.setpreview") || p.hasPermission("twings.admin")) {
 					LocationBuilder lb = new LocationBuilder();
 					lb.set(wing.getFile().getName().replace(".yml", ""), null);
+					// Saves the file.
+					lb.save();
 					p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cPreview removed."));
 					return;
 				}
