@@ -153,6 +153,12 @@ public class Main extends JavaPlugin {
 		return string;
 	}
 
+	
+	
+	public Messages getMsg() {
+		return msg;
+	}
+
 	public static Main getInstance() {
 		return instance;
 	}
