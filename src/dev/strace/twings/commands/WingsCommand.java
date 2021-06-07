@@ -32,6 +32,8 @@ public class WingsCommand implements CommandExecutor {
 		subcommands.add(new Preview());
 		subcommands.add(new Edit());
 		subcommands.add(new UnEquip());
+		subcommands.add(new equip());
+		subcommands.add(new list());
 	}
 
 	/**
