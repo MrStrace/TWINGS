@@ -128,7 +128,7 @@ public class SendWings {
 		double x = defX;
 		double y = location.clone().getY() + 1.4;
 		if (!wing.isTiltBefore())
-			y +=wing.getMoveup();
+			y += wing.getMoveup();
 		double fire = -((location.getYaw() + (180 + addition)) / 60);
 		if (!p.isSneaking()) {
 
@@ -157,7 +157,7 @@ public class SendWings {
 		x = defX;
 		y = location.clone().getY() + 1.1;
 		if (!wing.isTiltBefore())
-			y +=wing.getMoveup();
+			y += wing.getMoveup();
 		fire = -((location.getYaw() + (180 + sneakAddition)) / 60);
 		fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 		sendColor(wing, space, x, y, fire, defX, location, false, tilt);
@@ -166,7 +166,7 @@ public class SendWings {
 			x = defX;
 			y = location.clone().getY() + 1.1;
 			if (!wing.isTiltBefore())
-				y +=wing.getMoveup();
+				y += wing.getMoveup();
 			fire = -((location.getYaw() + (180 - sneakAddition)) / 60);
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 			sendColor(wing, space, x, y, fire, defX, location, true, tilt);
@@ -176,30 +176,39 @@ public class SendWings {
 
 	public void drawWings(Location l, Wing wing) {
 		int addition = wing.getDegreeAddition();
+		int tilt = 0;
+		tilt = wing.getTilt();
+		Location location = l;
+		int patternlenght = wing.getPattern()[0].length;
 
-		try {
-			Location location = l;
-			int patternlenght = wing.getPattern()[0].length;
+		double space = 0.07;
+		double defX;
+		if (wing.isMirrow())
+			defX = location.getX() - (space * patternlenght) + space;
+		else
+			defX = location.getX() - (space * patternlenght / 2) + space;
+		double x = defX;
+		double y = location.clone().getY() + 1.4;
+		if (!wing.isTiltBefore())
+			y += wing.getMoveup();
+		double fire = -((location.getYaw() + (180 + addition)) / 60);
 
-			double space = 0.1;
-			double defX = location.getX() - (space * patternlenght) + space;
-			double x = defX;
-			double y = location.clone().getY() + 1.4;
-			double fire = -((location.getYaw() + (180 + addition)) / 60);
-			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
+		fire += (location.getYaw() < -180 ? Math.PI : 2.985);
 
-			sendColor(wing, space, x, y, fire, defX, location, false, wing.getTilt());
+		sendColor(wing, space, x, y, fire, defX, location, false, tilt);
 
+		if (wing.isMirrow()) {
 			defX = location.getX() + (space * patternlenght);
 			x = defX;
 			y = location.clone().getY() + 1.4;
+			if (!wing.isTiltBefore())
+				y += wing.getMoveup();
 			fire = -((location.getYaw() + (180 - addition)) / 60);
 			fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-			sendColor(wing, space, x, y, fire, defX, location, true, wing.getTilt());
-
-		} catch (Exception e) {
-			// TODO: handle exception
+			sendColor(wing, space, x, y, fire, defX, location, true, tilt);
 		}
+		return;
+
 	}
 
 	public void drawWings(Location l, Wing wing, int decrease) {
