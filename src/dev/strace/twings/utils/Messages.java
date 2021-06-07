@@ -20,6 +20,7 @@ public class Messages extends ConfigManager {
 	
 	public Messages() {
 		super("lang"); 
+		init();
 		this.showMessages = getBoolean("show messages");
 		this.equip = getString("equip");
 		this.unequip = getString("unequip");

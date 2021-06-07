@@ -54,7 +54,7 @@ public class Main extends JavaPlugin {
 		registerConfig();
 
 		// Init lang.yml
-		msg = new Messages().init();
+		msg = new Messages();
 		
 		// Init Template.yml (a Example of an Wing)
 		new WingTemplate();

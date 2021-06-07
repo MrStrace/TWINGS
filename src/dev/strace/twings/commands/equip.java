@@ -51,7 +51,7 @@ public class equip extends SubCommands {
 				 * displayed.
 				 */
 				if (p.hasPermission(wing.getPermission()))
-					p.sendMessage(" §7- §f" + file.getName().replace(".yml", "").replace(" ", "_"));
+					p.sendMessage(Main.getInstance().getMsg().getListpoint(wing));
 			}
 			break;
 
@@ -60,9 +60,15 @@ public class equip extends SubCommands {
 		 * exists.
 		 */
 		case 2:
-			for (File file : WingUtils.winglist.keySet()) {
-				if (file.getName().replace(".yml", "").replace(" ", "_").equalsIgnoreCase(args[1])) {
-					new CurrentWings().setCurrentWing(p, file);
+			for (Wing wing : WingUtils.winglist.values()) {
+				String[] to = wing.getItemName().split("&");
+				String name = "";
+				for(String x : to) {
+					if(x.length() > 0) 
+					name += x.substring(1);
+				}
+				if (name.replace(" ", "_").equalsIgnoreCase(args[1])) {
+					new CurrentWings().setCurrentWing(p, wing.getFile());
 					return;
 				}
 			}

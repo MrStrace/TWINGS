@@ -136,10 +136,12 @@ public class InventoryClickListener implements Listener {
 				if (!CurrentWings.getCurrent().isEmpty()) {
 					if (!CurrentWings.getCurrent().get(p.getUniqueId()).exists())
 						return;
-					p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
+					if (Main.getInstance().getMsg().isShowMessages())
+						p.sendMessage(Main.getInstance().getMsg()
+								.getUnequip(WingUtils.winglist.get(CurrentWings.getCurrent().get(p.getUniqueId()))));
 				}
-				if (Main.instance.getConfig().getBoolean("Messages.onEquip")) {
-					p.sendMessage(Main.getInstance().getMsg().getUnequip(wing));
+				if (Main.getInstance().getMsg().isShowMessages()) {
+					p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
 				}
 				new CurrentWings().setCurrentWing(p, wing.getFile());
 				p.playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 0.4f, 10f);
