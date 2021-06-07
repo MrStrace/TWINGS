@@ -16,7 +16,7 @@ public class WingEditGUI {
 	private int size;
 	private boolean pagination = false;
 	private String name = Main.getInstance().getConfigString("Menu.title").replace("%prefix%",
-			Main.getInstance().getPrefix()) + MyColors.format("&c&lEDIT");
+			Main.getInstance().getPrefix()) + MyColors.format(" &c&lEDIT");
 
 	public WingEditGUI(int wingcount) {
 		int size = (wingcount + 9) / 9;
@@ -76,8 +76,8 @@ public class WingEditGUI {
 
 				// Add the Permission Lore
 				builder.addLore(Main.getInstance().getConfigString("Menu.permissions").replace("%perms%", perms));
-				builder.addLore(MyColors.format("&cLeft click to set the edit status"));
-				builder.addLore(MyColors.format("&cRight click to remove the edit status"));
+				builder.addLore(Main.getInstance().getMsg().getEditleft(wing));
+				builder.addLore(Main.getInstance().getMsg().getEditright(wing));
 			}
 			// Add the Item in the GUI (Inventory)
 			inv.addItem(builder.build());
