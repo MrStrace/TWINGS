@@ -9,8 +9,7 @@ import dev.strace.twings.api.API;
 import dev.strace.twings.utils.objects.Wing;
 
 public class WingPreview {
-	private LocationBuilder builder = new LocationBuilder();
-
+	private LocationBuilder builder;
 	public static Wing edit = null;
 
 	public void enablePreview() {
@@ -48,7 +47,8 @@ public class WingPreview {
 	}
 
 	private ArrayList<String> getLocs() {
-		return builder.getStringList("");
+		builder = new LocationBuilder();
+		return new LocationBuilder().getStringList("");
 	}
 
 }
