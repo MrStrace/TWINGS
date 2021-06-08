@@ -32,7 +32,9 @@ public class Edit extends SubCommands {
 	@Override
 	public void perform(Player p, String[] args) {
 
+		if(!p.hasPermission("twings.admin"))return;
 		if (args.length == 1) {
+			
 			new WingEditGUI(WingUtils.winglist.size()).openGUI(p);
 		}
 	}
