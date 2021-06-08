@@ -20,6 +20,7 @@ public class WingPreview {
 			public void run() {
 				for (String locations : getLocs()) {
 					API api = new API(locations + ".yml");
+
 					if (edit != null) {
 						if (edit.getFile().getName().replace(".yml", "").equalsIgnoreCase(locations)) {
 
