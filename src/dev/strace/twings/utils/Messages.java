@@ -53,7 +53,7 @@ public class Messages extends ConfigManager {
 		this.addDefault("wing not found", "%prefix% &c%WingName% not found. All Particles: &d/twings list");
 		this.addDefault("menu.editleft", "&cLeft click to set the edit status");
 		this.addDefault("menu.editright", "&cRight click to remove the edit status");
-		this.addDefault("list", "%prefix % &7List of all Particles:");
+		this.addDefault("list", "%prefix% &7List of all Particles:");
 		this.addDefault("bulletpoint", " &7- &f%WingName%");
 		this.save();
 	}
