@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.gui.WingPreviewGUI;
 
-
 /**
  * 
  * @author Jason Holweg
@@ -30,7 +29,9 @@ public class Preview extends SubCommands {
 
 	@Override
 	public void perform(Player p, String[] args) {
-
+		
+		if (!p.hasPermission("twings.admin"))
+			return;
 		if (args.length == 1) {
 			new WingPreviewGUI(WingUtils.winglist.size()).openGUI(p);
 		}
