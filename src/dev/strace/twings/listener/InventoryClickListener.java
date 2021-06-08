@@ -134,11 +134,11 @@ public class InventoryClickListener implements Listener {
 
 			if (e.getClick().equals(ClickType.LEFT)) {
 				if (!CurrentWings.getCurrent().isEmpty()) {
-					if (!CurrentWings.getCurrent().get(p.getUniqueId()).exists())
-						return;
-					if (Main.getInstance().getMsg().isShowMessages())
-						p.sendMessage(Main.getInstance().getMsg()
-								.getUnequip(WingUtils.winglist.get(CurrentWings.getCurrent().get(p.getUniqueId()))));
+					if (CurrentWings.getCurrent().get(p.getUniqueId()) != null) {
+						if (Main.getInstance().getMsg().isShowMessages())
+							p.sendMessage(Main.getInstance().getMsg().getUnequip(
+									WingUtils.winglist.get(CurrentWings.getCurrent().get(p.getUniqueId()))));
+					}
 				}
 				if (Main.getInstance().getMsg().isShowMessages()) {
 					p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
