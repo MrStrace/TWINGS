@@ -17,7 +17,7 @@ import dev.strace.twings.utils.objects.Wing;
  *         Created: Jun 7, 2021<br>
  *
  */
-public class equip extends SubCommands {
+public class Equip extends SubCommands {
 
 	@Override
 	public String getName() {
@@ -61,14 +61,18 @@ public class equip extends SubCommands {
 		 */
 		case 2:
 			for (Wing wing : WingUtils.winglist.values()) {
-				String[] to = wing.getItemName().split("&");
 				String name = "";
-				for(String x : to) {
-					if(x.length() > 0) 
-					name += x.substring(1);
-				}
+				if (wing.getItemName().contains("&")) {
+					String[] to = wing.getItemName().split("&");
+					for (String x : to) {
+						if (x.length() > 0)
+							name += x.substring(1);
+					}
+				} else
+					name = wing.getItemName();
 				if (name.replace(" ", "_").equalsIgnoreCase(args[1])) {
 					new CurrentWings().setCurrentWing(p, wing.getFile());
+					p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
 					return;
 				}
 			}
