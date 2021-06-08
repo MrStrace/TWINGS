@@ -3,6 +3,7 @@ package dev.strace.twings;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,23 +45,33 @@ public class Main extends JavaPlugin {
 		// Init instance
 		instance = this;
 
-		// Check Plugin version (is it uptodate?)
-		checkVersion();
-
 		// Creates or loads the Config.yml
 		config = new ConfigManager("config");
-
 		// Config is getting written (Defaults)
 		registerConfig();
 
 		// Init lang.yml
-		msg = new Messages();
-		
-		// Init Template.yml (a Example of an Wing)
-		new WingTemplate();
+		msg = new Messages().init().load();
+
+		load(false);
 
 		// All Listeners getting enabled.
 		registerListener();
+
+		// Register command
+		this.getCommand("wings").setExecutor(new WingsCommand());
+
+	}
+
+	public static void load(Boolean reload) {
+		if (reload)
+			new CurrentWings().onDisable();
+
+		// Check Plugin version (is it uptodate?)
+		checkVersion();
+
+		// Init Template.yml (a Example of an Wing)
+		new WingTemplate();
 
 		// Init WingReader all Wings getting saved in cached.
 		new WingReader().registerWings();
@@ -74,33 +85,21 @@ public class Main extends JavaPlugin {
 		// Enables animated Wings.
 		new PlayWings().enableAnimated();
 
-		this.getCommand("wings").setExecutor(new WingsCommand());
-
 		// Players getting there old Wings equipped (Important after reload)
 		new CurrentWings().onEnable();
 
 		// Enables the Wing previews
 		new WingPreview().enablePreview();
-		
-		// enablePreview();
-		System.out.println("[TWINGS] Enabled!");
+
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (p.hasPermission("twings.admin"))
+				p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cparticles reloaded."));
+		}
 	}
 
 	@Override
 	public void onDisable() {
 		new CurrentWings().onDisable();
-	}
-
-	public long reload() {
-		long milis = System.currentTimeMillis();
-		checkVersion();
-		saveConfig();
-		reloadConfig();
-		// enablePreview();
-
-		long now = System.currentTimeMillis() - milis;
-		System.out.println("[PixelStrace's Twings] Reload complete!" + "(" + now + "ms)");
-		return now;
 	}
 
 	public static void checkVersion() {
@@ -153,8 +152,6 @@ public class Main extends JavaPlugin {
 		return string;
 	}
 
-	
-	
 	public Messages getMsg() {
 		return msg;
 	}
