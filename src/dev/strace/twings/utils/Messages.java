@@ -21,6 +21,13 @@ public class Messages extends ConfigManager {
 	public Messages() {
 		super("lang"); 
 		init();
+
+	}
+	public Messages init() {
+		addDefaults();
+		return this;
+	}
+	public Messages load() {
 		this.showMessages = getBoolean("show messages");
 		this.equip = getString("equip");
 		this.unequip = getString("unequip");
@@ -32,9 +39,6 @@ public class Messages extends ConfigManager {
 		this.editleft = getString("menu.editleft");
 		this.list = getString("list");
 		this.listpoint = getString("bulletpoint");
-	}
-	public Messages init() {
-		addDefaults();
 		return this;
 	}
 
@@ -61,26 +65,31 @@ public class Messages extends ConfigManager {
 
 
 	public String getEquip(Wing wing) {
+		if(wing == null) return MyColors.format(equip.replace("%prefix%", prefix));
 		return MyColors.format(equip.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
 
 	public String getUnequip(Wing wing) {
+		if(wing == null) return "";
 		return  MyColors.format(unequip.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
 
 	public String getPreviewSet(Wing wing) {
+		if(wing == null) return MyColors.format(previewSet.replace("%prefix%", prefix));
 		return  MyColors.format(previewSet.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
 
 	public String getPreviewRemoved(Wing wing) {
+		if(wing == null) return MyColors.format(previewRemoved.replace("%prefix%", prefix));
 		return  MyColors.format(previewRemoved.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
 
 	public String getEditmodeset(Wing wing) {
+		if(wing == null) return MyColors.format(editmodeset.replace("%prefix%", prefix));
 		return  MyColors.format(editmodeset.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 	
@@ -89,10 +98,12 @@ public class Messages extends ConfigManager {
 	}
 	
 	public String getEditright(Wing wing) {
+		if(wing == null) return MyColors.format(editright.replace("%prefix%", prefix));
 		return  MyColors.format(editright.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 	
 	public String getEditleft(Wing wing) {
+		if(wing == null) return MyColors.format(editleft.replace("%prefix%", prefix));
 		return  MyColors.format(editleft.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 	
