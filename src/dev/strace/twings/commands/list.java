@@ -16,7 +16,7 @@ import dev.strace.twings.utils.objects.Wing;
  *         Created: Jun 7, 2021<br>
  *
  */
-public class list extends SubCommands {
+public class List extends SubCommands {
 
 	@Override
 	public String getName() {
