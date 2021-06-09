@@ -17,6 +17,7 @@ public class Messages extends ConfigManager {
 	private String editleft = "";
 	private String list = "";
 	private String listpoint = "";
+	private String nopermission = "";
 	
 	public Messages() {
 		super("lang"); 
@@ -39,6 +40,7 @@ public class Messages extends ConfigManager {
 		this.editleft = getString("menu.editleft");
 		this.list = getString("list");
 		this.listpoint = getString("bulletpoint");
+		this.nopermission = getString("noperms");
 		return this;
 	}
 
@@ -55,6 +57,7 @@ public class Messages extends ConfigManager {
 		this.addDefault("menu.editright", "&cRight click to remove the edit status");
 		this.addDefault("list", "%prefix% &7List of all Particles:");
 		this.addDefault("bulletpoint", " &7- &f%WingName%");
+		this.addDefault("noperms", "%prefix% &cSorry, you don't have the permission to use that.");
 		this.save();
 	}
 
@@ -113,5 +116,8 @@ public class Messages extends ConfigManager {
 	
 	public String getListpoint(Wing wing) {
 		return  MyColors.format(listpoint.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName().replace(" ", "_")));
+	}
+	public String getNopermission() {
+		return  MyColors.format(nopermission.replace("%prefix%", prefix));
 	}
 }
