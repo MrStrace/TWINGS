@@ -130,9 +130,14 @@ public class InventoryClickListener implements Listener {
 	}
 
 	public void handleNormalMenu(InventoryClickEvent e, Player p, Wing wing) {
+	
 		if (e.getCurrentItem().equals(wing.getItem())) {
-
 			if (e.getClick().equals(ClickType.LEFT)) {
+				if(!p.hasPermission(wing.getPermission())) {
+					p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 0.7F);
+					p.sendMessage(Main.getInstance().getMsg().getNopermission());
+					return;
+				}
 				if (!CurrentWings.getCurrent().isEmpty()) {
 					if (CurrentWings.getCurrent().get(p.getUniqueId()) != null) {
 						if (Main.getInstance().getMsg().isShowMessages())
