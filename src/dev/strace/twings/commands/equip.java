@@ -52,6 +52,8 @@ public class Equip extends SubCommands {
 				 */
 				if (p.hasPermission(wing.getPermission()))
 					p.sendMessage(Main.getInstance().getMsg().getListpoint(wing));
+				else
+					p.sendMessage(Main.getInstance().getMsg().getNopermission());
 			}
 			break;
 
@@ -71,19 +73,17 @@ public class Equip extends SubCommands {
 				} else
 					name = wing.getItemName();
 				if (name.replace(" ", "_").equalsIgnoreCase(args[1])) {
-					new CurrentWings().setCurrentWing(p, wing.getFile());
-					p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
+					if (p.hasPermission(wing.getPermission())) {
+						new CurrentWings().setCurrentWing(p, wing.getFile());
+						p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
+						return;
+					}
+					p.sendMessage(Main.getInstance().getMsg().getNopermission());
 					return;
 				}
 			}
 			// If its not finding the particle it will return nothing and displays this
 			// message.
-
-			/*
-			 * 
-			 * This will be added in the config soon.
-			 * 
-			 */
 			p.sendMessage(Main.getInstance().getMsg().getWingnotfound(args[1]));
 			break;
 		default:
