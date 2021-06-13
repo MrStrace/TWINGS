@@ -87,14 +87,23 @@ public class SendWings {
 	public static HashMap<Player, Integer> animated = new HashMap<Player, Integer>();
 	public static HashMap<Player, Boolean> plus = new HashMap<Player, Boolean>();
 
+	/**
+	 * This Function sets up the Wing Particle Location.
+	 * 
+	 * 
+	 * @param p Player
+	 * @param wing
+	 */
 	public void drawWings(Player p, Wing wing) {
+		
 		if (wing == null)
 			return;
 		boolean ani = true;
+		
 		int addition = 6;
 		int sneakAddition = 12;
+		
 		try {
-
 			addition = wing.getDegreeAddition();
 			sneakAddition = wing.getSneakAddition();
 		} catch (Exception e) {
@@ -237,7 +246,11 @@ public class SendWings {
 		}
 	}
 
+	/*
+	 * Enabled the Animated Wings.
+	 */
 	public void enableAnimated() {
+		// new runnable which runs async every 3 ticks.
 		new BukkitRunnable() {
 			public void run() {
 				for (Player p : animated.keySet()) {
@@ -254,6 +267,13 @@ public class SendWings {
 		}.runTaskTimerAsynchronously(Main.instance, 20, 3);
 	}
 
+	/**
+	 * Rotates a Vector around X axis.
+	 * 
+	 * @param v
+	 * @param angle
+	 * @return
+	 */
 	public static Vector rotateAroundAxisX(Vector v, double angle) {
 		angle = Math.toRadians(angle);
 		double y, z, cos, sin;
@@ -264,6 +284,13 @@ public class SendWings {
 		return v.setY(y).setZ(z);
 	}
 
+	/**
+	 * Rotates a Vector around Y axis.
+	 * 
+	 * @param v
+	 * @param fire
+	 * @return
+	 */
 	public static Vector rotateAroundAxisY(Vector v, double fire) {
 		double x, z, cos, sin;
 		cos = Math.cos(fire);
@@ -273,6 +300,13 @@ public class SendWings {
 		return v.setX(x).setZ(z);
 	}
 
+	/**
+	 * Gets the Player Direction Vector but in reverse.
+	 * 
+	 * @param loc
+	 * @param left
+	 * @return
+	 */
 	public static Vector getBackVector(Location loc, boolean left) {
 		if (left == false) {
 			final float newZ = (float) (loc.getZ() + (1 * Math.sin(Math.toRadians(loc.getYaw() + 90 * 1)))); // + 90
@@ -285,8 +319,16 @@ public class SendWings {
 		}
 	}
 
+	/**
+	 * This function spawns all Particles from twings.
+	 * 
+	 * @param code ParticleCode
+	 * @param L    The Location
+	 */
 	public static void sendParticles(ParticleCode code, Location L) {
 
+		// If the ParticleCode has an ParticleColor it will get the RGB and sends the
+		// Redstone Particle with DustOptions.
 		if (code instanceof ParticleColor) {
 			ParticleColor color = (ParticleColor) code;
 
@@ -300,6 +342,7 @@ public class SendWings {
 
 		}
 
+		// If the ParticleCode doesn't have any color it will send the normal Particles.
 		L.getWorld().spawnParticle(code.getParticle(), L, 1, 0.0F, 0F, 0F, 0);
 
 	}
