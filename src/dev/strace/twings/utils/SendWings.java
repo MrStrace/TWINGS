@@ -294,21 +294,13 @@ public class SendWings {
 			int g = color.getG();
 			int b = color.getB();
 
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				p.getWorld().spawnParticle(color.getParticle(), L, 0,
-						new org.bukkit.Particle.DustOptions(Color.fromRGB((int) r, (int) g, (int) b), 0.8F));
-			}
-
+			L.getWorld().spawnParticle(color.getParticle(), L, 0,
+					new org.bukkit.Particle.DustOptions(Color.fromRGB((int) r, (int) g, (int) b), 0.8F));
 			return;
 
 		}
 
-		for (
-
-		Player p : Bukkit.getOnlinePlayers()) {
-			p.getWorld().spawnParticle(code.getParticle(), L, 1, 0.0F, 0F, 0F, 0);
-
-		}
+		L.getWorld().spawnParticle(code.getParticle(), L, 1, 0.0F, 0F, 0F, 0);
 
 	}
 }
