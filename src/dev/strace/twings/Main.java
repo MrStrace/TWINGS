@@ -12,6 +12,7 @@ import dev.strace.twings.api.SpigotMcAPI;
 import dev.strace.twings.commands.WingsCommand;
 import dev.strace.twings.listener.InventoryClickListener;
 import dev.strace.twings.listener.PlayerConnectionListener;
+import dev.strace.twings.listener.PlayerDeathListener;
 import dev.strace.twings.listener.PlayerMoveListener;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.players.PlayWings;
@@ -91,6 +92,9 @@ public class Main extends JavaPlugin {
 		// Enables the Wing previews
 		new WingPreview().enablePreview();
 
+		// Init lang.yml
+		Main.getInstance().msg = new Messages().init().load();
+
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (p.hasPermission("twings.admin"))
 				p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cparticles reloaded."));
@@ -122,6 +126,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new PlayerMoveListener(), this);
 		pm.registerEvents(new PlayerConnectionListener(), this);
 		pm.registerEvents(new InventoryClickListener(), this);
+		pm.registerEvents(new PlayerDeathListener(), this);
 	}
 
 	private void registerConfig() {
