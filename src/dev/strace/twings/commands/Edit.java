@@ -38,7 +38,7 @@ public class Edit extends SubCommands {
 		if (!p.hasPermission("twings.admin")) {
 			p.sendMessage(Main.getInstance().getMsg().getNopermission());
 			return;
-		}
+		} 
 		
 		if (args.length == 1) {
 			new WingEditGUI(WingUtils.winglist.size()).openGUI(p);
