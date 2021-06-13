@@ -2,11 +2,13 @@ package dev.strace.twings.commands;
 
 import java.util.ArrayList;
 
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import dev.strace.twings.Main;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.gui.WingGUI;
 
@@ -35,6 +37,7 @@ public class WingsCommand implements CommandExecutor {
 		subcommands.add(new Equip());
 		subcommands.add(new List());
 		subcommands.add(new Reload());
+		subcommands.add(new Give());
 	}
 
 	/**
@@ -56,17 +59,23 @@ public class WingsCommand implements CommandExecutor {
 			if (args.length == 0) {
 				mainCommand(p);
 			} else {
-				for (int i = 0; i < subcommands.size(); i++) {
-					if (args[0].equalsIgnoreCase(subcommands.get(i).getName())) {
-						subcommands.get(i).perform(p, args);
-					}
-				}
-
+				handleMainCommand(args, p);
 			}
 
 		}
 
 		return false;
+	}
+
+	public void handleMainCommand(String[] args, Player p) {
+		for (int i = 0; i < subcommands.size(); i++) {
+			if (args[0].equalsIgnoreCase(subcommands.get(i).getName())) {
+				subcommands.get(i).perform(p, args);
+				return;
+			}
+		}
+		p.sendMessage(Main.getInstance().getMsg().getNosuchcommand());
+		p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 3);
 	}
 
 }
