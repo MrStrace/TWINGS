@@ -18,6 +18,7 @@ import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.players.PlayWings;
 import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.Messages;
+import dev.strace.twings.utils.Metrics;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.SendWings;
 import dev.strace.twings.utils.WingPreview;
@@ -62,6 +63,9 @@ public class Main extends JavaPlugin {
 		// Register command
 		this.getCommand("wings").setExecutor(new WingsCommand());
 
+		// Register bStats
+		handleMetrics();
+
 	}
 
 	public static void load(Boolean reload) {
@@ -104,6 +108,13 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		new CurrentWings().onDisable();
+	}
+
+	private void handleMetrics() {
+		// Plugin Metrics/bStats
+		int pluginId = 11688;
+		Metrics metrics = new Metrics(this, pluginId);
+
 	}
 
 	public static void checkVersion() {
