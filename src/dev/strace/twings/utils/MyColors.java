@@ -83,7 +83,7 @@ public enum MyColors {
 	private static final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 
 	public static String format(String msg) {
-		if (Bukkit.getVersion().contains("1.16")) {
+		if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
 			if (msg.contains("#")) {
 				Matcher match = pattern.matcher(msg);
 				while (match.find()) {
