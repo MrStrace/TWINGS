@@ -31,7 +31,6 @@ public class ItemBuilder {
 
 		item = ite;
 		meta = item.getItemMeta();
-
 	}
 
 	public ItemBuilder addEnchantment(Enchantment ench, int s) {
@@ -55,7 +54,6 @@ public class ItemBuilder {
 		meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 		meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 		meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-
 		return this;
 	}
 
