@@ -15,10 +15,20 @@ public class ParticleCode {
 
 	String code;
 	Particle particle;
+	double speed = 0;
 	
 	public ParticleCode(String code, Particle particle) {
 		this.code = code;
 		this.particle = particle;
+	}
+	
+	public double getSpeed() {
+		return speed;
+	}
+
+	public ParticleCode setSpeed(double speed) {
+		this.speed = speed;
+		return this;
 	}
 
 	public String getCode() {
