@@ -8,6 +8,14 @@ import java.util.HashMap;
 import dev.strace.twings.utils.objects.ParticleCode;
 import dev.strace.twings.utils.objects.Wing;
 
+/**
+ * 
+ * @author Jason Holweg [STRACE] <b>TWINGS</b><br>
+ *         Website: <a>https://strace.dev/</a><br>
+ *         GitHub: <a>https://github.com/MrStrace</a><br>
+ *         Created: Jun 25, 2021<br>
+ *
+ */
 public class WingUtils {
 
 	/**
@@ -41,6 +49,7 @@ public class WingUtils {
 
 	/**
 	 * Logs a Error message in the console with fancy message
+	 * 
 	 * @param messages
 	 */
 	public void logError(String... messages) {
