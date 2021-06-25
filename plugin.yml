@@ -1,7 +1,8 @@
 name: TWINGS
 author: Strace
-version: 2.0.9
+version: 2.2.2
 main: dev.strace.twings.Main
+api-Version: 1.17
 
 commands:
   wings:
