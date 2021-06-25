@@ -2,7 +2,6 @@ package dev.strace.twings.utils;
 
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -39,7 +38,7 @@ public class SendWings {
 					Vector v = target.toVector().subtract(location.toVector());
 					Vector vpitch = rotateAroundAxisX(v, tilt);
 					Vector v2 = getBackVector(location, left);
-					v = rotateAroundAxisY(v, fire);
+					v = rotateAroundAxisY(v, fire + wing.getRotation());
 
 					if (wing.isMirrow()) {
 						if (left == false)
@@ -107,7 +106,7 @@ public class SendWings {
 			addition = wing.getDegreeAddition();
 			sneakAddition = wing.getSneakAddition();
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println(e);
 		}
 		if (wing.isAnimated() == false) {
 			ani = false;
@@ -337,13 +336,13 @@ public class SendWings {
 			int b = color.getB();
 
 			L.getWorld().spawnParticle(color.getParticle(), L, 0,
-					new org.bukkit.Particle.DustOptions(Color.fromRGB((int) r, (int) g, (int) b), 0.8F));
+					new org.bukkit.Particle.DustOptions(Color.fromRGB((int) r, (int) g, (int) b), (float) code.getSpeed()));
 			return;
 
 		}
 
 		// If the ParticleCode doesn't have any color it will send the normal Particles.
-		L.getWorld().spawnParticle(code.getParticle(), L, 1, 0.0F, 0F, 0F, 0);
+		L.getWorld().spawnParticle(code.getParticle(), L, 1, 0.0F, 0F, 0F, code.getSpeed());
 
 	}
 }
