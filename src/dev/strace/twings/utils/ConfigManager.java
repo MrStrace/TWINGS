@@ -11,15 +11,19 @@ import dev.strace.twings.Main;
 
 public class ConfigManager {
 
-	// File die erstellt und zugegriffen wird.
+	// The file which is getting created.
 	File file;
-	// Config datei von Spigot die einfach gelesen werden kann.
+	// spigot config file
 	YamlConfiguration cfg;
-	// Der Name der File.
+	// the name of the file
 	String fileName;
 
 	/**
 	 * Erstellt eine .yml File welche so einfach bearbeitet werden kann. Beispiel:
+	 * ../plugins/PLUGINNAME/fileName.yml
+	 * 
+	 * 
+	 * Creates an spigot config file (.yml) which is easy to edit. e.g:
 	 * ../plugins/PLUGINNAME/fileName.yml
 	 * 
 	 * @param fileName
@@ -30,10 +34,14 @@ public class ConfigManager {
 		this.fileName = fileName;
 		save();
 	}
-	
+
 	/**
 	 * Erstellt eine .yml File welche so einfach bearbeitet werden kann. Beispiel:
 	 * ../plugins/PLUGINNAME/fileName.yml
+	 * 
+	 * Creates an spigot config file (.yml) which is easy to edit. e.g:
+	 * ../plugins/PLUGINNAME/fileName.yml
+	 * 
 	 * 
 	 * @param file
 	 */
@@ -43,11 +51,14 @@ public class ConfigManager {
 		this.fileName = file.getName();
 		save();
 	}
-	
 
 	/**
 	 * Erstellt eine .yml File welche so einfach bearbeitet werden kann. Beispiel:
 	 * ../plugins/PLUGINNAME/PATH../fileName.yml
+	 * 
+	 * 
+	 * Creates an spigot config file (.yml) which is easy to edit. e.g:
+	 * ../plugins/PLUGINNAME/fileName.yml
 	 * 
 	 * @param path
 	 * @param fileName
@@ -58,10 +69,14 @@ public class ConfigManager {
 		this.fileName = fileName;
 		save();
 	}
-	
+
 	/**
 	 * Erstellt eine .yml File welche so einfach bearbeitet werden kann. Beispiel:
 	 * ../plugins/PLUGINNAME/PATH../fileName.yml
+	 * 
+	 * 
+	 * Creates an spigot config file (.yml) which is easy to edit. e.g:
+	 * ../plugins/PLUGINNAME/fileName.yml
 	 * 
 	 * @param path
 	 * @param fileName
@@ -86,15 +101,21 @@ public class ConfigManager {
 		try {
 			this.cfg.save(this.file);
 		} catch (IOException e) {
-			System.out.println("[TWINGS] "+this.fileName + "Could'nt be saved.");
+			System.out.println("[TWINGS] " + this.fileName + "Could'nt be saved.");
 			return false;
 		}
-		// System.out.println("[TWINGS] "+this.fileName + " loaded and saved.");
+		// Safed.
 		return true;
 	}
 
 	/**
 	 * Enthaelt die Liste von einem Titel in der Config.
+	 * 
+	 * Contains the list of all String of a point in an .yml file. e.g:
+	 * 
+	 * Particles: A: dadad B: adfasf C: a: Ddwewe: x
+	 * 
+	 * List<String> list = getStringList("Particles"): returns: - "A" - "B" - "C"
 	 * 
 	 * @param title
 	 * @return
@@ -108,6 +129,8 @@ public class ConfigManager {
 	/**
 	 * Gibt den Wert des Keys als String wieder.
 	 * 
+	 * returns a String from a key.
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -118,6 +141,8 @@ public class ConfigManager {
 
 	/**
 	 * Gibt den Wert des Pfades+Keys als String wieder.
+	 * 
+	 * returns a String from a key and path
 	 * 
 	 * @param path
 	 * @param key
@@ -135,6 +160,8 @@ public class ConfigManager {
 	/**
 	 * Gibt den Wert des Pfades+Keys als String wieder.
 	 * 
+	 * returns a String from a key and path
+	 * 
 	 * @param path
 	 * @param key
 	 * @return
@@ -147,6 +174,8 @@ public class ConfigManager {
 	/**
 	 * Gibt den Wert des Keys als double wieder.
 	 * 
+	 * returns a double from a given key.
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -157,6 +186,8 @@ public class ConfigManager {
 
 	/**
 	 * Gibt den Wert des Pfades+Keys als double wieder.
+	 * 
+	 * * returns a double from a given key+path.
 	 * 
 	 * @param path
 	 * @param key
@@ -174,6 +205,8 @@ public class ConfigManager {
 	/**
 	 * Gibt den Wert des Pfades+Keys als double wieder.
 	 * 
+	 * returns a double from a given key+path.
+	 * 
 	 * @param path
 	 * @param key
 	 * @return
@@ -186,6 +219,8 @@ public class ConfigManager {
 	/**
 	 * Gibt den Wert des Keys als ganze Zahl wieder.
 	 * 
+	 * returns a int from a given key.
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -196,6 +231,8 @@ public class ConfigManager {
 
 	/**
 	 * Gibt den Wert des Pfades+Keys als int wieder.
+	 * 
+	 * returns a int from a given key+path.
 	 * 
 	 * @param path
 	 * @param key
@@ -212,6 +249,8 @@ public class ConfigManager {
 
 	/**
 	 * Gibt den Wert des Pfades+Keys als int wieder.
+	 *
+	 * returns a int from a given key+path.
 	 * 
 	 * @param path
 	 * @param key
@@ -222,9 +261,11 @@ public class ConfigManager {
 		return value;
 	}
 
-	
 	/**
 	 * Gibt den Wert des Keys als Boolean wieder.
+	 * 
+	 * returns a boolean from a given key.
+	 * 
 	 * @param string
 	 * @return
 	 */
@@ -232,12 +273,13 @@ public class ConfigManager {
 		// TODO Auto-generated method stub
 		return cfg.getBoolean(string);
 	}
-	
-	
-	
+
 	/**
 	 * Erstellt einen Pfad+Key mit einem Wert, falls es diesen bereits gibt wird
 	 * dieser ueberschrieben und es wird TRUE returned.
+	 * 
+	 * Sets a path+key with a value if this path+key already exists it will be
+	 * overwritten and it returns true.
 	 * 
 	 * @param path
 	 * @param value
@@ -248,6 +290,18 @@ public class ConfigManager {
 		if (this.cfg.get(path + "." + value) != null)
 			return true;
 		return false;
+	}
+
+	/**
+	 * adds an default option which is not getting overwritten after a safe.
+	 * 
+	 * @param string
+	 * @param object
+	 */
+	public void addDefault(String string, Object object) {
+		if (cfg.get(string) != null)
+			return;
+		set(string, object);
 	}
 
 	public File getFile() {
@@ -273,12 +327,5 @@ public class ConfigManager {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
-	public void addDefault(String string, Object object) {
-		if(cfg.get(string) != null) return;
-		set(string, object);
-	}
-
-	
 
 }
