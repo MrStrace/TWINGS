@@ -7,8 +7,11 @@ import dev.strace.twings.utils.objects.Wing;
 
 /**
  * 
- * @author Jason Holweg [STRACE] TWINGS Website: https://strace.dev/ GitHub:
- *         https://github.com/MrStrace Erstellt May 23, 2021
+ * @author Jason Holweg [STRACE]
+ * <b>TWINGS</b><br>
+ * Website: <a>https://strace.dev/</a><br>
+ * GitHub: <a>https://github.com/MrStrace</a><br>
+ * Created: Jun 25, 2021<br>
  *
  */
 public class WingReader {
@@ -19,8 +22,6 @@ public class WingReader {
 		WingUtils.winglist.clear();
 		
 		/**
-		 * Feur jede File wird ein neues Wing Object kreiert und im cache gespeichert.
-		 * 
 		 * For each file a new Wing object is getting created and cached.
 		 */
 		for (File files : new File(Main.instance.getDataFolder(), "wings").listFiles()) {
