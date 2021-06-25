@@ -8,7 +8,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 /**
  * 
- * @author Jason Holweg
+ * @author Jason Holweg [STRACE]
+ * <b>TWINGS</b><br>
+ * Website: <a>https://strace.dev/</a><br>
+ * GitHub: <a>https://github.com/MrStrace</a><br>
+ * Created: Jun 25, 2021<br>
  *
  */
 public class ItemBuilder {
