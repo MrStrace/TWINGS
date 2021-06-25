@@ -3,6 +3,15 @@ package dev.strace.twings.utils;
 import dev.strace.twings.Main;
 import dev.strace.twings.utils.objects.Wing;
 
+/**
+ * 
+ * @author Jason Holweg [STRACE]
+ * <b>TWINGS</b><br>
+ * Website: <a>https://strace.dev/</a><br>
+ * GitHub: <a>https://github.com/MrStrace</a><br>
+ * Created: Jun 25, 2021<br>
+ *
+ */
 public class Messages extends ConfigManager {
 
 	private boolean showMessages = true;
