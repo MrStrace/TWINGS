@@ -17,20 +17,23 @@ public class Wing {
 
 	// Die Neigung der Wings in Grad
 	public int tilt = 0;
-	
+
 	// If show when running is enabled
 	// the tilt can also be adjusted >D
 	public int runTilt = 0;
 
+	// Rotation 
+	public int rotation = 0;
+	
 	// Das Pattern der Wings mit Codes
 	public ParticleCode[][] pattern;
 
 	// Animiert ja/nein
 	public boolean animated = true;
-	
+
 	// If the Pattern should be mirrored
 	public boolean mirrow = true;
-	
+
 	// Tilts the wings before rotating if true
 	public boolean tiltBefore = false;
 
@@ -50,9 +53,9 @@ public class Wing {
 	// Moves the Wings behind the Body (MULTIPLIES the Direction Vector)
 	public double moveback = 0;
 
-	//Moves the Wing overall up on the Y coordinate
+	// Moves the Wing overall up on the Y coordinate
 	public double moveup = 0;
-	
+
 	// The Item which is going in the GUI;
 	public ItemStack item;
 	public Material material;
@@ -82,6 +85,7 @@ public class Wing {
 		mirrow = config.getBoolean("mirrow");
 		runTilt = config.getInt("runtilt");
 		tiltBefore = config.getBoolean("tiltbefore");
+		rotation = config.getInt("rotation");
 	}
 
 	public Wing register() {
@@ -119,7 +123,7 @@ public class Wing {
 		this.setPattern(pattern);
 
 		item = createItemStack();
-		System.out.println(this.getFile().getName() + "LOADED" );
+		System.out.println(this.getFile().getName() + "LOADED");
 		return this;
 	}
 
@@ -132,13 +136,20 @@ public class Wing {
 
 			// Wenn Redstone als Partikel erkannt wird geht es davon aus das RGB vorhanden
 			// ist, und filtert so die RGB Zahlen und
+
+			// String teilen in 2 (PARTICLETYPE : RGB)
+			String[] split = value.split(":");
+			ParticleCode newcode;
+			double speed = 0;
 			if (value.contains("REDSTONE")) {
+
+				// in case no speed is given the redstone PArticle needs to have a bigger size
+				// then 0 so default i set 0.8
+				// For Redstone Particles speed = size.
+				speed = 0.8;
 
 				// int[] erstellt mit 3 Werten (R1 G2 B3)
 				int[] rgb = new int[3];
-
-				// String teilen in 2 (PARTICLETYPE : RGB)
-				String[] split = value.split(":");
 
 				// Unnoetige Zeichen entfernen.
 				String code = split[1].replace(")", "").replace("(", "").replace(" ", "");
@@ -147,14 +158,21 @@ public class Wing {
 				String[] SRGB = code.split(",");
 				rgb = new int[] { Integer.parseInt(SRGB[0]), Integer.parseInt(SRGB[1]), Integer.parseInt(SRGB[2]) };
 
+				if (split.length > 2) {
+					speed = Double.parseDouble(split[2]);
+				}
 				// Erstellt neuen ParticleCode mit Farbe.
-				list.add(new ParticleColor(particleCode, rgb));
-
+				newcode = new ParticleColor(particleCode, rgb).setSpeed(speed);
 			} else {
 				// Erstellt neuen ParticleCode.
-				list.add(new ParticleCode(particleCode, Particle.valueOf(value)));
-
+				Particle particle;
+				if (split.length > 1) {
+					particle = Particle.valueOf(split[0]);
+					speed = Double.parseDouble(split[1]);
+				} else particle = Particle.valueOf(value);
+				newcode = new ParticleCode(particleCode, particle).setSpeed(speed);
 			}
+			list.add(newcode);
 		}
 		return list;
 	}
@@ -188,8 +206,14 @@ public class Wing {
 
 	}
 
-	
-	
+	public int getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
+	}
+
 	public boolean isTiltBefore() {
 		return tiltBefore;
 	}
