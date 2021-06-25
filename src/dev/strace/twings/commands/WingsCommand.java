@@ -38,42 +38,43 @@ public class WingsCommand implements CommandExecutor {
 		subcommands.add(new List());
 		subcommands.add(new Reload());
 		subcommands.add(new Give());
-	}
-
-	/**
-	 * Opens the WING Menu
-	 * 
-	 * @param p
-	 */
-	private void mainCommand(Player p) {
-		new WingGUI(WingUtils.winglist.size()).openGUI(p);
+		subcommands.add(new Create());
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
 		if (sender instanceof Player) {
-
 			Player p = (Player) sender;
-
+			// if no arguments where given it will open the GUI.
 			if (args.length == 0) {
-				mainCommand(p);
-			} else {
-				handleMainCommand(args, p);
+				new WingGUI(WingUtils.winglist.size()).openGUI(p);
+				return true;
 			}
+
+			handleMainCommand(args, p);
 
 		}
 
 		return false;
 	}
 
+	/**
+	 * this function will run all commands and subcommands.
+	 * 
+	 * @param args subcommands
+	 * @param p    player
+	 */
 	public void handleMainCommand(String[] args, Player p) {
+
+		// for each subcommand it will check if the second argument equals the
+		// subcommand name if so it will perform the command.
 		for (int i = 0; i < subcommands.size(); i++) {
 			if (args[0].equalsIgnoreCase(subcommands.get(i).getName())) {
 				subcommands.get(i).perform(p, args);
 				return;
 			}
 		}
+		// if no command was found it will send the player this message.
 		p.sendMessage(Main.getInstance().getMsg().getNosuchcommand());
 		p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 3);
 	}
