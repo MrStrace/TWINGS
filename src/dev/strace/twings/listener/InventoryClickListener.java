@@ -10,8 +10,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.LocationBuilder;
+import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.WingPreview;
+import dev.strace.twings.utils.WingTemplate;
 import dev.strace.twings.utils.WingUtils;
+import dev.strace.twings.utils.gui.PictureGUI;
 import dev.strace.twings.utils.gui.WingEditGUI;
 import dev.strace.twings.utils.gui.WingPreviewGUI;
 import dev.strace.twings.utils.objects.Wing;
@@ -63,6 +66,16 @@ public class InventoryClickListener implements Listener {
 			for (Wing wing : WingUtils.winglist.values()) {
 				handleEditMenu(e, p, wing);
 			}
+
+		}
+
+		if (e.getView().getTitle().equalsIgnoreCase(new PictureGUI().getName())) {
+			e.setCancelled(true);
+			Player p = (Player) e.getWhoClicked();
+			if (e.getCurrentItem() == null)
+				return;
+
+			handlePictureMenu(e, p);
 
 		}
 
@@ -130,10 +143,10 @@ public class InventoryClickListener implements Listener {
 	}
 
 	public void handleNormalMenu(InventoryClickEvent e, Player p, Wing wing) {
-	
+
 		if (e.getCurrentItem().equals(wing.getItem())) {
 			if (e.getClick().equals(ClickType.LEFT)) {
-				if(!p.hasPermission(wing.getPermission())) {
+				if (!p.hasPermission(wing.getPermission())) {
 					p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 0.7F);
 					p.sendMessage(Main.getInstance().getMsg().getNopermission());
 					return;
@@ -167,5 +180,39 @@ public class InventoryClickListener implements Listener {
 				return;
 			}
 		}
+	}
+
+	public void handlePictureMenu(InventoryClickEvent e, Player p) {
+		if (e.getClick().equals(ClickType.LEFT)) {
+			if (p.hasPermission("twings.admin")) {
+
+				// trys to create the particles per picture:
+				boolean bool = new WingTemplate(e.getCurrentItem().getItemMeta().getDisplayName())
+						.createFromPicture(e.getCurrentItem().getItemMeta().getDisplayName());
+
+				// if success
+				if (bool) {
+					/**
+					 * the particles where created and the player recieves a message.
+					 */
+					p.sendMessage(e.getCurrentItem().getItemMeta().getDisplayName()
+							+ MyColors.format(" &ato activate do &2/twings reload"));
+					p.playSound(p.getLocation(), Sound.BLOCK_COMPOSTER_FILL_SUCCESS, 1, 10f);
+					p.closeInventory();
+					return;
+				}
+
+				/**
+				 * if the picture couldn't be created the player recieves a message.
+				 */
+				p.sendMessage(e.getCurrentItem().getItemMeta().getDisplayName()
+						+ MyColors.format(" &cthe Image is too large! Maximum size is 64x64"));
+				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 100f);
+				p.closeInventory();
+				return;
+
+			}
+		}
+
 	}
 }
