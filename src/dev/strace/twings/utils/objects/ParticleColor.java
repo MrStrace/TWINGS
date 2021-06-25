@@ -4,14 +4,16 @@ import org.bukkit.Particle;
 
 /**
  * 
- * @author Jason Holweg [STRACE] TWINGS Website: https://strace.dev/ GitHub:
- *         https://github.com/MrStrace Erstellt May 23, 2021
+ * @author Jason Holweg [STRACE]
+ * <b>TWINGS</b><br>
+ * Website: <a>https://strace.dev/</a><br>
+ * GitHub: <a>https://github.com/MrStrace</a><br>
+ * Created: Jun 25, 2021<br>
  *
  */
 public class ParticleColor extends ParticleCode {
 
 	int[] rgb;
-
 	public ParticleColor(String code, int[] rgb) {
 		super(code, Particle.REDSTONE);
 		this.rgb = rgb;
@@ -64,4 +66,5 @@ public class ParticleColor extends ParticleCode {
 		ret = toedit[0] + toedit[1] + toedit[2] + toedit[3];
 		return ret.replace(",", "");
 	}
+	
 }
