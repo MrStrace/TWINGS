@@ -1,5 +1,6 @@
 package dev.strace.twings;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
@@ -66,6 +67,8 @@ public class Main extends JavaPlugin {
 		// Register bStats
 		handleMetrics();
 
+		// creates pictures folder
+		new File(Main.getInstance().getDataFolder(), "pictures").mkdir();
 	}
 
 	public static void load(Boolean reload) {
@@ -76,7 +79,7 @@ public class Main extends JavaPlugin {
 		checkVersion();
 
 		// Init Template.yml (a Example of an Wing)
-		new WingTemplate();
+		new WingTemplate("template").createTemplate();
 
 		// Init WingReader all Wings getting saved in cached.
 		new WingReader().registerWings();
@@ -105,32 +108,42 @@ public class Main extends JavaPlugin {
 		}
 	}
 
+	// Things happen when the plugin is disabled.
 	@Override
 	public void onDisable() {
 		new CurrentWings().onDisable();
 	}
 
+	/**
+	 * Handles the bStats
+	 */
 	private void handleMetrics() {
 		// Plugin Metrics/bStats
 		int pluginId = 11688;
-		Metrics metrics = new Metrics(this, pluginId);
+		new Metrics(this, pluginId);
 
 	}
 
+	/**
+	 * Checks if the Version == plugin.yml version
+	 */
 	public static void checkVersion() {
 		try {
 			if (!plugin.getDescription().getVersion().equalsIgnoreCase(new SpigotMcAPI("82088").getVersion())) {
-				System.out.println(
-						"[PixelStrace's Twings] isn't uptodate! Visit https://www.spigotmc.org/resources/twings-1-16.82088/ to update!");
+				System.out
+						.println("[TWINGS] isn't uptodate! Visit https://www.spigotmc.org/resources/82088/ to update!");
 			} else {
-				System.out.println("[PixelStrace's Twings] Plugin is uptodate!");
-				System.out.println("[PixelStrace's Twings] Thanks for downloading and using my plugin!");
+				System.out.println("[TWINGS] Plugin is uptodate!");
+				System.out.println("[TWINGS] Thanks for downloading and using my plugin! ~ Strace");
 			}
 		} catch (IOException e) {
 		}
 
 	}
 
+	/**
+	 * Registers all Listener/Events
+	 */
 	private void registerListener() {
 		PluginManager pm = Bukkit.getPluginManager();
 		;
@@ -140,6 +153,9 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new PlayerDeathListener(), this);
 	}
 
+	/**
+	 * Creates the config.yml
+	 */
 	private void registerConfig() {
 		config.addDefault("Prefix", "&e&lTWings");
 		config.addDefault("Wings.showwithperms", false);
@@ -154,6 +170,10 @@ public class Main extends JavaPlugin {
 		config.save();
 	}
 
+	/**
+	 * 
+	 * @return plugin prefix
+	 */
 	public String getPrefix() {
 		if (this.getConfig().getString("Prefix") == null)
 			return "ERROR";
@@ -161,6 +181,11 @@ public class Main extends JavaPlugin {
 		return prefix;
 	}
 
+	/**
+	 * 
+	 * @param path
+	 * @return colored string
+	 */
 	public String getConfigString(String path) {
 		if (this.getConfig().getString(path) == null)
 			return "ERROR";
