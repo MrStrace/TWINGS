@@ -21,7 +21,7 @@ public class EquipTimer {
 
 	private Player p;
 	private long time;
-	private Wing wing;
+	private TWING wing;
 	private String equiptime;
 	private BukkitTask timer;
 
@@ -39,7 +39,7 @@ public class EquipTimer {
 	 * @param wing
 	 * @param equiptime
 	 */
-	public EquipTimer(Player p, Wing wing, String equiptime) {
+	public EquipTimer(Player p, TWING wing, String equiptime) {
 		this.p = p;
 		this.wing = wing;
 		this.time = System.currentTimeMillis();
@@ -53,7 +53,7 @@ public class EquipTimer {
 			this.timer = new BukkitRunnable() {
 				@Override
 				public void run() {
-					new CurrentWings().removeCurrentWing(p);
+					new CurrentWings().removeCurrentWing(p, wing.getFile());
 					p.sendMessage(Main.getInstance().getMsg().getWingsgone());
 				}
 			}.runTaskLaterAsynchronously(Main.getInstance(), getTime(symbol) * 20);
@@ -67,7 +67,7 @@ public class EquipTimer {
 	}
 
 	public void cancel() {
-		new CurrentWings().removeCurrentWing(p);
+		new CurrentWings().removeCurrentWing(p, wing.getFile());
 		p.sendMessage(Main.getInstance().getMsg().getWingsgone());
 		if (getSymbol() == Symbol.UNTILDEATH) {
 			new ConfigManager("untildeath").set(p.getUniqueId().toString(), null);
@@ -159,11 +159,11 @@ public class EquipTimer {
 		this.time = time;
 	}
 
-	public Wing getWing() {
+	public TWING getWing() {
 		return wing;
 	}
 
-	public void setWing(Wing wing) {
+	public void setWing(TWING wing) {
 		this.wing = wing;
 	}
 
