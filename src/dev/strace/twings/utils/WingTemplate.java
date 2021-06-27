@@ -97,6 +97,10 @@ public class WingTemplate extends ConfigManager {
 		cfg.addDefault("moveup", 1);
 		cfg.addDefault("moveback", 0);
 		cfg.addDefault("Animated", false);
+		cfg.addDefault("spacing", 0.1);
+		List<String> exc = new ArrayList<String>();
+		exc.add("C1");
+		cfg.addDefault("exclude", exc);
 		cfg.addDefault("pattern", pt);
 		cfg.options().copyDefaults(true);
 		save();
@@ -127,6 +131,11 @@ public class WingTemplate extends ConfigManager {
 		cfg.addDefault("moveup", 0);
 		cfg.addDefault("moveback", 0);
 		cfg.addDefault("rotation", 0);
+		cfg.addDefault("spacing", 0.07);
+		List<String> exc = new ArrayList<String>();
+		exc.add("x");
+		exc.add("SWEEP");
+		cfg.addDefault("exclude", exc);
 		cfg.addDefault("Animated", true);
 
 		ArrayList<String> pt = new ArrayList<String>();
