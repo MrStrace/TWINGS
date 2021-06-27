@@ -17,11 +17,11 @@ import dev.strace.twings.listener.PlayerDeathListener;
 import dev.strace.twings.listener.PlayerMoveListener;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.players.PlayWings;
+import dev.strace.twings.utils.Animation;
 import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.Messages;
 import dev.strace.twings.utils.Metrics;
 import dev.strace.twings.utils.MyColors;
-import dev.strace.twings.utils.SendWings;
 import dev.strace.twings.utils.WingPreview;
 import dev.strace.twings.utils.WingReader;
 import dev.strace.twings.utils.WingTemplate;
@@ -40,16 +40,22 @@ public class Main extends JavaPlugin {
 	public static Plugin plugin;
 	public ConfigManager config;
 	public Messages msg;
+	public Animation animation;
 
 	@Override
 	public void onEnable() {
 		// Init plugin
 		plugin = this;
+		
 		// Init instance
 		instance = this;
-
+		
+		// Init animation
+		animation = new Animation();
+		
 		// Creates or loads the Config.yml
 		config = new ConfigManager("config");
+		
 		// Config is getting written (Defaults)
 		registerConfig();
 
@@ -84,14 +90,8 @@ public class Main extends JavaPlugin {
 		// Init WingReader all Wings getting saved in cached.
 		new WingReader().registerWings();
 
-		// Init Wing animation.
-		new SendWings().enableAnimated();
-
 		// Wings getting displayed every ticks.
 		new PlayWings().playOnPlayers();
-
-		// Enables animated Wings.
-		new PlayWings().enableAnimated();
 
 		// Players getting there old Wings equipped (Important after reload)
 		new CurrentWings().onEnable();
@@ -204,4 +204,10 @@ public class Main extends JavaPlugin {
 	public Plugin getPlugin() {
 		return plugin;
 	}
+
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	
 }
