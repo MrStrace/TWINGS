@@ -33,7 +33,9 @@ public class Messages extends ConfigManager {
 	private String playernotfound = "";
 	private String rightclick = "";
 	private String leftclick = "";
-
+	private String shiftleftclick = "";
+	private String shiftrightclick = "";
+	
 	public Messages() {
 		super("lang");
 		init();
@@ -64,6 +66,8 @@ public class Messages extends ConfigManager {
 		this.playernotfound = getString("player not found");
 		this.rightclick = getString("rightclick to unequip");
 		this.leftclick = getString("leftclick to equip");
+		this.shiftleftclick = getString("shiftleft to add");
+		this.shiftrightclick = getString("shiftright to unequip all");
 		return this;
 	}
 
@@ -86,6 +90,8 @@ public class Messages extends ConfigManager {
 		this.addDefault("player not found", "%prefix% &cthe player wasn't found.");
 		this.addDefault("rightclick to unequip", "%prefix% &cRightclick to unequip!");
 		this.addDefault("leftclick to equip", "%prefix% &bLeftclick to equip!");
+		this.addDefault("shiftleft to add", "%prefix% &bLeftclick to add to other equipped.");
+		this.addDefault("shiftright to unequip all", "%prefix% &cRightclick to unequip all.");
 		this.save();
 	}
 
@@ -174,5 +180,12 @@ public class Messages extends ConfigManager {
 	
 	public String getLeftclick() {
 		return MyColors.format(leftclick.replace("%prefix%", prefix));
+	}
+
+	public String getShiftleftclick() {
+		return MyColors.format(shiftleftclick.replace("%prefix%", prefix));
+	}
+	public String getShiftrightclick() {
+		return MyColors.format(shiftrightclick.replace("%prefix%", prefix));
 	}
 }
