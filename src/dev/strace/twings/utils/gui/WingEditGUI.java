@@ -1,12 +1,12 @@
 package dev.strace.twings.utils.gui;
 
 import org.bukkit.Bukkit;
+
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import dev.strace.twings.Main;
-import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.objects.TWING;
@@ -15,7 +15,6 @@ import dev.strace.twings.utils.objects.TWING.GUI;
 public class WingEditGUI {
 
 	private int size;
-	private boolean pagination = false;
 	private String name = Main.getInstance().getConfigString("Menu.title").replace("%prefix%",
 			Main.getInstance().getPrefix()) + MyColors.format(" &c&lEDIT");
 
@@ -23,7 +22,6 @@ public class WingEditGUI {
 		int size = (wingcount + 9) / 9;
 		if (size >= 6) {
 			size = 6;
-			this.pagination = true;
 		}
 		this.size = size * 9;
 	}

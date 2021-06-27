@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import dev.strace.twings.Main;
-import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.objects.TWING;
@@ -15,7 +14,6 @@ import dev.strace.twings.utils.objects.TWING.GUI;
 public class WingPreviewGUI {
 
 	private int size;
-	private boolean pagination = false;
 	private String name = Main.getInstance().getConfigString("Menu.title").replace("%prefix%",
 			Main.getInstance().getPrefix()) + MyColors.format("&c&lPREVIEW");
 
@@ -23,7 +21,6 @@ public class WingPreviewGUI {
 		int size = (wingcount + 9) / 9;
 		if (size >= 6) {
 			size = 6;
-			this.pagination = true;
 		}
 		this.size = size * 9;
 	}
