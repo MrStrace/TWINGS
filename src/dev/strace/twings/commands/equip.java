@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.WingUtils;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class Equip extends SubCommands {
 			// First Line of the Wing list.
 			p.sendMessage(Main.getInstance().getPrefix() + " §7List of all Particles:");
 			for (File file : WingUtils.winglist.keySet()) {
-				Wing wing = WingUtils.winglist.get(file);
+				TWING wing = WingUtils.winglist.get(file);
 				/*
 				 * Only if the player has the permission of the wing the wings will get
 				 * displayed.
@@ -62,7 +62,7 @@ public class Equip extends SubCommands {
 		 * exists.
 		 */
 		case 2:
-			for (Wing wing : WingUtils.winglist.values()) {
+			for (TWING wing : WingUtils.winglist.values()) {
 				String name = "";
 				if (wing.getItemName().contains("&")) {
 					String[] to = wing.getItemName().split("&");
