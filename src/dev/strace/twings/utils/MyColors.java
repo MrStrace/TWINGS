@@ -4,7 +4,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Location;
 
+import dev.strace.twings.utils.objects.ParticleCode;
+import dev.strace.twings.utils.objects.ParticleColor;
 import net.md_5.bungee.api.ChatColor;
 
 /**
@@ -41,4 +45,32 @@ public class MyColors {
 
 	}
 
+	/**
+	 * This function spawns all Particles from twings.
+	 * 
+	 * @param code ParticleCode
+	 * @param L    The Location
+	 */
+	public static void sendParticles(ParticleCode code, Location L) {
+
+		// If the ParticleCode has an ParticleColor it will get the RGB and sends the
+		// Redstone Particle with DustOptions.
+		if (code instanceof ParticleColor) {
+			ParticleColor color = (ParticleColor) code;
+
+			int r = color.getR();
+			int g = color.getG();
+			int b = color.getB();
+
+			L.getWorld().spawnParticle(color.getParticle(), L, 0,
+					new org.bukkit.Particle.DustOptions(Color.fromRGB((int) r, (int) g, (int) b), (float) code.getSpeed()));
+			return;
+
+		}
+
+		// If the ParticleCode doesn't have any color it will send the normal Particles.
+		L.getWorld().spawnParticle(code.getParticle(), L, 1, 0.0F, 0F, 0F, code.getSpeed());
+
+	}
+	
 }
