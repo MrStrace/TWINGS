@@ -91,10 +91,15 @@ public class CurrentWings extends ConfigManager {
 
 	public void addCurrentWing(Player p, File file) {
 
-		if (current.get(p.getUniqueId()).contains(file))
+		ArrayList<File> list;
+		if (CurrentWings.current.get(p.getUniqueId()) != null)
+			list = current.get(p.getUniqueId());
+		else {
+			list = new ArrayList<File>();
+		}
+		if (list.contains(file))
 			return;
 
-		ArrayList<File> list = current.get(p.getUniqueId());
 		list.add(file);
 		current.put(p.getUniqueId(), list);
 		String equiped = "";
@@ -104,7 +109,7 @@ public class CurrentWings extends ConfigManager {
 			equiped += files.getName();
 			if (list.size() != i)
 				equiped += "(X-X)";
-			
+
 		}
 		set(p.getUniqueId().toString(), equiped);
 		save();
@@ -125,7 +130,7 @@ public class CurrentWings extends ConfigManager {
 			equiped += files.getName();
 			if (list.size() != i)
 				equiped += "(X-X)";
-		
+
 		}
 		set(p.getUniqueId().toString(), equiped);
 		save();
