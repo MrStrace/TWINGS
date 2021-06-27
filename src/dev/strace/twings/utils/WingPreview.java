@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.strace.twings.Main;
 import dev.strace.twings.api.API;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
 
 /**
  * 
@@ -20,7 +20,7 @@ public class WingPreview {
 
 	private LocationBuilder builder;
 
-	public static Wing edit = null;
+	public static TWING edit = null;
 
 	/**
 	 * this will run on reload/server start.
@@ -37,24 +37,25 @@ public class WingPreview {
 
 			public void run() {
 				for (String locations : getLocs()) {
-					API api = new API(builder.getString(locations + ".name") + ".yml");
+					TWING wing = new API(builder.getString(locations + ".name") + ".yml").getTwing();
 
 					if (edit != null) {
 						if (edit.getFile().getName().replace(".yml", "").equalsIgnoreCase(locations)) {
 
 						} else
-							api.sendWingTo(builder.getLocation(locations));
+							wing.drawWings(builder.getLocation(locations));
 
 					} else
-						api.sendWingTo(builder.getLocation(locations));
+						wing.drawWings(builder.getLocation(locations));
 					/*
 					 * EditPreview (Updates a specific Wings each Run) if it was run over 3000 times
 					 * it will automatically be changed and wont go through any more.
 					 */
 					if (edit != null) {
 						times++;
-						new SendWings().drawWings(builder.getLocation(edit.getFile().getName().replace(".yml", "")),
-								new Wing(new ConfigManager(edit.getFile())).register());
+
+						new TWING(new ConfigManager(edit.getFile())).register()
+								.drawWings(builder.getLocation(edit.getFile().getName().replace(".yml", "")));
 						if (times >= 3000) {
 							edit = null;
 							times = 0;

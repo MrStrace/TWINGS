@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import dev.strace.twings.Main;
 import dev.strace.twings.utils.WingUtils;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class List extends SubCommands {
 			// First Line of the Wing list.
 			p.sendMessage(Main.getInstance().getMsg().getList());
 			for (File file : WingUtils.winglist.keySet()) {
-				Wing wing = WingUtils.winglist.get(file);
+				TWING wing = WingUtils.winglist.get(file);
 				/*
 				 * Only if the player has the permission of the wing the wings will get
 				 * displayed.

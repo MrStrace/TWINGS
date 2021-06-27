@@ -35,7 +35,7 @@ public class PlayerDeathListener implements Listener {
 			 * got wings equiped "untildeath". also he recieves a custom message.
 			 */
 			if (manager.getString(p.getUniqueId().toString()) != null) {
-				new CurrentWings().removeCurrentWing(p);
+				new CurrentWings().removeCurrentWing(p, new ConfigManager("wings/"+manager.getString(p.getUniqueId().toString()).replace(".yml", "")).getFile());
 				// if show messages is enabled the player revieces the message.
 				if (Main.getInstance().getMsg().isShowMessages())
 					p.sendMessage(Main.getInstance().getMsg().getWingsgone());

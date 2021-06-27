@@ -33,7 +33,6 @@ public class ReadImage {
 		}
 		for (int i = 0; i < img.getWidth(); i++) {
 			for (int y = 0; y < img.getHeight(); y++) {
-				if (img.getRGB(i, y) != 16777215 && img.getRGB(i, y) != 0) {
 					Color col = new Color(img.getRGB(i, y));
 					if (!colorlist.containsKey(col)) {
 						String c = "C" + count;
@@ -42,8 +41,6 @@ public class ReadImage {
 					}
 					int[] rgb = new int[] { col.getRed(), col.getGreen(), col.getBlue() };
 					particlecolor[y][i] = new ParticleColor(colorlist.get(col), rgb);
-				} else
-					particlecolor[y][i] = null;
 			}
 		}
 

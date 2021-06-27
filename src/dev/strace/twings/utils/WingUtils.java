@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dev.strace.twings.utils.objects.ParticleCode;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
 
 /**
  * 
@@ -23,7 +23,7 @@ public class WingUtils {
 	 * 
 	 * The Wing Object cache with the right file.
 	 */
-	public static HashMap<File, Wing> winglist = new HashMap<File, Wing>();
+	public static HashMap<File, TWING> winglist = new HashMap<File, TWING>();
 
 	/**
 	 * Gets the ParticleCode by String.

@@ -1,5 +1,7 @@
 package dev.strace.twings.listener;
 
+import java.io.File;
+
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +19,8 @@ import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.gui.PictureGUI;
 import dev.strace.twings.utils.gui.WingEditGUI;
 import dev.strace.twings.utils.gui.WingPreviewGUI;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
+import dev.strace.twings.utils.objects.TWING.GUI;
 
 public class InventoryClickListener implements Listener {
 
@@ -39,7 +42,7 @@ public class InventoryClickListener implements Listener {
 			if (e.getCurrentItem() == null)
 				return;
 
-			for (Wing wing : WingUtils.winglist.values()) {
+			for (TWING wing : WingUtils.winglist.values()) {
 				handleNormalMenu(e, p, wing);
 			}
 
@@ -51,7 +54,7 @@ public class InventoryClickListener implements Listener {
 			if (e.getCurrentItem() == null)
 				return;
 
-			for (Wing wing : WingUtils.winglist.values()) {
+			for (TWING wing : WingUtils.winglist.values()) {
 				handlePreviewMenu(e, p, wing);
 			}
 
@@ -63,7 +66,7 @@ public class InventoryClickListener implements Listener {
 			if (e.getCurrentItem() == null)
 				return;
 
-			for (Wing wing : WingUtils.winglist.values()) {
+			for (TWING wing : WingUtils.winglist.values()) {
 				handleEditMenu(e, p, wing);
 			}
 
@@ -81,8 +84,8 @@ public class InventoryClickListener implements Listener {
 
 	}
 
-	public void handlePreviewMenu(InventoryClickEvent e, Player p, Wing wing) {
-		if (e.getCurrentItem().equals(wing.getItem())) {
+	public void handlePreviewMenu(InventoryClickEvent e, Player p, TWING wing) {
+		if (e.getCurrentItem().equals(wing.getItem(p, GUI.PREVIEW))) {
 			/*
 			 * Sets the Preview Location
 			 */
@@ -114,8 +117,8 @@ public class InventoryClickListener implements Listener {
 		}
 	}
 
-	public void handleEditMenu(InventoryClickEvent e, Player p, Wing wing) {
-		if (e.getCurrentItem().equals(wing.getItem())) {
+	public void handleEditMenu(InventoryClickEvent e, Player p, TWING wing) {
+		if (e.getCurrentItem().equals(wing.getItem(p, GUI.EDIT))) {
 			/*
 			 * Sets the Particle in Edit mode.
 			 */
@@ -142,20 +145,22 @@ public class InventoryClickListener implements Listener {
 		}
 	}
 
-	public void handleNormalMenu(InventoryClickEvent e, Player p, Wing wing) {
+	public void handleNormalMenu(InventoryClickEvent e, Player p, TWING wing) {
 
-		if (e.getCurrentItem().equals(wing.getItem())) {
+		if (e.getCurrentItem().equals(wing.getItem(p, GUI.WINGS))) {
+			if (!p.hasPermission(wing.getPermission())) {
+				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 0.7F);
+				p.sendMessage(Main.getInstance().getMsg().getNopermission());
+				return;
+			}
 			if (e.getClick().equals(ClickType.LEFT)) {
-				if (!p.hasPermission(wing.getPermission())) {
-					p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 0.7F);
-					p.sendMessage(Main.getInstance().getMsg().getNopermission());
-					return;
-				}
 				if (!CurrentWings.getCurrent().isEmpty()) {
 					if (CurrentWings.getCurrent().get(p.getUniqueId()) != null) {
 						if (Main.getInstance().getMsg().isShowMessages())
-							p.sendMessage(Main.getInstance().getMsg().getUnequip(
-									WingUtils.winglist.get(CurrentWings.getCurrent().get(p.getUniqueId()))));
+							for (File file : CurrentWings.getCurrent().get(p.getUniqueId())) {
+								p.sendMessage(Main.getInstance().getMsg().getUnequip(WingUtils.winglist.get(file)));
+							}
+
 					}
 				}
 				if (Main.getInstance().getMsg().isShowMessages()) {
@@ -176,9 +181,34 @@ public class InventoryClickListener implements Listener {
 					return;
 				if (!CurrentWings.getCurrent().containsKey(p.getUniqueId()))
 					return;
-				new CurrentWings().removeCurrentWing(p);
+				new CurrentWings().removeCurrentWing(p, wing.getFile());
 				return;
 			}
+
+			/*
+			 * Adds another wing to equiped wings. (shift leftclick)
+			 */
+			if (e.getClick().equals(ClickType.SHIFT_LEFT)) {
+				if (Main.getInstance().getMsg().isShowMessages()) {
+					p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
+				}
+				new CurrentWings().addCurrentWing(p, wing.getFile());
+				p.playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 0.4f, 10f);
+				p.closeInventory();
+				return;
+			}
+
+			/*
+			 * Removes all equiped wings on shift + rightclick.
+			 */
+			if (e.getClick().equals(ClickType.SHIFT_RIGHT)) {
+
+				if (CurrentWings.getCurrent().isEmpty())
+					return;
+				new CurrentWings().removeAllCurrentWing(p);
+				return;
+			}
+
 		}
 	}
 
@@ -201,7 +231,7 @@ public class InventoryClickListener implements Listener {
 					p.closeInventory();
 					return;
 				}
-
+				new WingTemplate(e.getCurrentItem().getItemMeta().getDisplayName()).delete();
 				/**
 				 * if the picture couldn't be created the player recieves a message.
 				 */

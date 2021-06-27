@@ -1,7 +1,7 @@
 package dev.strace.twings.utils;
 
 import dev.strace.twings.Main;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
 
 /**
  * 
@@ -31,6 +31,8 @@ public class Messages extends ConfigManager {
 	private String wingsrecieved = "";
 	private String wingsgone = "";
 	private String playernotfound = "";
+	private String rightclick = "";
+	private String leftclick = "";
 
 	public Messages() {
 		super("lang");
@@ -60,6 +62,8 @@ public class Messages extends ConfigManager {
 		this.wingsrecieved = getString("wings given");
 		this.wingsgone = getString("wings gone");
 		this.playernotfound = getString("player not found");
+		this.rightclick = getString("rightclick to unequip");
+		this.leftclick = getString("leftclick to equip");
 		return this;
 	}
 
@@ -80,6 +84,8 @@ public class Messages extends ConfigManager {
 		this.addDefault("wings given", "%prefix% &7You now have wings for &c%time%&7.");
 		this.addDefault("wings gone", "%prefix% &cYour wings are now gone.");
 		this.addDefault("player not found", "%prefix% &cthe player wasn't found.");
+		this.addDefault("rightclick to unequip", "%prefix% &cRightclick to unequip!");
+		this.addDefault("leftclick to equip", "%prefix% &bLeftclick to equip!");
 		this.save();
 	}
 
@@ -87,31 +93,31 @@ public class Messages extends ConfigManager {
 		return showMessages;
 	}
 
-	public String getEquip(Wing wing) {
+	public String getEquip(TWING wing) {
 		if (wing == null)
 			return MyColors.format(equip.replace("%prefix%", prefix));
 		return MyColors.format(equip.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
-	public String getUnequip(Wing wing) {
+	public String getUnequip(TWING wing) {
 		if (wing == null)
 			return "";
 		return MyColors.format(unequip.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
-	public String getPreviewSet(Wing wing) {
+	public String getPreviewSet(TWING wing) {
 		if (wing == null)
 			return MyColors.format(previewSet.replace("%prefix%", prefix));
 		return MyColors.format(previewSet.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
-	public String getPreviewRemoved(Wing wing) {
+	public String getPreviewRemoved(TWING wing) {
 		if (wing == null)
 			return MyColors.format(previewRemoved.replace("%prefix%", prefix));
 		return MyColors.format(previewRemoved.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
-	public String getEditmodeset(Wing wing) {
+	public String getEditmodeset(TWING wing) {
 		if (wing == null)
 			return MyColors.format(editmodeset.replace("%prefix%", prefix));
 		return MyColors.format(editmodeset.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
@@ -121,13 +127,13 @@ public class Messages extends ConfigManager {
 		return MyColors.format(wingnotfound.replace("%prefix%", prefix).replace("%WingName%", notfound));
 	}
 
-	public String getEditright(Wing wing) {
+	public String getEditright(TWING wing) {
 		if (wing == null)
 			return MyColors.format(editright.replace("%prefix%", prefix));
 		return MyColors.format(editright.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
 	}
 
-	public String getEditleft(Wing wing) {
+	public String getEditleft(TWING wing) {
 		if (wing == null)
 			return MyColors.format(editleft.replace("%prefix%", prefix));
 		return MyColors.format(editleft.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName()));
@@ -137,7 +143,7 @@ public class Messages extends ConfigManager {
 		return MyColors.format(list.replace("%prefix%", prefix));
 	}
 
-	public String getListpoint(Wing wing) {
+	public String getListpoint(TWING wing) {
 		return MyColors.format(
 				listpoint.replace("%prefix%", prefix).replace("%WingName%", wing.getItemName().replace(" ", "_")));
 	}
@@ -160,5 +166,13 @@ public class Messages extends ConfigManager {
 	
 	public String getPlayernotfound() {
 		return MyColors.format(playernotfound.replace("%prefix%", prefix));
+	}
+	
+	public String getRightclick() {
+		return MyColors.format(rightclick.replace("%prefix%", prefix));
+	}
+	
+	public String getLeftclick() {
+		return MyColors.format(leftclick.replace("%prefix%", prefix));
 	}
 }

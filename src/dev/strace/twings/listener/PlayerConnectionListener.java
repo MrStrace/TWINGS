@@ -6,8 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
-import dev.strace.twings.utils.SendWings;
 
 /**
  * 
@@ -26,8 +26,8 @@ public class PlayerConnectionListener implements Listener {
 		Player p = e.getPlayer();
 		// if the player has wings equiped on join he will get the animated timer.
 		if (CurrentWings.current.containsKey(p.getUniqueId())) {
-			SendWings.animated.put(p, 0);
-			SendWings.plus.put(p, true);
+			Main.getInstance().getAnimation().getAnimated().put(p, 0);
+			Main.getInstance().getAnimation().getPlus().put(p, true);
 		}
 
 	}
@@ -40,8 +40,8 @@ public class PlayerConnectionListener implements Listener {
 
 		// if the player disconnects he will get kicked out of any active maps.
 		if (CurrentWings.current.containsKey(p.getUniqueId())) {
-			SendWings.animated.remove(p);
-			SendWings.plus.remove(p);
+			Main.getInstance().getAnimation().getAnimated().remove(p);
+			Main.getInstance().getAnimation().getPlus().remove(p);
 		}
 
 	}

@@ -1,20 +1,20 @@
 package dev.strace.twings.utils.gui;
 
 import org.bukkit.Bukkit;
+
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import dev.strace.twings.Main;
-import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.WingUtils;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
+import dev.strace.twings.utils.objects.TWING.GUI;
 
 public class WingEditGUI {
 
 	private int size;
-	private boolean pagination = false;
 	private String name = Main.getInstance().getConfigString("Menu.title").replace("%prefix%",
 			Main.getInstance().getPrefix()) + MyColors.format(" &c&lEDIT");
 
@@ -22,7 +22,6 @@ public class WingEditGUI {
 		int size = (wingcount + 9) / 9;
 		if (size >= 6) {
 			size = 6;
-			this.pagination = true;
 		}
 		this.size = size * 9;
 	}
@@ -49,40 +48,9 @@ public class WingEditGUI {
 
 	private void insertWings(Inventory inv, Player p) {
 
-		for (Wing wing : WingUtils.winglist.values()) {
-			ItemBuilder builder = new ItemBuilder(wing.getItem());
-
-			// If the Creator Tag isnt already applied it will be created.
-			if (!wing.getItem().getItemMeta().getLore().contains(
-					Main.getInstance().getConfigString("Menu.creator").replace("%creator%", wing.getCreator()))) {
-				/**
-				 * Adding the Creator Tag to the WingPreview Lore
-				 */
-				if (wing.getCreator() != null) {
-					builder.addLore(
-							Main.getInstance().getConfigString("Menu.creator").replace("%creator%", wing.getCreator()));
-				}
-
-				String perms = "";
-				/**
-				 * If the person has Permission the Symbol has to change so we look if he has
-				 * the perms, if so the Symbol is the right one.
-				 */
-				if (p.hasPermission(wing.getPermission())) {
-					perms = Main.getInstance().getConfigString("haspermission");
-				} else {
-					perms = Main.getInstance().getConfigString("nopermission");
-				}
-
-				// Add the Permission Lore
-				builder.addLore(Main.getInstance().getConfigString("Menu.permissions").replace("%perms%", perms));
-				builder.addLore(Main.getInstance().getMsg().getEditleft(wing));
-				builder.addLore(Main.getInstance().getMsg().getEditright(wing));
-			}
-			// Add the Item in the GUI (Inventory)
-			inv.addItem(builder.build());
+		for (TWING wing : WingUtils.winglist.values()) {
+			inv.addItem(wing.createItemStack(p, GUI.EDIT));
 		}
-
 	}
 
 	public String getName() {

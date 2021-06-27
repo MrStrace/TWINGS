@@ -3,6 +3,7 @@ package dev.strace.twings.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -275,6 +276,19 @@ public class ConfigManager {
 	}
 
 	/**
+	 * returns an list of Strings.
+	 * 
+	 * @param key
+	 * @return {@link ArrayList} of Strings
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> getList(String key) {
+		if (cfg.getList(key) != null)
+			return (List<String>) cfg.getList(key);
+		return new ArrayList<String>();
+	}
+
+	/**
 	 * Erstellt einen Pfad+Key mit einem Wert, falls es diesen bereits gibt wird
 	 * dieser ueberschrieben und es wird TRUE returned.
 	 * 
@@ -302,6 +316,10 @@ public class ConfigManager {
 		if (cfg.get(string) != null)
 			return;
 		set(string, object);
+	}
+
+	public void delete() {
+		file.delete();
 	}
 
 	public File getFile() {

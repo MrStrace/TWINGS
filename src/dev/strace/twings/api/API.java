@@ -2,8 +2,6 @@ package dev.strace.twings.api;
 
 import java.io.File;
 
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,9 +10,9 @@ import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
-import dev.strace.twings.utils.SendWings;
 import dev.strace.twings.utils.WingUtils;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
+import dev.strace.twings.utils.objects.TWING.GUI;
 
 /**
  * 
@@ -29,7 +27,7 @@ public class API {
 	private WingUtils utils;
 	private File file;
 	private YamlConfiguration cfg;
-	private Wing wing;
+	private TWING wing;
 
 	/**
 	 * The API Constructor.<br>
@@ -54,14 +52,14 @@ public class API {
 	 * @param lore
 	 * @return ItemStack
 	 */
-	public ItemStack getWingItem(boolean lore) {
+	public ItemStack getWingItem(Player p, boolean lore) {
 		try {
 			String name = getWingName();
 			ItemBuilder stack = new ItemBuilder(wing.getMaterial()).setName(name);
 			if (!lore)
 				return stack.build();
 
-			return wing.getItem();
+			return wing.getItem(p, GUI.WINGS);
 
 		} catch (Exception e) {
 			utils.logError("Check your " + file.getName() + " maybe you missspelled the item material wrong!");
@@ -73,7 +71,7 @@ public class API {
 	 * 
 	 * @return Wing object
 	 */
-	public Wing getWing() {
+	public TWING getTwing() {
 		return wing;
 	}
 
@@ -100,39 +98,17 @@ public class API {
 		new CurrentWings().setCurrentWing(p, file);
 	}
 
-	/**
-	 * sends the Particle to a Location.
-	 * 
-	 * @param loc
+	/*
+	 * adds a TWING to a player
 	 */
-	public void sendWingTo(Location loc) {
-		try {
-			new SendWings().drawWings(loc, wing);
-		} catch (Exception e) {
-			utils.logError("This file is not a Wing or might not exist? : " + file.getName());
-		}
-	}
-
-	/**
-	 * sends the Particle to a new Location.
-	 * 
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	public void sendWingTo(World world, double x, double y, double z) {
-		try {
-			new SendWings().drawWings(new Location(world, x, y, z), wing);
-		} catch (Exception e) {
-			utils.logError("This file is not a Wing or might not exist? : " + file.getName());
-		}
-
+	public void addPlayerCurrentWings(Player p) {
+		new CurrentWings().addCurrentWing(p, file);
 	}
 
 	/*
 	 * getters and setters
 	 */
+	
 
 	public WingUtils getUtils() {
 		return utils;
@@ -158,7 +134,7 @@ public class API {
 		this.cfg = cfg;
 	}
 
-	public void setWing(Wing wing) {
+	public void setWing(TWING wing) {
 		this.wing = wing;
 	}
 

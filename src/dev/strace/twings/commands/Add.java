@@ -17,16 +17,16 @@ import dev.strace.twings.utils.objects.TWING;
  *         Created: Jun 7, 2021<br>
  *
  */
-public class Equip extends SubCommands {
+public class Add extends SubCommands {
 
 	@Override
 	public String getName() {
-		return "equip";
+		return "add";
 	}
 
 	@Override
 	public String getDesc() {
-		return "Equips a specific Particle.";
+		return "Add a currentwing.";
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class Equip extends SubCommands {
 					name = wing.getItemName();
 				if (name.replace(" ", "_").equalsIgnoreCase(args[1])) {
 					if (p.hasPermission(wing.getPermission())) {
-						new CurrentWings().setCurrentWing(p, wing.getFile());
+						new CurrentWings().addCurrentWing(p, wing.getFile());
 						p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
 						return;
 					}
