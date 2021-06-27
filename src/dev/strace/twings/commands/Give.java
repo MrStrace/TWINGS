@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import dev.strace.twings.Main;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.objects.EquipTimer;
-import dev.strace.twings.utils.objects.Wing;
+import dev.strace.twings.utils.objects.TWING;
 
 /**
  * 
@@ -61,7 +61,7 @@ public class Give extends SubCommands {
 			}
 			Player target = Bukkit.getPlayerExact(args[1]);
 
-			for (Wing wing : WingUtils.winglist.values()) {
+			for (TWING wing : WingUtils.winglist.values()) {
 				String name = "";
 				if (wing.getItemName().contains("&")) {
 					String[] to = wing.getItemName().split("&");
