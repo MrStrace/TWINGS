@@ -413,12 +413,16 @@ public class TWING {
 			lore.add(Main.getInstance().getConfigString("Menu.permissions").replace("%perms%", perms));
 
 			// Enchant if equipped:
-			if (CurrentWings.current.get(p.getUniqueId()).contains(this.file)) {
-				item.addGlow();
-				lore.add(Main.getInstance().getMsg().getRightclick());
-			} else {
-				lore.add(Main.getInstance().getMsg().getLeftclick());
-			}
+			if (CurrentWings.current != null)
+				if (!CurrentWings.current.isEmpty())
+					if (CurrentWings.current.get(p.getUniqueId()).contains(this.file)) {
+						item.addGlow();
+						lore.add(Main.getInstance().getMsg().getRightclick());
+						lore.add(Main.getInstance().getMsg().getShiftrightclick());
+						break;
+					}
+			lore.add(Main.getInstance().getMsg().getLeftclick());
+			lore.add(Main.getInstance().getMsg().getShiftleftclick());
 			break;
 		case PREVIEW:
 			// Add the Permission Lore
@@ -441,6 +445,7 @@ public class TWING {
 
 	public enum GUI {
 		EDIT, WINGS, PREVIEW, PICTURE
+
 	};
 
 	private boolean isRunning(Player p, TWING wing) {
