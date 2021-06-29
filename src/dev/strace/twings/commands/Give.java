@@ -1,14 +1,13 @@
 package dev.strace.twings.commands;
 
-import java.util.HashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import dev.strace.twings.Main;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.objects.EquipTimer;
 import dev.strace.twings.utils.objects.TWING;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 /**
  * 
@@ -48,7 +47,7 @@ public class Give extends SubCommands {
 				p.sendMessage(Main.getInstance().getMsg().getNopermission());
 				return;
 			} 
-			p.sendMessage(Main.getInstance().getPrefix() + " ง7try: งc" + getSyntax());
+			p.sendMessage(Main.getInstance().getPrefix() + " ยง7try: ยงc" + getSyntax());
 			break;
 		case 4:
 			if (!p.hasPermission("twings.admin")) {

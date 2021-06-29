@@ -1,17 +1,5 @@
 package dev.strace.twings.utils.objects;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
-
 import dev.strace.twings.Main;
 import dev.strace.twings.listener.PlayerMoveListener;
 import dev.strace.twings.players.CurrentWings;
@@ -19,6 +7,17 @@ import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.calculate.Rotating;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class TWING {
 
@@ -387,7 +386,7 @@ public class TWING {
 					else
 						add += Main.instance.getConfig().getString("Menu.symbol");
 				} else
-					add += "§r§f" + Main.instance.getConfig().getString("Menu.symbol");
+					add += "Â§rÂ§f" + Main.instance.getConfig().getString("Menu.symbol");
 
 			}
 			lore.add(add);
