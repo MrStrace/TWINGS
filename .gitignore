@@ -1,0 +1,8 @@
+/.idea
+*.iml
+/target
+/bin
+/.settings
+.classpath
+.gitattributes
+.project
