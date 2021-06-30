@@ -1,16 +1,15 @@
 package dev.strace.twings.commands;
 
-import java.util.ArrayList;
-
+import dev.strace.twings.Main;
+import dev.strace.twings.utils.WingUtils;
+import dev.strace.twings.utils.gui.WingGUI;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.strace.twings.Main;
-import dev.strace.twings.utils.WingUtils;
-import dev.strace.twings.utils.gui.WingGUI;
+import java.util.ArrayList;
 
 /**
  * 
@@ -28,7 +27,7 @@ public class WingsCommand implements CommandExecutor {
 
 	/**
 	 * Initialisierung der SubCommands. Der ArrayListe werden die SubCommands
-	 * hinzugefügt und beim Start des Plugins initialisiert.
+	 * hinzugefugt und beim Start des Plugins initialisiert.
 	 */
 	public WingsCommand() {
 		subcommands.add(new Preview());

@@ -1,13 +1,12 @@
 package dev.strace.twings.commands;
 
-import java.io.File;
-
-import org.bukkit.entity.Player;
-
 import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.objects.TWING;
+import org.bukkit.entity.Player;
+
+import java.io.File;
 
 /**
  * 
@@ -43,7 +42,7 @@ public class Equip extends SubCommands {
 		 */
 		case 1:
 			// First Line of the Wing list.
-			p.sendMessage(Main.getInstance().getPrefix() + " ง7List of all Particles:");
+			p.sendMessage(Main.getInstance().getPrefix() + " ยง7List of all Particles:");
 			for (File file : WingUtils.winglist.keySet()) {
 				TWING wing = WingUtils.winglist.get(file);
 				/*

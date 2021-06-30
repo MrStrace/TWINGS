@@ -1,8 +1,8 @@
 name: TWINGS
 author: Strace
-version: 2.3.1
+version: '${project.version}'
 main: dev.strace.twings.Main
-api-Version: 1.17
+api-Version: '1.16'
 
 commands:
   wings:
