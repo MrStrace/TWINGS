@@ -1,8 +1,6 @@
 package dev.strace.twings.players;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -19,6 +17,7 @@ public class PlayWings {
 	public void playOnPlayers() {
 
 		new BukkitRunnable() {
+			
 			public void run() {
 		
 				if (Main.getInstance().config.getBoolean("ShowWithPerms")) {
@@ -35,20 +34,19 @@ public class PlayWings {
 					}
 					return;
 				}
-				HashMap<UUID, ArrayList<File>> map = CurrentWings.getCurrent();
-				if (map.isEmpty())
+								if (CurrentWings.getCurrent().isEmpty())
 					return;
-				for (UUID uuid : map.keySet()) {
+				for (UUID uuid : CurrentWings.getCurrent().keySet()) {
 					if (Bukkit.getPlayer(uuid) != null) {
 						Player p = Bukkit.getPlayer(uuid);
 						if (p.isOnline()) {
-							for(File file : map.get(uuid))
+							for(File file : CurrentWings.getCurrent().get(uuid))
 							WingUtils.winglist.get(file).drawWings(p);
 						}
 					}
 				}
 			}
-		}.runTaskTimerAsynchronously(Main.getInstance(), 0, Main.getInstance().config.getInt("UpdateRateTicks"));
+		}.runTaskTimer(Main.getInstance(), 0, Main.getInstance().config.getInt("UpdateRateTicks"));
 
 	}
 	
