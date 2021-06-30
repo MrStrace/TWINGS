@@ -57,21 +57,21 @@ public class Equip extends SubCommands {
 			break;
 
 		/*
-		 * If a specific particle is stated the particle is going to be equiped if it
+		 * If a specific particle is stated the particle is going to be equipped if it
 		 * exists.
 		 */
 		case 2:
 			for (TWING wing : WingUtils.winglist.values()) {
-				String name = "";
+				StringBuilder name = new StringBuilder();
 				if (wing.getItemName().contains("&")) {
 					String[] to = wing.getItemName().split("&");
 					for (String x : to) {
 						if (x.length() > 0)
-							name += x.substring(1);
+							name.append(x.substring(1));
 					}
 				} else
-					name = wing.getItemName();
-				if (name.replace(" ", "_").equalsIgnoreCase(args[1])) {
+					name = new StringBuilder(wing.getItemName());
+				if (name.toString().replace(" ", "_").equalsIgnoreCase(args[1])) {
 					if (p.hasPermission(wing.getPermission())) {
 						new CurrentWings().setCurrentWing(p, wing.getFile());
 						p.sendMessage(Main.getInstance().getMsg().getEquip(wing));

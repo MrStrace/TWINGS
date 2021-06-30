@@ -87,9 +87,9 @@ public class EquipTimer {
 
 		UNTILDEATH("UntilDeath"), SECONDS("S"), HOURS("H"), DAYS("D"), MINUTES("M");
 
-		private String sign;
+		private final String sign;
 
-		private Symbol(String sign) {
+		Symbol(String sign) {
 			this.sign = sign;
 		}
 

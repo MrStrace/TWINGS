@@ -13,14 +13,12 @@ import dev.strace.twings.utils.objects.TWING.GUI;
 
 public class WingGUI {
 
-	private int size;
-	private boolean pagination = false;
+	private final int size;
 
 	public WingGUI(int wingcount) {
 		int size = (wingcount + 9) / 9;
 		if (size >= 6) {
 			size = 6;
-			this.pagination = true;
 		}
 		this.size = size * 9;
 	}
@@ -33,8 +31,8 @@ public class WingGUI {
 	/**
 	 * Creates the Inventory GUI for a specific Player.
 	 * 
-	 * @param p
-	 * @return
+	 * @param p {@link Player}
+	 * @return {@link Inventory}
 	 */
 	private Inventory createGUI(Player p) {
 

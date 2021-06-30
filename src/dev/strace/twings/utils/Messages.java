@@ -20,7 +20,7 @@ public class Messages extends ConfigManager {
 	private String previewSet = "";
 	private String previewRemoved = "";
 	private String editmodeset = "";
-	private String prefix = Main.getInstance().getPrefix();
+	private final String prefix = Main.getInstance().getPrefix();
 	private String wingnotfound = "";
 	private String editright = "";
 	private String editleft = "";

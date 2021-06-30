@@ -34,9 +34,7 @@ public class List extends SubCommands {
 
 	@Override
 	public void perform(Player p, String[] args) {
-		switch (args.length) {
-		case 1:
-			// First Line of the Wing list.
+		if (args.length == 1) {// First Line of the Wing list.
 			p.sendMessage(Main.getInstance().getMsg().getList());
 			for (File file : WingUtils.winglist.keySet()) {
 				TWING wing = WingUtils.winglist.get(file);
@@ -47,10 +45,6 @@ public class List extends SubCommands {
 				if (p.hasPermission(wing.getPermission()))
 					p.sendMessage(Main.getInstance().getMsg().getListpoint(wing));
 			}
-			break;
-
-		default:
-			break;
 		}
 	}
 

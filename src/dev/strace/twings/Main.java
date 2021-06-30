@@ -1,14 +1,5 @@
 package dev.strace.twings;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import dev.strace.twings.api.SpigotMcAPI;
 import dev.strace.twings.commands.WingsCommand;
 import dev.strace.twings.listener.InventoryClickListener;
@@ -17,14 +8,15 @@ import dev.strace.twings.listener.PlayerDeathListener;
 import dev.strace.twings.listener.PlayerMoveListener;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.players.PlayWings;
-import dev.strace.twings.utils.Animation;
-import dev.strace.twings.utils.ConfigManager;
-import dev.strace.twings.utils.Messages;
-import dev.strace.twings.utils.Metrics;
-import dev.strace.twings.utils.MyColors;
-import dev.strace.twings.utils.WingPreview;
-import dev.strace.twings.utils.WingReader;
-import dev.strace.twings.utils.WingTemplate;
+import dev.strace.twings.utils.*;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * 
@@ -136,7 +128,7 @@ public class Main extends JavaPlugin {
 				System.out.println("[TWINGS] Plugin is uptodate!");
 				System.out.println("[TWINGS] Thanks for downloading and using my plugin! ~ Strace");
 			}
-		} catch (IOException e) {
+		} catch (IOException ignored) {
 		}
 
 	}
@@ -146,7 +138,6 @@ public class Main extends JavaPlugin {
 	 */
 	private void registerListener() {
 		PluginManager pm = Bukkit.getPluginManager();
-		;
 		pm.registerEvents(new PlayerMoveListener(), this);
 		pm.registerEvents(new PlayerConnectionListener(), this);
 		pm.registerEvents(new InventoryClickListener(), this);
@@ -177,20 +168,18 @@ public class Main extends JavaPlugin {
 	public String getPrefix() {
 		if (this.getConfig().getString("Prefix") == null)
 			return "ERROR";
-		String prefix = MyColors.format(this.getConfig().getString("Prefix"));
-		return prefix;
+		return MyColors.format(this.getConfig().getString("Prefix"));
 	}
 
 	/**
 	 * 
-	 * @param path
+	 * @param path file path
 	 * @return colored string
 	 */
 	public String getConfigString(String path) {
 		if (this.getConfig().getString(path) == null)
 			return "ERROR";
-		String string = MyColors.format(this.getConfig().getString(path));
-		return string;
+		return MyColors.format(this.getConfig().getString(path));
 	}
 
 	public Messages getMsg() {
@@ -199,10 +188,6 @@ public class Main extends JavaPlugin {
 
 	public static Main getInstance() {
 		return instance;
-	}
-
-	public Plugin getPlugin() {
-		return plugin;
 	}
 
 	public Animation getAnimation() {

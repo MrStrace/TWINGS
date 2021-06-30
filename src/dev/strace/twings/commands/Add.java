@@ -57,7 +57,7 @@ public class Add extends SubCommands {
 			break;
 
 		/*
-		 * If a specific particle is stated the particle is going to be equiped if it
+		 * If a specific particle is stated the particle is going to be equipped if it
 		 * exists.
 		 */
 		case 2:

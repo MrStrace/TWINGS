@@ -13,7 +13,7 @@ import dev.strace.twings.utils.objects.TWING.GUI;
 
 public class WingPreviewGUI {
 
-	private int size;
+	private final int size;
 	private String name = Main.getInstance().getConfigString("Menu.title").replace("%prefix%",
 			Main.getInstance().getPrefix()) + MyColors.format("&c&lPREVIEW");
 
@@ -33,8 +33,8 @@ public class WingPreviewGUI {
 	/**
 	 * Creates the Inventory GUI for a specific Player.
 	 * 
-	 * @param p
-	 * @return
+	 * @param p {@link Player}
+	 * @return {@link Inventory}
 	 */
 	private Inventory createGUI(Player p) {
 

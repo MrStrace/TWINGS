@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class WingsCommand implements CommandExecutor {
 
 	// Liste aller SubCommands von Setup.
-	private ArrayList<SubCommands> subcommands = new ArrayList<SubCommands>();
+	private final ArrayList<SubCommands> subcommands = new ArrayList<SubCommands>();
 
 	/**
 	 * Initialisierung der SubCommands. Der ArrayListe werden die SubCommands
@@ -68,9 +68,9 @@ public class WingsCommand implements CommandExecutor {
 
 		// for each subcommand it will check if the second argument equals the
 		// subcommand name if so it will perform the command.
-		for (int i = 0; i < subcommands.size(); i++) {
-			if (args[0].equalsIgnoreCase(subcommands.get(i).getName())) {
-				subcommands.get(i).perform(p, args);
+		for (SubCommands subcommand : subcommands) {
+			if (args[0].equalsIgnoreCase(subcommand.getName())) {
+				subcommand.perform(p, args);
 				return;
 			}
 		}

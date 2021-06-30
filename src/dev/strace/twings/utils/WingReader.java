@@ -1,9 +1,9 @@
 package dev.strace.twings.utils;
 
-import java.io.File;
-
 import dev.strace.twings.Main;
 import dev.strace.twings.utils.objects.TWING;
+
+import java.io.File;
 
 /**
  * 
@@ -21,7 +21,7 @@ public class WingReader {
 		//Clears the Wing Cache.
 		WingUtils.winglist.clear();
 		
-		/**
+		/*
 		 * For each file a new Wing object is getting created and cached.
 		 */
 		for (File files : new File(Main.instance.getDataFolder(), "wings").listFiles()) {

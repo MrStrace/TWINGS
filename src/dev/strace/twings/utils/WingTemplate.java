@@ -1,12 +1,11 @@
 package dev.strace.twings.utils;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-
+import dev.strace.twings.utils.objects.ParticleColor;
 import org.bukkit.Material;
 
-import dev.strace.twings.utils.objects.ParticleColor;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -25,7 +24,7 @@ public class WingTemplate extends ConfigManager {
 	/**
 	 * creates a template particle from picture.
 	 * 
-	 * @param filename
+	 * @param filename name of the .yml file
 	 * @return if the particle was created.
 	 */
 	public boolean createFromPicture(String filename) {
@@ -52,20 +51,20 @@ public class WingTemplate extends ConfigManager {
 		 * x,x,x,x,x,x,x,x,x,x,x,x
 		 */
 		for (int i = 0; i < pattern.length; i++) {
-			String row = "";
+			StringBuilder row = new StringBuilder();
 			for (int y = 0; y < pattern[0].length; y++) {
-				// while the pattern isnt null it will get the code and add it to the string.
+				// while the pattern isn't null it will get the code and add it to the string.
 				if (pattern[i][y] != null)
-					row += "" + pattern[i][y].getCode();
+					row.append("").append(pattern[i][y].getCode());
 				else
 					// if it is null it will place an x so its no particle at all.
-					row += "x";
+					row.append("x");
 				// while we didn't reach the end of the line we add an comma after each code.
 				if (y != pattern[0].length)
-					row += ",";
+					row.append(",");
 			}
 			// add the line to the list.
-			pt.add(row);
+			pt.add(row.toString());
 		}
 
 		/*

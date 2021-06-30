@@ -1,14 +1,13 @@
 package dev.strace.twings.utils;
 
+import dev.strace.twings.Main;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import dev.strace.twings.Main;
 
 public class ConfigManager {
 
@@ -83,9 +82,9 @@ public class ConfigManager {
 	 * @param fileName
 	 */
 	public ConfigManager(String[] path, String fileName) {
-		String fullPath = "";
+		StringBuilder fullPath = new StringBuilder();
 		for (String inPath : path) {
-			fullPath += inPath + "/";
+			fullPath.append(inPath).append("/");
 		}
 		this.file = new File(Main.getInstance().getDataFolder(), fullPath + fileName + ".yml");
 		this.cfg = YamlConfiguration.loadConfiguration(this.file);
@@ -123,8 +122,7 @@ public class ConfigManager {
 	 */
 	public ArrayList<String> getStringList(String title) {
 		Set<String> maps = this.cfg.getConfigurationSection(title).getKeys(false);
-		ArrayList<String> list = new ArrayList<String>(maps);
-		return list;
+		return new ArrayList<String>(maps);
 	}
 
 	/**
@@ -136,8 +134,7 @@ public class ConfigManager {
 	 * @return
 	 */
 	public String getString(String key) {
-		String value = cfg.getString(key);
-		return value;
+		return cfg.getString(key);
 	}
 
 	/**
@@ -150,12 +147,11 @@ public class ConfigManager {
 	 * @return
 	 */
 	public String getString(String[] path, String key) {
-		String fullPath = "";
+		StringBuilder fullPath = new StringBuilder();
 		for (String inPath : path) {
-			fullPath += inPath + ".";
+			fullPath.append(inPath).append(".");
 		}
-		String value = cfg.getString(fullPath + key);
-		return value;
+		return cfg.getString(fullPath + key);
 	}
 
 	/**
@@ -168,8 +164,7 @@ public class ConfigManager {
 	 * @return
 	 */
 	public String getString(String path, String key) {
-		String value = cfg.getString(path + "." + key);
-		return value;
+		return cfg.getString(path + "." + key);
 	}
 
 	/**
@@ -181,8 +176,7 @@ public class ConfigManager {
 	 * @return
 	 */
 	public double getDouble(String key) {
-		double value = cfg.getDouble(key);
-		return value;
+		return cfg.getDouble(key);
 	}
 
 	/**
@@ -195,12 +189,11 @@ public class ConfigManager {
 	 * @return
 	 */
 	public double getDouble(String[] path, String key) {
-		String fullPath = "";
+		StringBuilder fullPath = new StringBuilder();
 		for (String inPath : path) {
-			fullPath += inPath + ".";
+			fullPath.append(inPath).append(".");
 		}
-		double value = cfg.getDouble(fullPath + key);
-		return value;
+		return cfg.getDouble(fullPath + key);
 	}
 
 	/**
@@ -213,8 +206,7 @@ public class ConfigManager {
 	 * @return
 	 */
 	public double getDouble(String path, String key) {
-		double value = cfg.getDouble(path + "." + key);
-		return value;
+		return cfg.getDouble(path + "." + key);
 	}
 
 	/**
@@ -226,8 +218,7 @@ public class ConfigManager {
 	 * @return
 	 */
 	public int getInt(String key) {
-		int value = cfg.getInt(key);
-		return value;
+		return cfg.getInt(key);
 	}
 
 	/**
@@ -240,12 +231,11 @@ public class ConfigManager {
 	 * @return
 	 */
 	public int getInt(String[] path, String key) {
-		String fullPath = "";
+		StringBuilder fullPath = new StringBuilder();
 		for (String inPath : path) {
-			fullPath += inPath + ".";
+			fullPath.append(inPath).append(".");
 		}
-		int value = cfg.getInt(fullPath + key);
-		return value;
+		return cfg.getInt(fullPath + key);
 	}
 
 	/**
@@ -258,8 +248,7 @@ public class ConfigManager {
 	 * @return
 	 */
 	public int getInt(String path, String key) {
-		int value = cfg.getInt(path + "." + key);
-		return value;
+		return cfg.getInt(path + "." + key);
 	}
 
 	/**
@@ -301,9 +290,7 @@ public class ConfigManager {
 	 */
 	public boolean set(String path, Object value) {
 		this.cfg.set(path, value);
-		if (this.cfg.get(path + "." + value) != null)
-			return true;
-		return false;
+		return this.cfg.get(path + "." + value) != null;
 	}
 
 	/**

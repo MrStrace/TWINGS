@@ -1,15 +1,14 @@
 package dev.strace.twings.players;
 
-import java.io.File;
-import java.util.UUID;
-
+import dev.strace.twings.Main;
+import dev.strace.twings.utils.WingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import dev.strace.twings.Main;
-import dev.strace.twings.utils.WingUtils;
+import java.io.File;
+import java.util.UUID;
 
 public class PlayWings {
 
@@ -26,7 +25,7 @@ public class PlayWings {
 						for (File f : new File(Main.instance.getDataFolder(), "wing").listFiles()) {
 							YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
 							String perms = cfg.getString("permission");
-							if (p.hasPermission(perms) && !p.isOp()) {
+							if (perms != null && p.hasPermission(perms) && !p.isOp()) {
 								fil = f;
 							}
 						}
@@ -39,9 +38,9 @@ public class PlayWings {
 				for (UUID uuid : CurrentWings.getCurrent().keySet()) {
 					if (Bukkit.getPlayer(uuid) != null) {
 						Player p = Bukkit.getPlayer(uuid);
-						if (p.isOnline()) {
-							for(File file : CurrentWings.getCurrent().get(uuid))
-							WingUtils.winglist.get(file).drawWings(p);
+						if (p != null && p.isOnline()) {
+							for (File file : CurrentWings.getCurrent().get(uuid))
+								WingUtils.winglist.get(file).drawWings(p);
 						}
 					}
 				}

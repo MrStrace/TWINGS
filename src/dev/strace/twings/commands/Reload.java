@@ -31,17 +31,11 @@ public class Reload extends SubCommands {
 
 	@Override
 	public void perform(Player p, String[] args) {
-		switch (args.length) {
-		case 1:
+		if (args.length == 1) {
 			if (p.hasPermission("twings.admin"))
 				Main.load(true);
 			else
 				p.sendMessage(Main.getInstance().getMsg().getNopermission());
-
-			break;
-
-		default:
-			break;
 		}
 	}
 

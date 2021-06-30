@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class Give extends SubCommands {
 
-	private static HashMap<Player, EquipTimer> timers = new HashMap<Player, EquipTimer>();
+	private static final HashMap<Player, EquipTimer> timers = new HashMap<>();
 
 	@Override
 	public String getName() {
@@ -61,16 +61,16 @@ public class Give extends SubCommands {
 			Player target = Bukkit.getPlayerExact(args[1]);
 
 			for (TWING wing : WingUtils.winglist.values()) {
-				String name = "";
+				StringBuilder name = new StringBuilder();
 				if (wing.getItemName().contains("&")) {
 					String[] to = wing.getItemName().split("&");
 					for (String x : to) {
 						if (x.length() > 0)
-							name += x.substring(1);
+							name.append(x.substring(1));
 					}
 				} else
-					name = wing.getItemName();
-				if (name.replace(" ", "_").equalsIgnoreCase(args[2])) {
+					name = new StringBuilder(wing.getItemName());
+				if (name.toString().replace(" ", "_").equalsIgnoreCase(args[2])) {
 					if(timers.containsKey(p))
 							timers.get(p).cancel();
 					EquipTimer timer = new EquipTimer(target, wing, args[3]);

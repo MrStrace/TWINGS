@@ -35,8 +35,8 @@ public abstract class SubCommands {
 	 * Performing of the subCMD.
 	 * 
 	 * @param p    (player)
-	 * @param args
+	 * @param args each subcommand
 	 */
-	public abstract void perform(Player p, String args[]);
+	public abstract void perform(Player p, String[] args);
 
 }

@@ -1,14 +1,13 @@
 package dev.strace.twings.players;
 
+import dev.strace.twings.utils.ConfigManager;
+import dev.strace.twings.utils.WingUtils;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-
-import org.bukkit.entity.Player;
-
-import dev.strace.twings.utils.ConfigManager;
-import dev.strace.twings.utils.WingUtils;
 
 /**
  * 
@@ -28,7 +27,7 @@ public class CurrentWings extends ConfigManager {
 	}
 
 	/**
-	 * enables all wings that player already had equiped.
+	 * enables all wings that player already had equipped.
 	 */
 	public void onEnable() {
 
@@ -39,7 +38,7 @@ public class CurrentWings extends ConfigManager {
 		// hinzugefuegt.
 
 		for (String uid : this.getStringList("")) {
-			ArrayList<File> list = new ArrayList<File>();
+			ArrayList<File> list = new ArrayList<>();
 			if (getString(uid).contains("(X-X)")) {
 				String[] split = getString(uid).split("(X-X)");
 				for (String filenames : split) {
@@ -72,8 +71,8 @@ public class CurrentWings extends ConfigManager {
 	/**
 	 * Setzt die ausgewaehlten Wings als "CurrentWings".
 	 * 
-	 * @param p
-	 * @param fileName
+	 * @param p bukkit player
+	 * @param file the wing file
 	 */
 	public void setCurrentWing(Player p, File file) {
 
@@ -82,7 +81,7 @@ public class CurrentWings extends ConfigManager {
 				current.remove(p.getUniqueId());
 			return;
 		}
-		ArrayList<File> list = new ArrayList<File>();
+		ArrayList<File> list = new ArrayList<>();
 		list.add(file);
 		current.put(p.getUniqueId(), list);
 		set(p.getUniqueId().toString(), file.getName());
@@ -95,23 +94,23 @@ public class CurrentWings extends ConfigManager {
 		if (CurrentWings.current.get(p.getUniqueId()) != null)
 			list = current.get(p.getUniqueId());
 		else {
-			list = new ArrayList<File>();
+			list = new ArrayList<>();
 		}
 		if (list.contains(file))
 			return;
 
 		list.add(file);
 		current.put(p.getUniqueId(), list);
-		String equiped = "";
+		StringBuilder equipped = new StringBuilder();
 		int i = 0;
 		for (File files : current.get(p.getUniqueId())) {
 			i++;
-			equiped += files.getName();
+			equipped.append(files.getName());
 			if (list.size() != i)
-				equiped += "(X-X)";
+				equipped.append("(X-X)");
 
 		}
-		set(p.getUniqueId().toString(), equiped);
+		set(p.getUniqueId().toString(), equipped.toString());
 		save();
 	}
 
@@ -123,16 +122,16 @@ public class CurrentWings extends ConfigManager {
 		ArrayList<File> list = current.get(p.getUniqueId());
 		list.remove(file);
 		current.put(p.getUniqueId(), list);
-		String equiped = "";
+		StringBuilder equipped = new StringBuilder();
 		int i = 0;
 		for (File files : current.get(p.getUniqueId())) {
 			i++;
-			equiped += files.getName();
+			equipped.append(files.getName());
 			if (list.size() != i)
-				equiped += "(X-X)";
+				equipped.append("(X-X)");
 
 		}
-		set(p.getUniqueId().toString(), equiped);
+		set(p.getUniqueId().toString(), equipped.toString());
 		save();
 	}
 
