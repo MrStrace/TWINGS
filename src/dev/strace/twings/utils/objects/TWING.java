@@ -114,6 +114,7 @@ public class TWING {
 	 */
 	public void drawWings(Player p) {
 
+		
 		Location ploc = p.getLocation().clone();
 		ploc.setPitch(-45);
 		Location location = p.getLocation().clone().subtract(ploc.getDirection().setY(0).multiply(this.getMoveback()));
@@ -414,12 +415,13 @@ public class TWING {
 			// Enchant if equipped:
 			if (CurrentWings.current != null)
 				if (!CurrentWings.current.isEmpty())
-					if (CurrentWings.current.get(p.getUniqueId()).contains(this.file)) {
-						item.addGlow();
-						lore.add(Main.getInstance().getMsg().getRightclick());
-						lore.add(Main.getInstance().getMsg().getShiftrightclick());
-						break;
-					}
+					if (CurrentWings.current.containsKey(p.getUniqueId()))
+						if (CurrentWings.current.get(p.getUniqueId()).contains(this.file)) {
+							item.addGlow();
+							lore.add(Main.getInstance().getMsg().getRightclick());
+							lore.add(Main.getInstance().getMsg().getShiftrightclick());
+							break;
+						}
 			lore.add(Main.getInstance().getMsg().getLeftclick());
 			lore.add(Main.getInstance().getMsg().getShiftleftclick());
 			break;
