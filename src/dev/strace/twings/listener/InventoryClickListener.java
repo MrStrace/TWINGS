@@ -178,10 +178,11 @@ public class InventoryClickListener implements Listener {
                  * Adds another wing to equipped wings. (shift leftclick)
                  */
                 if (e.getClick().equals(ClickType.SHIFT_LEFT)) {
-                    if (Main.getInstance().getMsg().isShowMessages()) {
+                    boolean bool = new CurrentWings().addCurrentWing(p, wing.getFile());
+                    if (!bool) return;
+                    if (Main.getInstance().getMsg().isShowMessages())
                         p.sendMessage(Main.getInstance().getMsg().getEquip(wing));
-                    }
-                    new CurrentWings().addCurrentWing(p, wing.getFile());
+
                     p.playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 0.4f, 10f);
                     p.closeInventory();
                     return;
