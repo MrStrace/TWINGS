@@ -62,13 +62,6 @@ public class CurrentWings extends ConfigManager {
     }
 
     /**
-     * Speichert alle Wings welche Spieler ausgerwaehlt haben.
-     */
-    public void onDisable() {
-        save();
-    }
-
-    /**
      * Setzt die ausgewaehlten Wings als "CurrentWings".
      *
      * @param p    bukkit player

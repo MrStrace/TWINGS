@@ -19,185 +19,173 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 
  * @author Jason Holweg [STRACE] <b>TWINGS</b><br>
- *         Website: <a>https://strace.dev/</a><br>
- *         GitHub: <a>https://github.com/MrStrace</a><br>
- *         Created: May 31, 2021<br>
- *
+ * Website: <a>https://strace.dev/</a><br>
+ * GitHub: <a>https://github.com/MrStrace</a><br>
+ * Created: May 31, 2021<br>
  */
 public class Main extends JavaPlugin {
 
-	public static Main instance;
-	public static Plugin plugin;
-	public ConfigManager config;
-	public Messages msg;
-	public Animation animation;
+    public static Main instance;
+    public static Plugin plugin;
+    public ConfigManager config;
+    public Messages msg;
+    public Animation animation;
 
-	@Override
-	public void onEnable() {
-		// Init plugin
-		plugin = this;
-		
-		// Init instance
-		instance = this;
-		
-		// Init animation
-		animation = new Animation();
-		
-		// Creates or loads the Config.yml
-		config = new ConfigManager("config");
-		
-		// Config is getting written (Defaults)
-		registerConfig();
+    @Override
+    public void onEnable() {
+        // Init plugin
+        plugin = this;
 
-		// Init lang.yml
-		msg = new Messages().init().load();
+        // Init instance
+        instance = this;
 
-		load(false);
+        // Init animation
+        animation = new Animation();
 
-		// All Listeners getting enabled.
-		registerListener();
+        // Creates or loads the Config.yml
+        config = new ConfigManager("config");
 
-		// Register command
-		this.getCommand("wings").setExecutor(new WingsCommand());
+        // Config is getting written (Defaults)
+        registerConfig();
 
-		// Register bStats
-		handleMetrics();
+        // Init lang.yml
+        msg = new Messages().init().load();
 
-		// creates pictures folder
-		new File(Main.getInstance().getDataFolder(), "pictures").mkdir();
-	}
+        load(false);
 
-	public static void load(Boolean reload) {
-		if (reload)
-			new CurrentWings().onDisable();
+        // All Listeners getting enabled.
+        registerListener();
 
-		// Check Plugin version (is it uptodate?)
-		checkVersion();
+        // Register command
+        this.getCommand("wings").setExecutor(new WingsCommand());
 
-		// Init Template.yml (a Example of an Wing)
-		new WingTemplate("template").createTemplate();
+        // Register bStats
+        handleMetrics();
 
-		// Init WingReader all Wings getting saved in cached.
-		new WingReader().registerWings();
+        // creates pictures folder
+        new File(Main.getInstance().getDataFolder(), "pictures").mkdir();
+    }
 
-		// Wings getting displayed every ticks.
-		new PlayWings().playOnPlayers();
+    public static void load(Boolean reload) {
 
-		// Players getting there old Wings equipped (Important after reload)
-		new CurrentWings().onEnable();
+        // Check Plugin version (is it uptodate?)
+        checkVersion();
 
-		// Enables the Wing previews
-		new WingPreview().enablePreview();
+        // Init Template.yml (a Example of an Wing)
+        new WingTemplate("template").createTemplate();
 
-		// Init lang.yml
-		Main.getInstance().msg = new Messages().init().load();
+        // Init WingReader all Wings getting saved in cached.
+        new WingReader().registerWings();
 
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (p.hasPermission("twings.admin"))
-				p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cparticles reloaded."));
-		}
-	}
+        // Wings getting displayed every ticks.
+        new PlayWings().playOnPlayers();
 
-	// Things happen when the plugin is disabled.
-	@Override
-	public void onDisable() {
-		new CurrentWings().onDisable();
-	}
+        // Players getting there old Wings equipped (Important after reload)
+        new CurrentWings().onEnable();
 
-	/**
-	 * Handles the bStats
-	 */
-	private void handleMetrics() {
-		// Plugin Metrics/bStats
-		int pluginId = 11688;
-		new Metrics(this, pluginId);
+        // Enables the Wing previews
+        new WingPreview().enablePreview();
 
-	}
+        // Init lang.yml
+        Main.getInstance().msg = new Messages().init().load();
 
-	/**
-	 * Checks if the Version == plugin.yml version
-	 */
-	public static void checkVersion() {
-		try {
-			if (!plugin.getDescription().getVersion().equalsIgnoreCase(new SpigotMcAPI("82088").getVersion())) {
-				System.out
-						.println("[TWINGS] isn't uptodate! Visit https://www.spigotmc.org/resources/82088/ to update!");
-			} else {
-				System.out.println("[TWINGS] Plugin is uptodate!");
-				System.out.println("[TWINGS] Thanks for downloading and using my plugin! ~ Strace");
-			}
-		} catch (IOException ignored) {
-		}
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.hasPermission("twings.admin"))
+                p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cparticles reloaded."));
+        }
+    }
 
-	}
+    /**
+     * Handles the bStats
+     */
+    private void handleMetrics() {
+        // Plugin Metrics/bStats
+        int pluginId = 11688;
+        new Metrics(this, pluginId);
 
-	/**
-	 * Registers all Listener/Events
-	 */
-	private void registerListener() {
-		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(new PlayerMoveListener(), this);
-		pm.registerEvents(new PlayerConnectionListener(), this);
-		pm.registerEvents(new InventoryClickListener(), this);
-		pm.registerEvents(new PlayerDeathListener(), this);
-	}
+    }
 
-	/**
-	 * Creates the config.yml
-	 */
-	private void registerConfig() {
-		config.addDefault("Prefix", "&e&lTWings");
-		config.addDefault("max equipped twings", 2);
-		config.addDefault("Wings.showwithperms", false);
-		config.addDefault("Wings.updaterate", 3);
-		config.addDefault("Menu.title", "%prefix% &9Choose your Wings!");
-		config.addDefault("Menu.symbol", "⏹");
-		config.addDefault("Menu.creator", "&c&lCreator:&f %creator%");
-		config.addDefault("Menu.permissions", "&7unlocked: [%perms%&7]");
-		config.addDefault("Menu.preview", true);
-		config.addDefault("haspermission", "&aYES");
-		config.addDefault("nopermission", "&cNO");
-		config.save();
-	}
+    /**
+     * Checks if the Version == plugin.yml version
+     */
+    public static void checkVersion() {
+        try {
+            if (!plugin.getDescription().getVersion().equalsIgnoreCase(new SpigotMcAPI("82088").getVersion())) {
+                System.out
+                        .println("[TWINGS] isn't uptodate! Visit https://www.spigotmc.org/resources/82088/ to update!");
+            } else {
+                System.out.println("[TWINGS] Plugin is uptodate!");
+                System.out.println("[TWINGS] Thanks for downloading and using my plugin! ~ Strace");
+            }
+        } catch (IOException ignored) {
+        }
 
-	public int getMaxEquippedTwings() {
-		return config.getInt("max equipped twings");
-	}
+    }
 
-	/**
-	 * 
-	 * @return plugin prefix
-	 */
-	public String getPrefix() {
-		if (this.getConfig().getString("Prefix") == null)
-			return "ERROR";
-		return MyColors.format(this.getConfig().getString("Prefix"));
-	}
+    /**
+     * Registers all Listener/Events
+     */
+    private void registerListener() {
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new PlayerMoveListener(), this);
+        pm.registerEvents(new PlayerConnectionListener(), this);
+        pm.registerEvents(new InventoryClickListener(), this);
+        pm.registerEvents(new PlayerDeathListener(), this);
+    }
 
-	/**
-	 * 
-	 * @param path file path
-	 * @return colored string
-	 */
-	public String getConfigString(String path) {
-		if (this.getConfig().getString(path) == null)
-			return "ERROR";
-		return MyColors.format(this.getConfig().getString(path));
-	}
+    /**
+     * Creates the config.yml
+     */
+    private void registerConfig() {
+        config.addDefault("Prefix", "&e&lTWings");
+        config.addDefault("max equipped twings", 2);
+        config.addDefault("Wings.showwithperms", false);
+        config.addDefault("Wings.updaterate", 3);
+        config.addDefault("Menu.title", "%prefix% &9Choose your Wings!");
+        config.addDefault("Menu.symbol", "⏹");
+        config.addDefault("Menu.creator", "&c&lCreator:&f %creator%");
+        config.addDefault("Menu.permissions", "&7unlocked: [%perms%&7]");
+        config.addDefault("Menu.preview", true);
+        config.addDefault("haspermission", "&aYES");
+        config.addDefault("nopermission", "&cNO");
+        config.save();
+    }
 
-	public Messages getMsg() {
-		return msg;
-	}
+    public int getMaxEquippedTwings() {
+        return config.getInt("max equipped twings");
+    }
 
-	public static Main getInstance() {
-		return instance;
-	}
+    /**
+     * @return plugin prefix
+     */
+    public String getPrefix() {
+        if (this.getConfig().getString("Prefix") == null)
+            return "ERROR";
+        return MyColors.format(this.getConfig().getString("Prefix"));
+    }
 
-	public Animation getAnimation() {
-		return animation;
-	}
+    /**
+     * @param path file path
+     * @return colored string
+     */
+    public String getConfigString(String path) {
+        if (this.getConfig().getString(path) == null)
+            return "ERROR";
+        return MyColors.format(this.getConfig().getString(path));
+    }
 
-	
+    public Messages getMsg() {
+        return msg;
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
+    public Animation getAnimation() {
+        return animation;
+    }
+
+
 }
