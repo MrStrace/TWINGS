@@ -149,6 +149,7 @@ public class Main extends JavaPlugin {
 	 */
 	private void registerConfig() {
 		config.addDefault("Prefix", "&e&lTWings");
+		config.addDefault("max equipped twings", 2);
 		config.addDefault("Wings.showwithperms", false);
 		config.addDefault("Wings.updaterate", 3);
 		config.addDefault("Menu.title", "%prefix% &9Choose your Wings!");
@@ -159,6 +160,10 @@ public class Main extends JavaPlugin {
 		config.addDefault("haspermission", "&aYES");
 		config.addDefault("nopermission", "&cNO");
 		config.save();
+	}
+
+	public int getMaxEquippedTwings() {
+		return config.getInt("max equipped twings");
 	}
 
 	/**
