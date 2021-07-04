@@ -13,42 +13,43 @@ import dev.strace.twings.utils.objects.TWING.GUI;
 
 public class WingGUI {
 
-	private final int size;
+    private final int size;
 
-	public WingGUI(int wingcount) {
-		int size = (wingcount + 9) / 9;
-		if (size >= 6) {
-			size = 6;
-		}
-		this.size = size * 9;
-	}
+    public WingGUI(int wingcount) {
+        int size = (wingcount + 9) / 9;
+        if (size >= 6) {
+            size = 6;
+        }
+        this.size = size * 9;
+    }
 
-	public void openGUI(Player p) {
-		p.openInventory(createGUI(p));
-		p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, 0.3f, 1f);
-	}
+    public void openGUI(Player p, String category) {
+        p.openInventory(createGUI(p, category));
+        p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, 0.3f, 1f);
+    }
 
-	/**
-	 * Creates the Inventory GUI for a specific Player.
-	 * 
-	 * @param p {@link Player}
-	 * @return {@link Inventory}
-	 */
-	private Inventory createGUI(Player p) {
+    /**
+     * Creates the Inventory GUI for a specific Player.
+     *
+     * @param p {@link Player}
+     * @return {@link Inventory}
+     */
+    private Inventory createGUI(Player p, String category) {
 
-		Inventory inv = Bukkit.createInventory(null, size,
-				Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix()));
+        Inventory inv = Bukkit.createInventory(null, size,
+                Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix()));
 
-		insertWings(inv, p);
+        insertWings(inv, p, category);
 
-		return inv;
-	}
+        return inv;
+    }
 
-	private void insertWings(Inventory inv, Player p) {
+    private void insertWings(Inventory inv, Player p, String category) {
 
-		for (TWING wing : WingUtils.winglist.values()) {
-			inv.addItem(wing.createItemStack(p, GUI.WINGS));
-		}
+        for (TWING wing : WingUtils.winglist.values()) {
+            if (wing.getCategory().equalsIgnoreCase(category))
+                inv.addItem(wing.createItemStack(p, GUI.WINGS));
+        }
 
-	}
+    }
 }
