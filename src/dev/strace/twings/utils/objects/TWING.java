@@ -22,19 +22,19 @@ import java.util.List;
 public class TWING {
 
     // Die Neigung der Wings in Grad
-    public int tilt = 0;
+    public int tilt;
 
     // If show when running is enabled
     // the tilt can also be adjusted >D
-    public int runTilt = 0;
+    public int runTilt;
 
     // Rotation
-    public int rotation = 0;
+    public int rotation;
 
     // Das Pattern der Wings mit Codes
     public ParticleCode[][] pattern;
 
-    public List<String> exclude = new ArrayList<String>();
+    public List<String> exclude = new ArrayList<>();
 
     // Animiert ja/nein
     public boolean animated = true;
@@ -47,22 +47,22 @@ public class TWING {
 
     // Grad Zahl die addiert wird beim Sneaken (damit es so aussieht als ob die ein
     // wenig zusammen gehen)
-    public int sneakAddition = 0;
+    public int sneakAddition;
 
     // Standart grad zahl wo weit die Wings zusammen sind.
     // (0) --
     // (45) /\
     // (90) |
-    public int degreeAddition = 0;
+    public int degreeAddition;
 
     // Falls ja werden die Wings weiterhin auch beim Rennen angezeigt.
     public boolean showWhenRunning = false;
 
     // Moves the Wings behind the Body (MULTIPLIES the Direction Vector)
-    public double moveback = 0;
+    public double moveback;
 
     // Moves the Wing overall up on the Y coordinate
-    public double moveup = 0;
+    public double moveup;
 
     // How far each particle is away from each other
     public double spacing = 0.07;
@@ -72,6 +72,9 @@ public class TWING {
     public Material material;
     public String itemName;
     public String creator;
+
+    // Category
+    public String category = "";
 
     public String permission;
 
@@ -91,18 +94,27 @@ public class TWING {
         material = Material.valueOf(config.getString("Item.Material"));
         itemName = config.getString("Item.Name");
         creator = config.getString("creator");
-        permission = config.getString("permission");
+
+        if (config.getString("permission") == null)
+            permission = "";
+        else
+            permission = config.getString("permission");
+
         file = config.getFile();
         mirrow = config.getBoolean("mirrow");
         runTilt = config.getInt("runtilt");
         tiltBefore = config.getBoolean("tiltbefore");
         rotation = config.getInt("rotation");
+
         if (config.getDouble("spacing") == 0)
             spacing = 0.07;
         else
             spacing = config.getDouble("spacing");
         exclude = config.getList("exclude");
-
+        if (config.getString("category") == null)
+            category = "wings";
+        else
+            category = config.getString("category");
     }
 
     /**
@@ -111,7 +123,6 @@ public class TWING {
      * @param p {@link Player}
      */
     public void drawWings(Player p) {
-
 
         Location ploc = p.getLocation().clone();
         ploc.setPitch(-45);
@@ -130,7 +141,7 @@ public class TWING {
         }
 
         HashMap<Player, Integer> animated = Main.getInstance().getAnimation().getAnimated();
-        if (!animated.isEmpty() && this.isAnimated() == true) {
+        if (!animated.isEmpty() && this.isAnimated()) {
             addition += animated.get(p);
             sneakAddition += animated.get(p);
         }
@@ -146,19 +157,16 @@ public class TWING {
             defX = location.getX() - (space * patternlenght / 2) + space;
         double x = defX;
 
-        double fire = -((location.getYaw() + (180 + addition)) / 60);
-
-        fire = -((location.getYaw() + (180 + sneakAddition)) / 60);
+        double fire = -((location.getYaw() + (180 + sneakAddition + addition)) / 60);
         fire += (location.getYaw() < -180 ? Math.PI : 2.985);
         this.calculateEachLocation(space, x, y, fire, defX, location, false);
         if (this.isMirrow()) {
             defX = location.getX() + (space * patternlenght);
             x = defX;
-            fire = -((location.getYaw() + (180 - sneakAddition)) / 60);
+            fire = -((location.getYaw() + (180 - sneakAddition - addition)) / 60);
             fire += (location.getYaw() < -180 ? Math.PI : 2.985);
             this.calculateEachLocation(space, x, y, fire, defX, location, true);
         }
-        return;
     }
 
     /**
@@ -195,8 +203,6 @@ public class TWING {
             fire += (location.getYaw() < -180 ? Math.PI : 2.985);
             this.calculateEachLocation(space, x, y, fire, defX, location, true);
         }
-        return;
-
     }
 
     private void calculateEachLocation(double space, double x, double y, double fire, double defX, Location location,
@@ -204,18 +210,18 @@ public class TWING {
 
         for (int i = 0; i < this.getPattern().length; i++) {
             ParticleCode[] alone = this.getPattern()[i];
-            for (int j = 0; j < alone.length; j++) {
+            for (ParticleCode particleCode : alone) {
                 /*
                  * if the particlecode is given it will display at the perfect location.
                  */
-                if (alone[j] != null) {
+                if (particleCode != null) {
                     Location target = location.clone();
                     target.setX(x);
                     target.setY(y);
-                    handleVectorChangeAndSend(alone[j], target, location, left, fire);
+                    handleVectorChangeAndSend(particleCode, target, location, left, fire);
                 }
 
-                if (left == false)
+                if (!left)
                     x += space;
                 else
                     x -= space;
@@ -245,7 +251,7 @@ public class TWING {
         v = Rotating.rotateAroundAxisY(v, fire + this.getRotation());
 
         if (this.isMirrow()) {
-            if (left == false)
+            if (!left)
                 v2.setY(0).multiply(-0.25);
             else
                 v2.setY(0).multiply(0.25);
@@ -306,7 +312,7 @@ public class TWING {
     /**
      * registers and handles all ParticleCodes and saves them in the List.
      *
-     * @param config
+     * @param config {@link ConfigManager}
      * @return {@link ArrayList} with {@link ParticleCode}'s
      */
     public ArrayList<ParticleCode> handleParticleCodeCache(ConfigManager config) {
@@ -373,21 +379,20 @@ public class TWING {
             return item.build();
         ArrayList<String> lore = new ArrayList<String>();
 
-        for (int i = 0; i < pattern.length; i++) {
-            String add = "";
-            ParticleCode[] alone = pattern[i];
-            for (int j = 0; j < alone.length; j++) {
-                if (alone[j] != null) {
-                    if (alone[j] instanceof ParticleColor)
-                        add += MyColors.format(((ParticleColor) alone[j]).getHexaCode()
-                                + Main.instance.getConfig().getString("Menu.symbol") + "&r");
+        for (ParticleCode[] particleCodes : pattern) {
+            StringBuilder add = new StringBuilder();
+            for (ParticleCode particleCode : particleCodes) {
+                if (particleCode != null) {
+                    if (particleCode instanceof ParticleColor)
+                        add.append(MyColors.format(((ParticleColor) particleCode).getHexaCode()
+                                + Main.instance.getConfig().getString("Menu.symbol") + "&r"));
                     else
-                        add += Main.instance.getConfig().getString("Menu.symbol");
+                        add.append(Main.instance.getConfig().getString("Menu.symbol"));
                 } else
-                    add += "§r§f" + Main.instance.getConfig().getString("Menu.symbol");
+                    add.append("§r§f").append(Main.instance.getConfig().getString("Menu.symbol"));
 
             }
-            lore.add(add);
+            lore.add(add.toString());
         }
 
         if (this.getCreator() != null) {
@@ -396,7 +401,7 @@ public class TWING {
         switch (gui) {
             case WINGS:
                 String perms = "";
-                /**
+                /*
                  * If the person has Permission the Symbol has to change so we look if he has
                  * the perms, if so the Symbol is the right one.
                  */
@@ -447,11 +452,15 @@ public class TWING {
     }
 
     private boolean isRunning(Player p, TWING wing) {
-        if (wing.showWhenRunning == true && PlayerMoveListener.moving.contains(p))
+        if (wing.showWhenRunning && PlayerMoveListener.moving.contains(p))
             return false;
 
         return PlayerMoveListener.moving.contains(p);
 
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public int getRotation() {
