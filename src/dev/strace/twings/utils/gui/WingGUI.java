@@ -47,8 +47,11 @@ public class WingGUI {
     private void insertWings(Inventory inv, Player p, String category) {
 
         for (TWING wing : WingUtils.winglist.values()) {
+            if (category.equalsIgnoreCase("XXX"))
+                inv.addItem(wing.createItemStack(p, GUI.WINGS));
             if (wing.getCategory().equalsIgnoreCase(category))
                 inv.addItem(wing.createItemStack(p, GUI.WINGS));
+
         }
 
     }

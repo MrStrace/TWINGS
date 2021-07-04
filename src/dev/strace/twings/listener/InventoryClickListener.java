@@ -70,7 +70,7 @@ public class InventoryClickListener implements Listener {
 
         }
 
-        if (e.getView().getTitle().equalsIgnoreCase(new CategoryGUI(0).getName())) {
+        if (e.getView().getTitle().equalsIgnoreCase(new CategoryGUI(1).getName())) {
             e.setCancelled(true);
             Player p = (Player) e.getWhoClicked();
             if (e.getCurrentItem() == null)

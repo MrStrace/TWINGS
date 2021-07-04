@@ -16,14 +16,17 @@ import java.util.List;
 public class CategoryGUI {
 
     private final int size;
-    private final String name = MyColors.format(
-            new ConfigManager("CategoryGUI").getString("title").replace("%prefix%", Main.getInstance().getPrefix()));
+    private String name;
+
     public CategoryGUI(int rows) {
         int size = rows;
         if (rows >= 6) {
             size = 6;
         }
         this.size = size * 9;
+        if (rows != 0)
+            name = MyColors.format(
+                    new ConfigManager("CategoryGUI").getString("title").replace("%prefix%", Main.getInstance().getPrefix()));
     }
 
     public void openGUI(Player p) {
