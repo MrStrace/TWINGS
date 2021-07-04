@@ -3,9 +3,8 @@ package dev.strace.twings.listener;
 import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.*;
-import dev.strace.twings.utils.gui.PictureGUI;
-import dev.strace.twings.utils.gui.WingEditGUI;
-import dev.strace.twings.utils.gui.WingPreviewGUI;
+import dev.strace.twings.utils.gui.*;
+import dev.strace.twings.utils.objects.Category;
 import dev.strace.twings.utils.objects.TWING;
 import dev.strace.twings.utils.objects.TWING.GUI;
 import org.bukkit.Sound;
@@ -71,6 +70,27 @@ public class InventoryClickListener implements Listener {
 
         }
 
+        if (e.getView().getTitle().equalsIgnoreCase(new CategoryGUI(0).getName())) {
+            e.setCancelled(true);
+            Player p = (Player) e.getWhoClicked();
+            if (e.getCurrentItem() == null)
+                return;
+
+            handleCategoryMenu(e, p);
+
+        }
+
+
+    }
+
+    private void handleCategoryMenu(InventoryClickEvent e, Player p) {
+        if (e.getClick().isLeftClick() || e.getClick().isRightClick())
+            for (Category cats : Category.categories)
+                if (cats.getItem().equals(e.getCurrentItem())) {
+                    new WingGUI(WingUtils.winglist.size()).openGUI(p, cats.getName());
+                    return;
+                }
+        new WingGUI(WingUtils.winglist.size()).openGUI(p, "XXX");
     }
 
     public void handlePreviewMenu(InventoryClickEvent e, Player p, TWING wing) {
@@ -79,8 +99,7 @@ public class InventoryClickListener implements Listener {
                 /*
                  * Sets the Preview Location
                  */
-                if (e.getClick().equals(ClickType.LEFT)) {
-
+                if (e.getClick().equals(ClickType.LEFT))
                     if (p.hasPermission("twings.setpreview") || p.hasPermission("twings.admin")) {
                         LocationBuilder lb = new LocationBuilder();
                         lb.setLocation(wing.getFile().getName().replace(".yml", ""), p.getLocation());
@@ -88,12 +107,11 @@ public class InventoryClickListener implements Listener {
                         p.closeInventory();
                         return;
                     }
-                }
 
                 /*
                  * Removes the Preview Location
                  */
-                if (e.getClick().equals(ClickType.RIGHT)) {
+                if (e.getClick().equals(ClickType.RIGHT))
                     if (p.hasPermission("twings.setpreview") || p.hasPermission("twings.admin")) {
                         LocationBuilder lb = new LocationBuilder();
                         lb.set(wing.getFile().getName().replace(".yml", ""), null);
@@ -102,8 +120,8 @@ public class InventoryClickListener implements Listener {
                         p.sendMessage(Main.getInstance().getMsg().getPreviewRemoved(wing));
                         p.closeInventory();
                     }
-                }
             }
+
     }
 
     public void handleEditMenu(InventoryClickEvent e, Player p, TWING wing) {
