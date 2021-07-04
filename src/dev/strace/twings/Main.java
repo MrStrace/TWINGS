@@ -9,6 +9,8 @@ import dev.strace.twings.listener.PlayerMoveListener;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.players.PlayWings;
 import dev.strace.twings.utils.*;
+import dev.strace.twings.utils.gui.CategoryGUI;
+import dev.strace.twings.utils.objects.Category;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -52,7 +54,7 @@ public class Main extends JavaPlugin {
         // Init lang.yml
         msg = new Messages().init().load();
 
-        load(false);
+        load();
 
         // All Listeners getting enabled.
         registerListener();
@@ -67,7 +69,7 @@ public class Main extends JavaPlugin {
         new File(Main.getInstance().getDataFolder(), "pictures").mkdir();
     }
 
-    public static void load(Boolean reload) {
+    public static void load() {
 
         // Check Plugin version (is it uptodate?)
         checkVersion();
@@ -77,6 +79,9 @@ public class Main extends JavaPlugin {
 
         // Init WingReader all Wings getting saved in cached.
         new WingReader().registerWings();
+
+        // Creat first Category (Wings)
+        new CategoryGUI(0).createDefaultConfig();
 
         // Wings getting displayed every ticks.
         new PlayWings().playOnPlayers();
@@ -89,6 +94,9 @@ public class Main extends JavaPlugin {
 
         // Init lang.yml
         Main.getInstance().msg = new Messages().init().load();
+
+        // Init all Categories
+        Category.initAll();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.hasPermission("twings.admin"))
