@@ -33,7 +33,7 @@ public class Reload extends SubCommands {
 	public void perform(Player p, String[] args) {
 		if (args.length == 1) {
 			if (p.hasPermission("twings.admin"))
-				Main.load(true);
+				Main.load();
 			else
 				p.sendMessage(Main.getInstance().getMsg().getNopermission());
 		}
