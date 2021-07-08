@@ -1,11 +1,5 @@
 package dev.strace.twings.api;
 
-import java.io.File;
-
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.ItemBuilder;
@@ -13,9 +7,14 @@ import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.objects.TWING;
 import dev.strace.twings.utils.objects.TWING.GUI;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.File;
 
 /**
- * 
+ *
  * @author Jason Holweg [STRACE] <b>TWINGS</b><br>
  *         Website: <a>https://strace.dev/</a><br>
  *         GitHub: <a>https://github.com/MrStrace</a><br>
@@ -29,18 +28,20 @@ public class API {
 	private YamlConfiguration cfg;
 	private TWING wing;
 
-	/**
-	 * The API Constructor.<br>
-	 * 
-	 * Use the Wings FileName <b>WITH .yml</b>
-	 * 
-	 * @param fileName
-	 */
-	public API(String fileName) {
-		utils = new WingUtils();
-		file = new File(Main.instance.getDataFolder() + "/wings/" + fileName);
-		wing = WingUtils.winglist.get(file);
-	}
+    /**
+     * The API Constructor.<br>
+     * <p>
+     * Use the Wings FileName <b>WITH .yml</b>
+     *
+     * @param fileName
+     */
+    public API(String fileName) {
+        utils = new WingUtils();
+        file = new File(Main.instance.getDataFolder() + "/wings/" + fileName);
+        wing = WingUtils.winglist.get(file);
+        if (wing == null) throw new NullPointerException("Cannot find wing!");
+
+    }
 
 	public API loadCfg() {
 		cfg = YamlConfiguration.loadConfiguration(file);
@@ -48,7 +49,7 @@ public class API {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param lore
 	 * @return ItemStack
 	 */
@@ -68,7 +69,7 @@ public class API {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Wing object
 	 */
 	public TWING getTwing() {
@@ -76,7 +77,7 @@ public class API {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return WingName with minecraft color.
 	 */
 	public String getWingName() {
@@ -91,7 +92,7 @@ public class API {
 
 	/**
 	 * Sets the player new Wings.
-	 * 
+	 *
 	 * @param p
 	 */
 	public void setPlayerCurrentWing(Player p) {
@@ -108,7 +109,7 @@ public class API {
 	/*
 	 * getters and setters
 	 */
-	
+
 
 	public WingUtils getUtils() {
 		return utils;
