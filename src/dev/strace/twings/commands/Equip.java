@@ -18,19 +18,8 @@ import java.io.File;
  */
 public class Equip extends SubCommands {
 
-	@Override
-	public String getName() {
-		return "equip";
-	}
-
-	@Override
-	public String getDesc() {
-		return "Equips a specific Particle.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName() + "[twing]";
+	public Equip() {
+		super("equip", "Equips a specific Particle.", "/wings equip [twing]");
 	}
 
 	@Override

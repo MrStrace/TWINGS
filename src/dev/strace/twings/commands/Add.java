@@ -18,19 +18,8 @@ import java.io.File;
  */
 public class Add extends SubCommands {
 
-	@Override
-	public String getName() {
-		return "add";
-	}
-
-	@Override
-	public String getDesc() {
-		return "Add a currentwing.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName() + "[twing]";
+	public Add() {
+		super("add", "Add a currentwing.", "/wings add [twing]");
 	}
 
 	@Override

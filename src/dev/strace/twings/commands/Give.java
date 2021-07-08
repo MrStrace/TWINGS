@@ -21,19 +21,8 @@ public class Give extends SubCommands {
 
 	private static final HashMap<Player, EquipTimer> timers = new HashMap<>();
 
-	@Override
-	public String getName() {
-		return "give";
-	}
-
-	@Override
-	public String getDesc() {
-		return "Gives a player Wings for time.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName() + " [player] [twing] [time]";
+	public Give() {
+		super("give", "Gives a player Wings for time.", "/wings give [player] [twing] [time]");
 	}
 
 	@Override

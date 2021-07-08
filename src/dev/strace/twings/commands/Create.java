@@ -16,19 +16,8 @@ import dev.strace.twings.utils.gui.PictureGUI;
  */
 public class Create extends SubCommands {
 
-	@Override
-	public String getName() {
-		return "create";
-	}
-
-	@Override
-	public String getDesc() {
-		return "Creates a wing from a picture.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName() + "[picture]";
+	public Create() {
+		super("create", "Creates a wing from a picture.", "/wings create [picture]");
 	}
 
 	@Override

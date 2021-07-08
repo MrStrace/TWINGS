@@ -17,19 +17,8 @@ import dev.strace.twings.utils.gui.WingEditGUI;
  */
 public class Edit extends SubCommands {
 
-	@Override
-	public String getName() {
-		return "edit";
-	}
-
-	@Override
-	public String getDesc() {
-		return "Opens a GUI with all Wings to set a File in Edit mode.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName();
+	public Edit() {
+		super("edit", "Opens a GUI with all Wings to set a File in Edit mode.", "/wings edit");
 	}
 
 	@Override

@@ -15,19 +15,8 @@ import dev.strace.twings.utils.WingUtils;
  */
 public class UnEquip extends SubCommands {
 
-	@Override
-	public String getName() {
-		return "unequip";
-	}
-
-	@Override
-	public String getDesc() {
-		return "UnEquips any current Particles from you.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName();
+	public UnEquip() {
+		super("unequip", "UnEquips any current Particles from you.", "/wings unequip");
 	}
 
 	@Override

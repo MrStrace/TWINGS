@@ -17,19 +17,8 @@ import java.io.File;
  */
 public class List extends SubCommands {
 
-	@Override
-	public String getName() {
-		return "list";
-	}
-
-	@Override
-	public String getDesc() {
-		return "Lists all available particles.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName();
+	public List() {
+		super("list", "Lists all available particles.", "/wings list");
 	}
 
 	@Override

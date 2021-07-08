@@ -14,19 +14,8 @@ import dev.strace.twings.Main;
  */
 public class Reload extends SubCommands {
 
-	@Override
-	public String getName() {
-		return "reload";
-	}
-
-	@Override
-	public String getDesc() {
-		return "Reloads the Plugin.";
-	}
-
-	@Override
-	public String getSyntax() {
-		return "/wings " + getName();
+	public Reload() {
+		super("reload", "Reloads the Plugin.", "/wings reload");
 	}
 
 	@Override
