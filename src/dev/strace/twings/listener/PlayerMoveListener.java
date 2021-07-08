@@ -1,11 +1,11 @@
 package dev.strace.twings.listener;
 
 import dev.strace.twings.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
@@ -37,12 +37,8 @@ public class PlayerMoveListener implements Listener {
                 moving.add(p);
 
                 // After 1.5 seconds he will be removed again in the runnable.
-                new BukkitRunnable() {
-                    public void run() {
-                        moving.remove(p);
-                    }
-                }.runTaskLaterAsynchronously(Main.instance, 30);
-            }
+                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> moving.remove(p), 30);
 
+            }
     }
 }
