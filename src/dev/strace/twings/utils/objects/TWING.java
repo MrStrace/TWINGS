@@ -7,6 +7,7 @@ import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.calculate.Rotating;
+import dev.strace.twings.utils.gui.GUI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -372,7 +373,7 @@ public class TWING {
      *
      * @return {@link ItemStack}
      */
-    public ItemStack createItemStack(Player p, GUI gui) {
+    public ItemStack createItemStack(Player p, GUI.CAT gui) {
         ItemBuilder item = new ItemBuilder(material);
         item.setName(MyColors.format(itemName));
         if (!Main.instance.getConfig().getBoolean("Menu.preview"))
@@ -446,11 +447,6 @@ public class TWING {
 
     }
 
-    public enum GUI {
-        EDIT, WINGS, PREVIEW, PICTURE
-
-    }
-
     private boolean isRunning(Player p, TWING wing) {
         if (wing.showWhenRunning && PlayerMoveListener.moving.contains(p))
             return false;
@@ -519,7 +515,7 @@ public class TWING {
         this.permission = permission;
     }
 
-    public ItemStack getItem(Player p, GUI gui) {
+    public ItemStack getItem(Player p, GUI.CAT gui) {
         return createItemStack(p, gui);
     }
 

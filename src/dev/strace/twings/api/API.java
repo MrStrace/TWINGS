@@ -1,18 +1,17 @@
 package dev.strace.twings.api;
 
-import java.io.File;
-
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.WingUtils;
+import dev.strace.twings.utils.gui.GUI;
 import dev.strace.twings.utils.objects.TWING;
-import dev.strace.twings.utils.objects.TWING.GUI;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.File;
 
 /**
  * 
@@ -59,7 +58,7 @@ public class API {
 			if (!lore)
 				return stack.build();
 
-			return wing.getItem(p, GUI.WINGS);
+			return wing.getItem(p, GUI.CAT.WINGS);
 
 		} catch (Exception e) {
 			utils.logError("Check your " + file.getName() + " maybe you missspelled the item material wrong!");

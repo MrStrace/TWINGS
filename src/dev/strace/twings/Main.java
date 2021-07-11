@@ -71,8 +71,12 @@ public class Main extends JavaPlugin {
 
     public static void load() {
 
+
         // Check Plugin version (is it uptodate?)
         checkVersion();
+
+        // Init all Categories
+        Category.initAll();
 
         // Init Template.yml (a Example of an Wing)
         new WingTemplate("template").createTemplate();
@@ -81,7 +85,7 @@ public class Main extends JavaPlugin {
         new WingReader().registerWings();
 
         // Creat first Category (Wings)
-        new CategoryGUI(0).createDefaultConfig();
+        new CategoryGUI(null).createDefaultConfig();
 
         // Wings getting displayed every ticks.
         new PlayWings().playOnPlayers();
@@ -95,8 +99,6 @@ public class Main extends JavaPlugin {
         // Init lang.yml
         Main.getInstance().msg = new Messages().init().load();
 
-        // Init all Categories
-        Category.initAll();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.hasPermission("twings.admin"))
@@ -157,6 +159,9 @@ public class Main extends JavaPlugin {
         config.addDefault("Menu.preview", true);
         config.addDefault("haspermission", "&aYES");
         config.addDefault("nopermission", "&cNO");
+        config.addDefault("gui.arrowback", "&c<- back");
+        config.addDefault("gui.arrownext", "&anext ->");
+        config.addDefault("gui.unequip", "&4unequip particles");
         config.save();
     }
 
@@ -180,7 +185,7 @@ public class Main extends JavaPlugin {
     public String getConfigString(String path) {
         if (this.getConfig().getString(path) == null)
             return "ERROR";
-        return MyColors.format(this.getConfig().getString(path));
+        return MyColors.format(this.getConfig().getString(path)).replace("%prefix%", getPrefix());
     }
 
     public Messages getMsg() {

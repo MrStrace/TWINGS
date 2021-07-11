@@ -146,6 +146,14 @@ public class CurrentWings extends ConfigManager {
     }
 
     public void removeAllCurrentWing(Player p) {
+        if (!CurrentWings.getCurrent().isEmpty()) {
+            if (CurrentWings.getCurrent().get(p.getUniqueId()) != null) {
+                if (Main.getInstance().getMsg().isShowMessages())
+                    for (File file : CurrentWings.getCurrent().get(p.getUniqueId())) {
+                        p.sendMessage(Main.getInstance().getMsg().getUnequip(WingUtils.winglist.get(file)));
+                    }
+            }
+        }
         current.remove(p.getUniqueId());
         set(p.getUniqueId().toString(), null);
         save();

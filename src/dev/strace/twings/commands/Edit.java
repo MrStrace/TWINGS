@@ -1,10 +1,8 @@
 package dev.strace.twings.commands;
 
-import org.bukkit.entity.Player;
-
 import dev.strace.twings.Main;
-import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.gui.WingEditGUI;
+import org.bukkit.entity.Player;
 
 /**
  * 
@@ -41,7 +39,7 @@ public class Edit extends SubCommands {
 		} 
 		
 		if (args.length == 1) {
-			new WingEditGUI(WingUtils.winglist.size()).openGUI(p);
+			new WingEditGUI(p, 0, "XXX");
 		}
 	}
 }

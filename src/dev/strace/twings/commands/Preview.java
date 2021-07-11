@@ -1,10 +1,8 @@
 package dev.strace.twings.commands;
 
-import org.bukkit.entity.Player;
-
 import dev.strace.twings.Main;
-import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.gui.WingPreviewGUI;
+import org.bukkit.entity.Player;
 
 /**
  * 
@@ -38,7 +36,7 @@ public class Preview extends SubCommands {
 		}
 		
 		if (args.length == 1) {
-			new WingPreviewGUI(WingUtils.winglist.size()).openGUI(p);
+			new WingPreviewGUI(p, 0, "XXX");
 		}
 	}
 }

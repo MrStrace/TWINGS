@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
  */
 public abstract class SubCommands {
 
+	public final String cmd = "/twings ";
 	/**
 	 * getName
 	 * 

@@ -49,7 +49,6 @@ public class MyColors {
      * @param L    The Location
      */
     public static void sendParticles(ParticleCode code, Location L) {
-
         // If the ParticleCode has an ParticleColor it will get the RGB and sends the
         // Redstone Particle with DustOptions.
         if (L.getWorld() == null) {

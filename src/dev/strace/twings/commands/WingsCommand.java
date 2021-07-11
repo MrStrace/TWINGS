@@ -2,7 +2,6 @@ package dev.strace.twings.commands;
 
 import dev.strace.twings.Main;
 import dev.strace.twings.utils.ConfigManager;
-import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.gui.CategoryGUI;
 import dev.strace.twings.utils.gui.WingGUI;
 import org.bukkit.Sound;
@@ -39,6 +38,7 @@ public class WingsCommand implements CommandExecutor {
         subcommands.add(new Give());
         subcommands.add(new Create());
         subcommands.add(new Add());
+        subcommands.add(new Import());
     }
 
     @Override
@@ -49,9 +49,9 @@ public class WingsCommand implements CommandExecutor {
             if (args.length == 0) {
                 ConfigManager manager = new ConfigManager("CategoryGUI");
                 if (manager.getBoolean("enabled"))
-                    new CategoryGUI(manager.getInt("rows")).openGUI(p);
-                 else
-                    new WingGUI(WingUtils.winglist.size()).openGUI(p, "XXX");
+                    new CategoryGUI(p);
+                else
+                    new WingGUI(p, 0, "XXX");
                 return true;
             }
 

@@ -40,7 +40,7 @@ public class Create extends SubCommands {
 		} 
 		
 		if (args.length == 1) {
-			new PictureGUI().openGUI(p);
+			new PictureGUI(p);
 		}
 	}
 }

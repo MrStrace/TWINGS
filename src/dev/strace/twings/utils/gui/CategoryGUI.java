@@ -1,57 +1,28 @@
 package dev.strace.twings.utils.gui;
 
-import dev.strace.twings.Main;
 import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.objects.Category;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryGUI {
+public class CategoryGUI extends GUI {
 
-    private final int size;
-    private String name;
+    public static ConfigManager config = new ConfigManager("CategoryGUI");
 
-    public CategoryGUI(int rows) {
-        int size = rows;
-        if (rows >= 6) {
-            size = 6;
-        }
-        this.size = size * 9;
-        if (rows != 0)
-            name = MyColors.format(
-                    new ConfigManager("CategoryGUI").getString("title").replace("%prefix%", Main.getInstance().getPrefix()));
+    public CategoryGUI(Player p) {
+        super(p, MyColors.format(config.getString("title")), 0, config.getInt("rows") * 9);
+        if (p == null) return;
+        insertCategory();
+        p.openInventory(this.inventory);
     }
 
-    public void openGUI(Player p) {
-        p.openInventory(createGUI(p));
-        p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, 0.3f, 1f);
-    }
-
-    /**
-     * Creates the Inventory GUI for a specific Player.
-     *
-     * @param p {@link Player}
-     * @return {@link Inventory}
-     */
-    private Inventory createGUI(Player p) {
-
-        Inventory inv = Bukkit.createInventory(p, size, name);
-
-        insertCategory(inv, p);
-
-        return inv;
-    }
-
-    private void insertCategory(Inventory inv, Player p) {
+    private void insertCategory() {
         for (Category cats : Category.categories) {
-            inv.setItem(cats.getSlot(), cats.getItem());
+            this.inventory.setItem(cats.getSlot(), cats.getItem());
         }
     }
 
@@ -59,7 +30,7 @@ public class CategoryGUI {
      * creates the CategoryGUI.yml file to customize the GUI for each plugin user.
      */
     public void createDefaultConfig() {
-        ConfigManager config = new ConfigManager("CategoryGUI");
+
         config.addDefault("enabled", true);
         config.addDefault("title", "&bChoose the category!");
         config.addDefault("rows", 1);
@@ -72,9 +43,5 @@ public class CategoryGUI {
         config.addDefault("category.wings.glow", true);
         config.addDefault("category.wings.slot", 4);
         config.save();
-    }
-
-    public String getName() {
-        return name;
     }
 }

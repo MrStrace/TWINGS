@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -42,6 +44,18 @@ public class ReadImage {
         }
 
         return particlecolor;
+    }
+
+    public BufferedImage getImageFromURL(String url) {
+        BufferedImage img = null;
+        try {
+            URL url2 = new URL(url);
+            InputStream is = url2.openStream();
+            img = ImageIO.read(is);
+            return img;
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 
     public BufferedImage getImage(String name) {

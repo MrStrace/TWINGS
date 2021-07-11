@@ -21,6 +21,7 @@ public class WingUtils {
      * The Wing Object cache with the right file.
      */
     public static HashMap<File, TWING> winglist = new HashMap<>();
+    public static HashMap<String, ArrayList<TWING>> categorymap = new HashMap<>();
 
     /**
      * Gets the ParticleCode by String.
