@@ -75,6 +75,9 @@ public class Main extends JavaPlugin {
         // Check Plugin version (is it uptodate?)
         checkVersion();
 
+        // Creat first Category (Wings)
+        CategoryGUI.createDefaultConfig();
+
         // Init all Categories
         Category.initAll();
 
@@ -84,23 +87,25 @@ public class Main extends JavaPlugin {
         // Init WingReader all Wings getting saved in cached.
         new WingReader().registerWings();
 
-        // Creat first Category (Wings)
-        new CategoryGUI(null).createDefaultConfig();
-
         // Wings getting displayed every ticks.
         new PlayWings().playOnPlayers();
 
         // Players getting there old Wings equipped (Important after reload)
         new CurrentWings().onEnable();
 
-        // Enables the Wing previews
-        new WingPreview().enablePreview();
-
         // Init lang.yml
         Main.getInstance().msg = new Messages().init().load();
 
+        // Enables the Wing previews
+        new WingPreview().enablePreview();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
+
+            if (CurrentWings.current.containsKey(p.getUniqueId())) {
+                Main.getInstance().getAnimation().getAnimated().put(p, 0);
+                Main.getInstance().getAnimation().getPlus().put(p, true);
+            }
+
             if (p.hasPermission("twings.admin"))
                 p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cparticles reloaded."));
         }
@@ -162,6 +167,8 @@ public class Main extends JavaPlugin {
         config.addDefault("gui.arrowback", "&c<- back");
         config.addDefault("gui.arrownext", "&anext ->");
         config.addDefault("gui.unequip", "&4unequip particles");
+        config.addDefault("hide on spectator", true);
+        config.addDefault("hide on invis", true);
         config.save();
     }
 

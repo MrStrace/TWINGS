@@ -31,13 +31,36 @@ public class InventoryClickListener implements Listener {
             if (e.getCurrentItem() == null)
                 return;
             if (e.getCurrentItem().equals(GUI.arrowNext)) {
-                new WingGUI(p, currentPage.get(p) + 1, currentCat.get(p).getName());
+                if (e.getView().getTitle().contains(MyColors.format(" &c&lPREVIEW"))) menuMap.put(p, GUI.CAT.PREVIEW);
+                if (e.getView().getTitle().contains(MyColors.format(" &c&lEDIT"))) menuMap.put(p, GUI.CAT.EDIT);
+                if (menuMap.containsKey(p))
+                    switch (menuMap.get(p)) {
+                        case EDIT:
+                            new WingEditGUI(p, currentPage.get(p) + 1, currentCat.get(p).getName());
+                            break;
+                        case PREVIEW:
+                            new WingPreviewGUI(p, currentPage.get(p) + 1, currentCat.get(p).getName());
+                            break;
+                    }
+                else new WingGUI(p, currentPage.get(p) + 1, currentCat.get(p).getName());
                 currentPage.put(p, currentPage.get(p) + 1);
                 return;
             }
             if (e.getCurrentItem().equals(GUI.arrowBack)) {
-                new WingGUI(p, currentPage.get(p) - 1, currentCat.get(p).getName());
+                if (e.getView().getTitle().contains(MyColors.format(" &c&lPREVIEW"))) menuMap.put(p, GUI.CAT.PREVIEW);
+                if (e.getView().getTitle().contains(MyColors.format(" &c&lEDIT"))) menuMap.put(p, GUI.CAT.EDIT);
+                if (menuMap.containsKey(p))
+                    switch (menuMap.get(p)) {
+                        case EDIT:
+                            new WingEditGUI(p, currentPage.get(p) - 1, currentCat.get(p).getName());
+                            break;
+                        case PREVIEW:
+                            new WingPreviewGUI(p, currentPage.get(p) - 1, currentCat.get(p).getName());
+                            break;
+                    }
+                else new WingGUI(p, currentPage.get(p) - 1, currentCat.get(p).getName());
                 currentPage.put(p, currentPage.get(p) - 1);
+                menuMap.remove(p);
                 return;
             }
             if (e.getCurrentItem().equals(GUI.unequipItem)) {
@@ -45,35 +68,47 @@ public class InventoryClickListener implements Listener {
                 new CurrentWings().removeAllCurrentWing(p);
                 return;
             }
-        }
 
+        }
+        handleCategoryMenu(e, p);
         handleNormalMenu(e, p);
         handlePreviewMenu(e, p);
         handleEditMenu(e, p);
         handlePictureMenu(e, p);
-        handleCategoryMenu(e, p);
-
     }
 
     private final HashMap<Player, Category> currentCat = new HashMap<>();
     private final HashMap<Player, Integer> currentPage = new HashMap<>();
+    public static HashMap<Player, GUI.CAT> menuMap = new HashMap<>();
 
     private void handleCategoryMenu(InventoryClickEvent e, Player p) {
         if (!e.getView().getTitle().equalsIgnoreCase(new CategoryGUI(null).getTitle())) return;
         if (e.getClick().isLeftClick() || e.getClick().isRightClick())
             for (Category cats : Category.categories)
                 if (cats.getItem().equals(e.getCurrentItem())) {
-                    new WingGUI(p, 0, cats.getName());
+                    if (menuMap.containsKey(p))
+                        switch (menuMap.get(p)) {
+                            case EDIT:
+                                new WingEditGUI(p, 0, cats.getName());
+                                break;
+                            case PREVIEW:
+                                new WingPreviewGUI(p, 0, cats.getName());
+                                break;
+                        }
+                    else new WingGUI(p, 0, cats.getName());
+
                     currentCat.put(p, cats);
                     currentPage.put(p, 0);
+                    menuMap.remove(p);
                     return;
                 }
         new WingGUI(p, 0, "XXX");
     }
 
     public void handlePreviewMenu(InventoryClickEvent e, Player p) {
-        if (!e.getView().getTitle().equalsIgnoreCase(new WingPreviewGUI(null, 0, "XXX").getTitle())) return;
+        if (!e.getView().getTitle().contains(MyColors.format(" &c&lPREVIEW"))) return;
         if (e.getCurrentItem() == null) return;
+        String cat = currentCat.get(p).toString();
         for (TWING wing : WingUtils.categorymap.get(currentCat.get(p).getName())) {
             if (e.getCurrentItem().equals(wing.getItem(p, GUI.CAT.PREVIEW))) {
                 /*
@@ -105,7 +140,7 @@ public class InventoryClickListener implements Listener {
     }
 
     public void handleEditMenu(InventoryClickEvent e, Player p) {
-        if (!e.getView().getTitle().equalsIgnoreCase(new WingEditGUI(null, 0, "XXX").getTitle())) return;
+        if (!e.getView().getTitle().contains(MyColors.format(" &c&lEDIT"))) return;
         if (e.getCurrentItem() == null) return;
         for (TWING wing : WingUtils.categorymap.get(currentCat.get(p).getName())) {
             if (e.getCurrentItem().equals(wing.getItem(p, GUI.CAT.EDIT))) {
@@ -151,10 +186,10 @@ public class InventoryClickListener implements Listener {
     }
 
     public void handleNormalMenu(InventoryClickEvent e, Player p) {
-        if (!e.getView().getTitle().equalsIgnoreCase(new WingGUI(null, 0, currentCat.get(p).getName()).getTitle()))
+        if (!e.getView().getTitle().equalsIgnoreCase(
+                Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix())))
             return;
         if (e.getCurrentItem() == null) return;
-
         for (TWING wing : WingUtils.categorymap.get(currentCat.get(p).getName())) {
 
             /*

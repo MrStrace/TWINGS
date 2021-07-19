@@ -29,7 +29,7 @@ public class CategoryGUI extends GUI {
     /**
      * creates the CategoryGUI.yml file to customize the GUI for each plugin user.
      */
-    public void createDefaultConfig() {
+    public static void createDefaultConfig() {
 
         config.addDefault("enabled", true);
         config.addDefault("title", "&bChoose the category!");

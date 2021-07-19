@@ -8,11 +8,13 @@ import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.calculate.Rotating;
 import dev.strace.twings.utils.gui.GUI;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -124,6 +126,11 @@ public class TWING {
      * @param p {@link Player}
      */
     public void drawWings(Player p) {
+
+        if (Main.getInstance().getConfig().getBoolean("hide on invis"))
+            if (p.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
+        if (Main.getInstance().getConfig().getBoolean("hide on spectator"))
+            if (p.getGameMode() == GameMode.SPECTATOR) return;
 
         Location ploc = p.getLocation().clone();
         ploc.setPitch(-45);
@@ -306,7 +313,7 @@ public class TWING {
         }
         this.setPattern(pattern);
 
-        System.out.println(this.getFile().getName() + "LOADED");
+       // System.out.println("[TWINGS] "+this.getFile().getName().replace(".yml", ".twing") + " loaded.");
         return this;
     }
 

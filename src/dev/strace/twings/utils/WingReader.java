@@ -5,6 +5,7 @@ import dev.strace.twings.utils.objects.Category;
 import dev.strace.twings.utils.objects.TWING;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 public class WingReader {
 
     public void registerWings() {
-
+        int finished = 0;
+        int twings = new File(Main.instance.getDataFolder(), "wings").listFiles().length;
         //Clears the Wing Cache.
         WingUtils.winglist.clear();
 
@@ -27,7 +29,11 @@ public class WingReader {
         for (File files : new File(Main.instance.getDataFolder(), "wings").listFiles()) {
             TWING wing = new TWING(new ConfigManager(files)).register();
             WingUtils.winglist.put(files, wing);
-
+            finished++;
+            double percent = (double) finished/twings*100;
+            DecimalFormat df = new DecimalFormat("#.##");
+            double pvalue = Double.parseDouble(df.format(percent));
+            System.out.println("[TWINGS] [" +finished+ "/" + twings +"] - (" + pvalue + "%)");
         }
         for (Category cat : Category.categories) {
             ArrayList<TWING> list = new ArrayList<>();

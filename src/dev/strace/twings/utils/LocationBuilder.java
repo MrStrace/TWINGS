@@ -48,7 +48,7 @@ public class LocationBuilder extends ConfigManager {
         float yaw = (float) cfg.getDouble(name + ".Yaw");
         float pitch = (float) cfg.getDouble(name + ".Pitch");
 
-        return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+        return new Location(getWorld(name), x, y, z, yaw, pitch);
     }
 
     /**

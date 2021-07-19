@@ -88,9 +88,29 @@ public class GUI {
             inventory.setItem(49, unequipItem);
             if (start != 0) inventory.setItem(45, arrowBack);
         } else list = twings;
+        if (list != null)
+            for (TWING twing : list) {
+                if (category.equalsIgnoreCase("XXX") || twing.getCategory().equalsIgnoreCase(category))
+                    inventory.addItem(twing.createItemStack(p, CAT.WINGS));
+            }
+    }
+
+    public void insertItems(ArrayList<TWING> twings, String category, CAT cat) {
+        List<TWING> list;
+        if (rows > 5) {
+            int start = (page * 45);
+            int end = (page + 1) * 45;
+            if (twings.size() <= end)
+                end = twings.size();
+            else
+                inventory.setItem(53, arrowNext);
+            list = twings.subList(start, end);
+            inventory.setItem(49, unequipItem);
+            if (start != 0) inventory.setItem(45, arrowBack);
+        } else list = twings;
         for (TWING twing : list) {
             if (category.equalsIgnoreCase("XXX") || twing.getCategory().equalsIgnoreCase(category))
-                inventory.addItem(twing.createItemStack(p, CAT.WINGS));
+                inventory.addItem(twing.createItemStack(p, cat));
         }
     }
 

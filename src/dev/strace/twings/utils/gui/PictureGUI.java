@@ -9,7 +9,7 @@ import java.io.File;
 public class PictureGUI extends GUI {
 
     public PictureGUI(Player p) {
-        super(p, Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix()) + MyColors.format(" &c&lEDIT"), 0, 6 * 9);
+        super(p, Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix()) + MyColors.format(" &c&lCREATE"), 0, 6 * 9);
         if (p == null) return;
         this.insertItems(new File(Main.getInstance().getDataFolder(), "pictures").listFiles());
         p.openInventory(this.inventory);

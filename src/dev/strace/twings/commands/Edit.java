@@ -1,6 +1,10 @@
 package dev.strace.twings.commands;
 
 import dev.strace.twings.Main;
+import dev.strace.twings.listener.InventoryClickListener;
+import dev.strace.twings.utils.ConfigManager;
+import dev.strace.twings.utils.gui.CategoryGUI;
+import dev.strace.twings.utils.gui.GUI;
 import dev.strace.twings.utils.gui.WingEditGUI;
 import org.bukkit.entity.Player;
 
@@ -39,6 +43,12 @@ public class Edit extends SubCommands {
 		} 
 		
 		if (args.length == 1) {
+			ConfigManager manager = new ConfigManager("CategoryGUI");
+			if (manager.getBoolean("enabled")) {
+				new CategoryGUI(p);
+				InventoryClickListener.menuMap.put(p, GUI.CAT.EDIT);
+			}
+			else
 			new WingEditGUI(p, 0, "XXX");
 		}
 	}

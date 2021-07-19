@@ -23,6 +23,17 @@ public class WingUtils {
     public static HashMap<File, TWING> winglist = new HashMap<>();
     public static HashMap<String, ArrayList<TWING>> categorymap = new HashMap<>();
 
+
+    public TWING getByName(String filename) {
+        for (File file : winglist.keySet()) {
+            String name = file.getName();
+            if (filename.equalsIgnoreCase(name.replace(".yml", ""))) {
+                return winglist.get(file);
+            }
+        }
+        return null;
+    }
+
     /**
      * Gets the ParticleCode by String.
      *

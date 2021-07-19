@@ -1,8 +1,8 @@
 package dev.strace.twings.utils;
 
 import dev.strace.twings.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
@@ -18,23 +18,22 @@ public class Animation {
 
 //		rotation = 0;
 
-        new BukkitRunnable() {
-            public void run() {
-                for (Player p : animated.keySet()) {
-                    if (animated.get(p) <= 30 && plus.get(p))
-                        animated.put(p, animated.get(p) + 2);
-                    else
-                        plus.put(p, false);
-                    if (animated.get(p) > 0 && !plus.get(p))
-                        animated.put(p, animated.get(p) - 2);
-                    else
-                        plus.put(p, true);
-                }
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
+
+            for (Player p : animated.keySet()) {
+                if (animated.get(p) <= 30 && plus.get(p))
+                    animated.put(p, animated.get(p) + 2);
+                else
+                    plus.put(p, false);
+                if (animated.get(p) > 0 && !plus.get(p))
+                    animated.put(p, animated.get(p) - 2);
+                else
+                    plus.put(p, true);
+            }
 //				if (rotation >= 360)
 //					rotation = 0;
 //				rotation++;
-            }
-        }.runTaskTimerAsynchronously(Main.instance, 20, 3);
+        }, 20, 3);
     }
 
     public HashMap<Player, Integer> getAnimated() {
