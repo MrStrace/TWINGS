@@ -173,6 +173,7 @@ public class Main extends JavaPlugin {
         config.addDefault("gui.unequip", "&4unequip particles");
         config.addDefault("hide on spectator", true);
         config.addDefault("hide on invis", true);
+        config.addDefault("rotation speed", 1);
         config.save();
     }
 
