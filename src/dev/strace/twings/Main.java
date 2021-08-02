@@ -161,7 +161,11 @@ public class Main extends JavaPlugin {
         config.addDefault("Menu.symbol", "⏹");
         config.addDefault("Menu.creator", "&c&lCreator:&f %creator%");
         config.addDefault("Menu.permissions", "&7unlocked: [%perms%&7]");
-        config.addDefault("Menu.preview", true);
+        config.addDefault("Menu.lore.pattern", true);
+        config.addDefault("Menu.lore.creator", true);
+        config.addDefault("Menu.lore.permissions", true);
+        config.addDefault("Menu.lore.action1", true);
+        config.addDefault("Menu.lore.action2", true);
         config.addDefault("haspermission", "&aYES");
         config.addDefault("nopermission", "&cNO");
         config.addDefault("gui.arrowback", "&c<- back");
