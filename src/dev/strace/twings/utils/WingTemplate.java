@@ -88,7 +88,7 @@ public class WingTemplate extends ConfigManager {
         cfg.addDefault("SneakingDegreeAddition", 0);
         cfg.addDefault("ShowWhenRunning", false);
         cfg.addDefault("tilt", 0);
-        cfg.addDefault("tiltbefore", 0);
+        cfg.addDefault("tiltbefore", false);
         cfg.addDefault("runtilt", 0);
         cfg.addDefault("mirrow", false);
         cfg.addDefault("rotation", 0);
