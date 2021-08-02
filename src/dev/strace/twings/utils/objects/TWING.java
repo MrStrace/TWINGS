@@ -313,7 +313,7 @@ public class TWING {
         }
         this.setPattern(pattern);
 
-       // System.out.println("[TWINGS] "+this.getFile().getName().replace(".yml", ".twing") + " loaded.");
+        // System.out.println("[TWINGS] "+this.getFile().getName().replace(".yml", ".twing") + " loaded.");
         return this;
     }
 
@@ -383,57 +383,62 @@ public class TWING {
     public ItemStack createItemStack(Player p, GUI.CAT gui) {
         ItemBuilder item = new ItemBuilder(material);
         item.setName(MyColors.format(itemName));
-        if (!Main.instance.getConfig().getBoolean("Menu.preview"))
-            return item.build();
         ArrayList<String> lore = new ArrayList<String>();
+        if (Main.instance.getConfig().getBoolean("Menu.lore.pattern")) {
+            for (ParticleCode[] particleCodes : pattern) {
+                StringBuilder add = new StringBuilder();
+                for (ParticleCode particleCode : particleCodes) {
+                    if (particleCode != null) {
+                        if (particleCode instanceof ParticleColor)
+                            add.append(MyColors.format(((ParticleColor) particleCode).getHexaCode()
+                                    + Main.instance.getConfig().getString("Menu.symbol") + "&r"));
+                        else
+                            add.append(Main.instance.getConfig().getString("Menu.symbol"));
+                    } else
+                        add.append("§r§f").append(Main.instance.getConfig().getString("Menu.symbol"));
 
-        for (ParticleCode[] particleCodes : pattern) {
-            StringBuilder add = new StringBuilder();
-            for (ParticleCode particleCode : particleCodes) {
-                if (particleCode != null) {
-                    if (particleCode instanceof ParticleColor)
-                        add.append(MyColors.format(((ParticleColor) particleCode).getHexaCode()
-                                + Main.instance.getConfig().getString("Menu.symbol") + "&r"));
-                    else
-                        add.append(Main.instance.getConfig().getString("Menu.symbol"));
-                } else
-                    add.append("§r§f").append(Main.instance.getConfig().getString("Menu.symbol"));
-
+                }
+                lore.add(add.toString());
             }
-            lore.add(add.toString());
         }
-
-        if (this.getCreator() != null) {
+        if (this.getCreator() != null && Main.instance.getConfig().getBoolean("Menu.lore.creator")) {
             lore.add(Main.getInstance().getConfigString("Menu.creator").replace("%creator%", this.getCreator()));
         }
+
         switch (gui) {
             case WINGS:
-                String perms = "";
-                /*
-                 * If the person has Permission the Symbol has to change so we look if he has
-                 * the perms, if so the Symbol is the right one.
-                 */
-                if (p.hasPermission(this.getPermission())) {
-                    perms = Main.getInstance().getConfigString("haspermission");
-                } else {
-                    perms = Main.getInstance().getConfigString("nopermission");
+                if (Main.instance.getConfig().getBoolean("Menu.lore.permissions")) {
+                    String perms = "";
+                    /*
+                     * If the person has Permission the Symbol has to change so we look if he has
+                     * the perms, if so the Symbol is the right one.
+                     */
+                    if (p.hasPermission(this.getPermission())) {
+                        perms = Main.getInstance().getConfigString("haspermission");
+                    } else {
+                        perms = Main.getInstance().getConfigString("nopermission");
+                    }
+
+                    // Add the Permission Lore
+                    lore.add(Main.getInstance().getConfigString("Menu.permissions").replace("%perms%", perms));
                 }
-
-                // Add the Permission Lore
-                lore.add(Main.getInstance().getConfigString("Menu.permissions").replace("%perms%", perms));
-
                 // Enchant if equipped:
                 if (CurrentWings.current != null)
                     if (!CurrentWings.current.isEmpty())
                         if (CurrentWings.current.containsKey(p.getUniqueId()))
                             if (CurrentWings.current.get(p.getUniqueId()).contains(this.file)) {
                                 item.addGlow();
-                                lore.add(Main.getInstance().getMsg().getRightclick());
-                                lore.add(Main.getInstance().getMsg().getShiftrightclick());
+                                if (Main.instance.getConfig().getBoolean("Menu.lore.action1"))
+                                    lore.add(Main.getInstance().getMsg().getRightclick());
+                                if (Main.instance.getConfig().getBoolean("Menu.lore.action2"))
+                                    lore.add(Main.getInstance().getMsg().getShiftrightclick());
                                 break;
                             }
-                lore.add(Main.getInstance().getMsg().getLeftclick());
-                lore.add(Main.getInstance().getMsg().getShiftleftclick());
+
+                if (Main.instance.getConfig().getBoolean("Menu.lore.action1"))
+                    lore.add(Main.getInstance().getMsg().getLeftclick());
+                if (Main.instance.getConfig().getBoolean("Menu.lore.action2"))
+                    lore.add(Main.getInstance().getMsg().getShiftleftclick());
                 break;
             case PREVIEW:
                 // Add the Permission Lore
