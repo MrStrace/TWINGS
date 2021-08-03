@@ -42,9 +42,6 @@ public class Main extends JavaPlugin {
         // Init instance
         instance = this;
 
-        // Init animation
-        animation = new Animation();
-
         // Creates or loads the Config.yml
         config = new ConfigManager("config");
 
@@ -71,7 +68,6 @@ public class Main extends JavaPlugin {
 
     public static void load() {
 
-
         // Check Plugin version (is it uptodate?)
         checkVersion();
 
@@ -87,6 +83,9 @@ public class Main extends JavaPlugin {
         // Init WingReader all Wings getting saved in cached.
         new WingReader().registerWings();
 
+        // Init animation
+        Main.getInstance().animation = new Animation();
+
         // Wings getting displayed every ticks.
         new PlayWings().playOnPlayers();
 
@@ -100,12 +99,6 @@ public class Main extends JavaPlugin {
         new WingPreview().enablePreview();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-
-            if (CurrentWings.current.containsKey(p.getUniqueId())) {
-                Main.getInstance().getAnimation().getAnimated().put(p, 0);
-                Main.getInstance().getAnimation().getPlus().put(p, true);
-            }
-
             if (p.hasPermission("twings.admin"))
                 p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cparticles reloaded."));
         }
@@ -173,7 +166,7 @@ public class Main extends JavaPlugin {
         config.addDefault("gui.unequip", "&4unequip particles");
         config.addDefault("hide on spectator", true);
         config.addDefault("hide on invis", true);
-        config.addDefault("rotation speed", 1);
+        config.addDefault("rotation speed", 0.2);
         config.save();
     }
 
