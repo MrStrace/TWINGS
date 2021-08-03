@@ -8,10 +8,7 @@ import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.calculate.Rotating;
 import dev.strace.twings.utils.gui.GUI;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -148,12 +145,13 @@ public class TWING {
             space -= 0.01;
         }
 
-        HashMap<Player, Integer> animated = Main.getInstance().getAnimation().getAnimated();
-        if (!animated.isEmpty() && this.isAnimated()) {
-            addition += animated.get(p);
-            sneakAddition += animated.get(p);
+        if (Main.getInstance().getAnimation().getAnimated() != null) {
+            HashMap<TWING, Integer> animated = Main.getInstance().getAnimation().getAnimated();
+            if (!animated.isEmpty() && this.isAnimated() && this.isMirrow()) {
+                addition += animated.get(this);
+                sneakAddition += animated.get(this);
+            }
         }
-
         if (isRunning(p, this)) {
             return;
         }
@@ -226,6 +224,7 @@ public class TWING {
                     Location target = location.clone();
                     target.setX(x);
                     target.setY(y);
+
                     handleVectorChangeAndSend(particleCode, target, location, left, fire);
                 }
 
@@ -252,10 +251,15 @@ public class TWING {
      */
     private void handleVectorChangeAndSend(ParticleCode code, Location target, Location tochange, boolean left,
                                            double fire) {
-
+        double rotani = 0;
         Vector v = target.toVector().subtract(tochange.toVector());
         Vector vpitch = Rotating.rotateAroundAxisX(v, tilt);
         Vector v2 = Rotating.getBackVector(tochange, left);
+
+        if (Main.getInstance().getAnimation().getRotation().get(this) != null) {
+            rotani = Main.getInstance().getAnimation().getRotation().get(this);
+            v = Rotating.rotateAroundAxisY(v, (double) (rotani / ((double) Main.getInstance().getConfig().getDouble("rotation speed") * 90 )));
+        } else
         v = Rotating.rotateAroundAxisY(v, fire + this.getRotation());
 
         if (this.isMirrow()) {
@@ -269,11 +273,13 @@ public class TWING {
         tochange.add(vpitch);
         tochange.add(v);
         tochange.add(v2);
-        if (this.isTiltBefore())
+        if (this.isTiltBefore()) {
             tochange.setY(tochange.getY() + this.getMoveup());
+        }
         MyColors.sendParticles(code, tochange);
-        if (this.isTiltBefore())
+        if (this.isTiltBefore()) {
             tochange.setY(tochange.getY() - this.getMoveup());
+        }
         tochange.subtract(vpitch);
         tochange.subtract(v2);
         tochange.subtract(v);
