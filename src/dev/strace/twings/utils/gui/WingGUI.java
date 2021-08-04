@@ -8,6 +8,7 @@ public class WingGUI extends GUI {
 
     public WingGUI(Player p, int page, String category) {
         super(p, Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix()), page, category);
+        if(this.inventory == null) return;
         if(p == null)return;
         this.insertItems(WingUtils.categorymap.get(category), category);
         p.openInventory(this.inventory);
