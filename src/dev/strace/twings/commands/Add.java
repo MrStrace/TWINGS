@@ -4,12 +4,16 @@ import dev.strace.twings.Main;
 import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.WingUtils;
 import dev.strace.twings.utils.objects.TWING;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 
 /**
- * 
+ *
  * @author Jason Holweg [STRACE] <b>TWINGS</b><br>
  *         Website: <a>https://strace.dev/</a><br>
  *         GitHub: <a>https://github.com/MrStrace</a><br>
@@ -49,9 +53,20 @@ public class Add extends SubCommands {
 				 * Only if the player has the permission of the wing the wings will get
 				 * displayed.
 				 */
-				if (p.hasPermission(wing.getPermission()))
-					p.sendMessage(Main.getInstance().getMsg().getListpoint(wing));
-				else
+				if (p.hasPermission(wing.getPermission())) {
+				    String[] nameArray = ("~" + wing.getItemName()).replaceAll(" ", "_").split("&");
+
+					StringBuilder stringBuffer = new StringBuilder();
+					for (String s : nameArray) {
+						stringBuffer.append(s.substring(1));
+					}
+
+					TextComponent textComponent = new TextComponent(Main.getInstance().getMsg().getListpoint(wing));
+					textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wings add " + stringBuffer.toString().replace("~", "")));
+					textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§7Click to equip.")));
+					p.spigot().sendMessage(textComponent);
+					//p.sendMessage(Main.getInstance().getMsg().getListpoint(wing));
+				}else
 					p.sendMessage(Main.getInstance().getMsg().getNopermission());
 			}
 			break;
