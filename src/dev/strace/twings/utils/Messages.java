@@ -92,8 +92,8 @@ public class Messages extends ConfigManager {
         this.addDefault("player not found", "%prefix% &cthe player wasn't found.");
         this.addDefault("rightclick to unequip", "%prefix% &cRightclick to unequip!");
         this.addDefault("leftclick to equip", "%prefix% &bLeftclick to equip!");
-        this.addDefault("shiftleft to add", "%prefix% &bLeftclick to add to other equipped.");
-        this.addDefault("shiftright to unequip all", "%prefix% &cRightclick to unequip all.");
+        this.addDefault("shiftleft to add", "%prefix% &bShift & Leftclick to add to other equipped.");
+        this.addDefault("shiftright to unequip all", "%prefix% &cShift & Rightclick to unequip all.");
         this.addDefault("already equipped", "%prefix% &cYou already equipped these Particles.");
         this.addDefault("max twings", "%prefix% &cYou can't equip more then %max% Particles!");
         this.save();
