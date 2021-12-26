@@ -6,6 +6,7 @@ import dev.strace.twings.players.CurrentWings;
 import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.ItemBuilder;
 import dev.strace.twings.utils.MyColors;
+import dev.strace.twings.utils.calculate.General;
 import dev.strace.twings.utils.calculate.Rotating;
 import dev.strace.twings.utils.gui.GUI;
 import org.bukkit.*;
@@ -81,9 +82,10 @@ public class TWING {
     private final ConfigManager config;
     public File file;
 
+    public General general;
+
     public TWING(ConfigManager config) {
         this.config = config;
-
         tilt = config.getInt("tilt");
         animated = config.getBoolean("Animated");
         showWhenRunning = config.getBoolean("ShowWhenRunning");
@@ -115,174 +117,8 @@ public class TWING {
             category = "wings";
         else
             category = config.getString("category");
-    }
 
-    /**
-     * This Function sets up the Wing Particle Location.
-     *
-     * @param p {@link Player}
-     */
-    public void drawWings(Player p) {
-
-        if (Main.getInstance().getConfig().getBoolean("hide on invis"))
-            if (p.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
-        if (Main.getInstance().getConfig().getBoolean("hide on spectator"))
-            if (p.getGameMode() == GameMode.SPECTATOR) return;
-
-        Location ploc = p.getLocation().clone();
-        ploc.setPitch(-45);
-        Location location = p.getLocation().clone().subtract(ploc.getDirection().setY(0).multiply(this.getMoveback()));
-        int patternlenght = this.getPattern()[0].length;
-
-        int addition = this.getDegreeAddition();
-        int sneakAddition = this.getSneakAddition();
-        double space = this.getSpacing();
-        double y = location.clone().getY() + 1.4;
-        if (!this.isTiltBefore())
-            y += this.getMoveup();
-        if (p.isSneaking()) {
-            y -= 0.3;
-            space -= 0.01;
-        }
-
-        if (Main.getInstance().getAnimation().getAnimated() != null) {
-            HashMap<TWING, Integer> animated = Main.getInstance().getAnimation().getAnimated();
-            if (!animated.isEmpty() && this.isAnimated() && this.isMirrow()) {
-                addition += animated.get(this);
-                sneakAddition += animated.get(this);
-            }
-        }
-        if (isRunning(p, this)) {
-            return;
-        }
-
-        double defX;
-        if (this.isMirrow())
-            defX = location.getX() - (space * patternlenght) + space;
-        else
-            defX = location.getX() - (space * patternlenght / 2) + space;
-        double x = defX;
-
-        double fire = -((location.getYaw() + (180 + sneakAddition + addition)) / 60);
-        fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-        this.calculateEachLocation(space, x, y, fire, defX, location, false);
-        if (this.isMirrow()) {
-            defX = location.getX() + (space * patternlenght);
-            x = defX;
-            fire = -((location.getYaw() + (180 - sneakAddition - addition)) / 60);
-            fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-            this.calculateEachLocation(space, x, y, fire, defX, location, true);
-        }
-    }
-
-    /**
-     * @param location
-     */
-    public void drawWings(Location location) {
-        int addition = this.getDegreeAddition();
-        int patternlenght = this.getPattern()[0].length;
-
-        double space = this.getSpacing();
-        double defX;
-
-        if (this.isMirrow())
-            defX = location.getX() - (space * patternlenght) + space;
-        else
-            defX = location.getX() - (space * patternlenght / 2) + space;
-        double x = defX;
-        double y = location.clone().getY() + 1.4;
-        if (!this.isTiltBefore())
-            y += this.getMoveup();
-        double fire = -((location.getYaw() + (180 + addition)) / 60);
-
-        fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-
-        this.calculateEachLocation(space, x, y, fire, defX, location, false);
-
-        if (this.isMirrow()) {
-            defX = location.getX() + (space * patternlenght);
-            x = defX;
-            y = location.clone().getY() + 1.4;
-            if (!this.isTiltBefore())
-                y += this.getMoveup();
-            fire = -((location.getYaw() + (180 - addition)) / 60);
-            fire += (location.getYaw() < -180 ? Math.PI : 2.985);
-            this.calculateEachLocation(space, x, y, fire, defX, location, true);
-        }
-    }
-
-    private void calculateEachLocation(double space, double x, double y, double fire, double defX, Location location,
-                                       boolean left) {
-
-        for (int i = 0; i < this.getPattern().length; i++) {
-            ParticleCode[] alone = this.getPattern()[i];
-            for (ParticleCode particleCode : alone) {
-                /*
-                 * if the particlecode is given it will display at the perfect location.
-                 */
-                if (particleCode != null) {
-                    Location target = location.clone();
-                    target.setX(x);
-                    target.setY(y);
-
-                    handleVectorChangeAndSend(particleCode, target, location, left, fire);
-                }
-
-                if (!left)
-                    x += space;
-                else
-                    x -= space;
-            }
-            y -= space;
-            x = defX;
-        }
-
-    }
-
-    /**
-     * This function will handle all vector calculations/changes and will send it to
-     * the location, after that it will turn back to the normal vector.
-     *
-     * @param code
-     * @param target
-     * @param tochange
-     * @param left
-     * @param fire
-     */
-    private void handleVectorChangeAndSend(ParticleCode code, Location target, Location tochange, boolean left,
-                                           double fire) {
-        double rotani = 0;
-        Vector v = target.toVector().subtract(tochange.toVector());
-        Vector vpitch = Rotating.rotateAroundAxisX(v, tilt);
-        Vector v2 = Rotating.getBackVector(tochange, left);
-
-        if (Main.getInstance().getAnimation().getRotation().get(this) != null) {
-            rotani = Main.getInstance().getAnimation().getRotation().get(this);
-            v = Rotating.rotateAroundAxisY(v, (double) (rotani / ((double) Main.getInstance().getConfig().getDouble("rotation speed") * 90 )));
-        } else
-        v = Rotating.rotateAroundAxisY(v, fire + this.getRotation());
-
-        if (this.isMirrow()) {
-            if (!left)
-                v2.setY(0).multiply(-0.25);
-            else
-                v2.setY(0).multiply(0.25);
-        } else
-            v2.setY(0).multiply(-0.5);
-
-        tochange.add(vpitch);
-        tochange.add(v);
-        tochange.add(v2);
-        if (this.isTiltBefore()) {
-            tochange.setY(tochange.getY() + this.getMoveup());
-        }
-        MyColors.sendParticles(code, tochange);
-        if (this.isTiltBefore()) {
-            tochange.setY(tochange.getY() - this.getMoveup());
-        }
-        tochange.subtract(vpitch);
-        tochange.subtract(v2);
-        tochange.subtract(v);
+        this.general = new General(this);
     }
 
     public TWING register() {
@@ -462,14 +298,6 @@ public class TWING {
         item.setLore(lore);
 
         return item.build();
-
-    }
-
-    private boolean isRunning(Player p, TWING wing) {
-        if (wing.showWhenRunning && PlayerMoveListener.moving.contains(p))
-            return false;
-
-        return PlayerMoveListener.moving.contains(p);
 
     }
 
