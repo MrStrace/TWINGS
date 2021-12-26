@@ -33,7 +33,7 @@ public class PlayWings {
                 Player p = Bukkit.getPlayer(uuid);
                 if (p != null && p.isOnline()) {
                     for (File file : CurrentWings.getCurrent().get(uuid))
-                        WingUtils.winglist.get(file).drawWings(p);
+                        WingUtils.winglist.get(file).general.drawWings(p);
                 }
             }
         }
@@ -50,7 +50,7 @@ public class PlayWings {
                         fil = f;
                     }
                 }
-                WingUtils.winglist.get(fil).drawWings(p);
+                WingUtils.winglist.get(fil).general.drawWings(p);
             }
             return true;
         }
