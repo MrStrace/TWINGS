@@ -42,7 +42,7 @@ public class WingPreview {
                             //EditPreview
                             times = handleEditPreview(times, wing);
                             //Send preview
-                            wing.drawWings(builder.getLocation(locations));
+                            wing.general.drawWings(builder.getLocation(locations));
                         }
 
                     }
