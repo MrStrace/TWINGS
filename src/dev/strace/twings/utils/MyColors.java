@@ -28,7 +28,8 @@ public class MyColors {
      * @return cool string.
      */
     public static String format(String msg) {
-        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+        String ver = Bukkit.getVersion();
+        if (ver.contains("1.16") || ver.contains("1.17") || ver.contains("1.18") || ver.contains("1.19")) {
             if (msg.contains("#")) {
                 Matcher match = pattern.matcher(msg);
                 while (match.find()) {
