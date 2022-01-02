@@ -36,7 +36,7 @@ public class Help extends SubCommands {
     public void perform(Player p, String[] args) {
         if (args.length == 1) {// First Line of the Wing list.
 
-            p.sendMessage(Main.getInstance().getPrefix() + "List of all TWINGS Commands:");
+            p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &7List of all TWINGS Commands:"));
             for (SubCommands cmd : WingsCommand.subcommands) {
                 p.sendMessage(MyColors.format("#ff5985" + cmd.getSyntax() + "&7: " + cmd.getDesc()));
             }
