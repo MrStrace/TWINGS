@@ -170,7 +170,8 @@ public class InventoryClickListener implements Listener {
     }
 
     private void equipNewTwing(Player p, TWING wing) {
-        if (CurrentWings.getCurrent().get(p.getUniqueId()).contains(wing.getFile())) return;
+        if (CurrentWings.getCurrent().get(p.getUniqueId()) != null)
+            if (CurrentWings.getCurrent().get(p.getUniqueId()).contains(wing.getFile())) return;
         if (!p.hasPermission(wing.getPermission())) {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 0.7F);
             p.sendMessage(Main.getInstance().getMsg().getNopermission());
