@@ -38,7 +38,7 @@ public class Help extends SubCommands {
 
             p.sendMessage(Main.getInstance().getPrefix() + "List of all TWINGS Commands:");
             for (SubCommands cmd : WingsCommand.subcommands) {
-                p.sendMessage(MyColors.format("#ff5985" + cmd.getSyntax()) + "&7: " + cmd.getDesc());
+                p.sendMessage(MyColors.format("#ff5985" + cmd.getSyntax() + "&7: " + cmd.getDesc()));
             }
 
         }

@@ -28,7 +28,7 @@ public class Create extends SubCommands {
 
 	@Override
 	public String getSyntax() {
-		return "/wings " + getName() + "[picture]";
+		return "/wings " + getName() + " [picture]";
 	}
 
 	@Override

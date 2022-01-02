@@ -30,7 +30,7 @@ public class Equip extends SubCommands {
 
 	@Override
 	public String getSyntax() {
-		return "/wings " + getName() + "[twing]";
+		return "/wings " + getName() + " [twing]";
 	}
 
 	@Override
