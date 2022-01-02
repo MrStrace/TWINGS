@@ -2,8 +2,8 @@ name: TWINGS
 author: Strace
 version: '${project.version}'
 main: dev.strace.twings.Main
-api-Version: '1.16'
+api-version: 1.18
 
 commands:
   wings:
-    aliases: [twings, twing, wing]
+    aliases: [ twings, twing, wing ]
