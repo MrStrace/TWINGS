@@ -1,10 +1,12 @@
 package dev.strace.twings.utils;
 
+import dev.strace.twings.Main;
 import dev.strace.twings.utils.objects.ParticleColor;
 import org.bukkit.Material;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +114,17 @@ public class WingTemplate extends ConfigManager {
      * creates the template wing with all options available.
      */
     public void createTemplate() {
+
+        //If there is any twing file it wont create the template file.
+        File wingfolder = new File(Main.instance.getDataFolder(), "wings");
+        if (wingfolder.listFiles() != null)
+            if (wingfolder.listFiles().length > 1)
+                for (File f : wingfolder.listFiles()) {
+                    if (f.getName() != "Template.yml") {
+                        this.getFile().delete();
+                        return;
+                    }
+                }
 
         cfg.addDefault("Particles.R", "REDSTONE:(255,0,0):2");
         cfg.addDefault("Particles.G", "REDSTONE:(0,255,0)");
