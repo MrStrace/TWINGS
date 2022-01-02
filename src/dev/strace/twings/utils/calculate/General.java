@@ -51,7 +51,7 @@ public class General {
         }
 
         if (Main.getInstance().getAnimation().getAnimated() != null) {
-            HashMap<TWING, Integer> animated = Main.getInstance().getAnimation().getAnimated();
+            HashMap<TWING, Double> animated = Main.getInstance().getAnimation().getAnimated();
             if (!animated.isEmpty() && twing.isAnimated() && twing.isMirrow()) {
                 addition += animated.get(twing);
                 sneakAddition += animated.get(twing);
@@ -163,7 +163,7 @@ public class General {
 
         if (Main.getInstance().getAnimation().getRotation().get(twing) != null) {
             rotani = Main.getInstance().getAnimation().getRotation().get(twing);
-            v = Rotating.rotateAroundAxisY(v, (double) (rotani / ((double) Main.getInstance().getConfig().getDouble("rotation speed") * 90 )));
+            v = Rotating.rotateAroundAxisY(v, (double) (rotani / ((double) Main.getInstance().getConfig().getDouble("rotation speed") * 90)));
         } else
             v = Rotating.rotateAroundAxisY(v, fire + twing.getRotation());
 
@@ -189,6 +189,7 @@ public class General {
         tochange.subtract(v2);
         tochange.subtract(v);
     }
+
     private boolean isRunning(Player p, TWING wing) {
         if (wing.showWhenRunning && PlayerMoveListener.moving.contains(p))
             return false;

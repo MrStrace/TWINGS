@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Animation {
 
-    private HashMap<TWING, Integer> animated;
+    private HashMap<TWING, Double> animated;
     private HashMap<TWING, Boolean> plus;
     private HashMap<TWING, Integer> rotation;
     private HashMap<TWING, Integer> m;
@@ -26,7 +26,7 @@ public class Animation {
                 m.put(torotate, 0);
                 rotation.put(torotate, rand);
             } else if (torotate.isMirrow() && torotate.animated) {
-                animated.put(torotate, 0);
+                animated.put(torotate, 0.0);
                 plus.put(torotate, true);
             }
         }
@@ -45,12 +45,13 @@ public class Animation {
 
 
     private void handleFlapping(TWING p) {
-        if (animated.get(p) <= 30 && plus.get(p))
-            animated.put(p, animated.get(p) + 2);
+        int anispeed = Main.getInstance().config.getInt("animation speed");
+        if (animated.get(p) <= 30D && plus.get(p))
+            animated.put(p, animated.get(p) + anispeed);
         else
             plus.put(p, false);
-        if (animated.get(p) > 0 && !plus.get(p))
-            animated.put(p, animated.get(p) - 2);
+        if (animated.get(p) > 0D && !plus.get(p))
+            animated.put(p, animated.get(p) - anispeed);
         else
             plus.put(p, true);
     }
@@ -60,7 +61,7 @@ public class Animation {
         m.put(torotate, m.get(torotate) + 1);
         if (rotation.get(torotate) >= 300) {
             rotation.replace(torotate, 0);
-            m.put(torotate,0);
+            m.put(torotate, 0);
         }
         if (m.get(torotate) % 5 == 0)
             rotation.put(torotate, rotation.get(torotate) + 1);
@@ -68,7 +69,7 @@ public class Animation {
         System.out.println(rotation.get(torotate));
     }
 
-    public HashMap<TWING, Integer> getAnimated() {
+    public HashMap<TWING, Double> getAnimated() {
         return animated;
     }
 

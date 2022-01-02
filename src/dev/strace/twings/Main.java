@@ -167,6 +167,7 @@ public class Main extends JavaPlugin {
         config.addDefault("hide on spectator", true);
         config.addDefault("hide on invis", true);
         config.addDefault("rotation speed", 0.2);
+        config.addDefault("animation speed", 1.5);
         config.save();
     }
 
