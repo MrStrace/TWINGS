@@ -45,18 +45,18 @@ public class WingTemplate extends ConfigManager {
         /*
          * e.g: pattern: - x,x,x,x,x,x - x,x,x,x,x,x - x,x,x,x,x,x
          */
-        List<String> pt = new ArrayList<String>();
+        List<String> pt = new ArrayList<>();
 
         /*
          * foreach row in the pattern we now create the lines with strings e.g:
          * x,x,x,x,x,x,x,x,x,x,x,x
          */
-        for (int i = 0; i < pattern.length; i++) {
+        for (ParticleColor[] particleColors : pattern) {
             StringBuilder row = new StringBuilder();
             for (int y = 0; y < pattern[0].length; y++) {
                 // while the pattern isn't null it will get the code and add it to the string.
-                if (pattern[i][y] != null)
-                    row.append("").append(pattern[i][y].getCode());
+                if (particleColors[y] != null)
+                    row.append(particleColors[y].getCode());
                 else
                     // if it is null it will place an x so its no particle at all.
                     row.append("x");
@@ -100,7 +100,7 @@ public class WingTemplate extends ConfigManager {
         cfg.addDefault("spacing", 0.08);
         cfg.addDefault("category", category);
         if (exclude != null) {
-            List<String> exc = new ArrayList<String>();
+            List<String> exc = new ArrayList<>();
             exc.add(exclude);
             cfg.addDefault("exclude", exc);
         }
