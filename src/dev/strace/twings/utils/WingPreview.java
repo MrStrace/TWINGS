@@ -29,13 +29,14 @@ public class WingPreview {
         builder = new LocationBuilder();
         Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), new Runnable() {
             int times = 0;
+
             @Override
             public void run() {
                 ArrayList<String> locs = getLocs();
                 if (locs != null)
                     for (String locations : locs) {
                         //Create TWING via API and filename
-                        TWING wing = new WingUtils().getByName(locations);
+                        TWING wing = new WingUtils().getByName(builder.getString(locations.replace(".", "") + ".name"));
 
                         if (wing != null) {
                             times++;
