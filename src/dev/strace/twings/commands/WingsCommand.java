@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class WingsCommand implements CommandExecutor {
 
     // Liste aller SubCommands von Setup.
-    private final ArrayList<SubCommands> subcommands = new ArrayList<SubCommands>();
+    public static final ArrayList<SubCommands> subcommands = new ArrayList<SubCommands>();
 
     /**
      * Initialisierung der SubCommands. Der ArrayListe werden die SubCommands
@@ -38,7 +38,8 @@ public class WingsCommand implements CommandExecutor {
         subcommands.add(new Give());
         subcommands.add(new Create());
         subcommands.add(new Add());
-      //  subcommands.add(new Import());
+        subcommands.add(new Help());
+        //  subcommands.add(new Import());
     }
 
     @Override
