@@ -26,7 +26,7 @@ public class WingPreview {
      * it will display a preview of set wings.
      */
     public void enablePreview() {
-
+        builder = new LocationBuilder();
         Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), new Runnable() {
             int times = 0;
             @Override
@@ -52,7 +52,6 @@ public class WingPreview {
     }
 
     private ArrayList<String> getLocs() {
-        builder = new LocationBuilder();
         return builder.getStringList("");
     }
 
