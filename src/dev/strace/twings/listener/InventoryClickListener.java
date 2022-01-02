@@ -249,9 +249,9 @@ public class InventoryClickListener implements Listener {
         if (e.getCurrentItem() == null) return;
         if (e.getCurrentItem().getItemMeta() == null) return;
 
-        boolean bool = new WingTemplate(e.getCurrentItem().getItemMeta().getDisplayName())
-                .createFromPicture(new ReadImage().getImage(e.getCurrentItem().getItemMeta().getDisplayName()),
-                        Material.COOKIE, MyColors.format("&c") + e.getCurrentItem().getItemMeta().getDisplayName(),
+        boolean bool = new WingTemplate(e.getCurrentItem().getItemMeta().getDisplayName().replace("§a", ""))
+                .createFromPicture(new ReadImage().getImage(e.getCurrentItem().getItemMeta().getDisplayName().replace("§a", "")),
+                        Material.COOKIE, e.getCurrentItem().getItemMeta().getDisplayName().replace("§a", ""),
                         "picture", "twings.picture", "C1");
 
         // if success
