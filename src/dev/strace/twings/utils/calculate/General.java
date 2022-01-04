@@ -9,6 +9,7 @@ import dev.strace.twings.utils.objects.TWING;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -29,8 +30,10 @@ public class General {
      */
     public void drawWings(Player p) {
 
-        if (Main.getInstance().getConfig().getBoolean("hide on invis"))
+        if (Main.getInstance().getConfig().getBoolean("hide on invis")) {
             if (p.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
+            if (isVanished(p)) return;
+        }
         if (Main.getInstance().getConfig().getBoolean("hide on spectator"))
             if (p.getGameMode() == GameMode.SPECTATOR) return;
 
@@ -196,5 +199,12 @@ public class General {
 
         return PlayerMoveListener.moving.contains(p);
 
+    }
+
+    private boolean isVanished(Player player) {
+        for (MetadataValue meta : player.getMetadata("vanished")) {
+            if (meta.asBoolean()) return true;
+        }
+        return false;
     }
 }
