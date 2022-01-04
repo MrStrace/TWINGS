@@ -3,8 +3,11 @@ package dev.strace.twings.utils;
 import dev.strace.twings.Main;
 import dev.strace.twings.utils.objects.TWING;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * @author Jason Holweg [STRACE] <b>TWINGS</b><br>
@@ -27,52 +30,26 @@ public class WingPreview {
      */
     public void enablePreview() {
         builder = new LocationBuilder();
+        HashMap<TWING, Location> wings = new HashMap<>();
+        if (getLocs() != null) {
+            for (String locations : getLocs()) {
+                String name = builder.getString(locations.replace(".", "") + ".name");
+                TWING wing = new WingUtils().getByName(name);
+                wings.put(wing, builder.getLocation(locations));
+            }
+        }
         Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), new Runnable() {
-            int times = 0;
-
             @Override
             public void run() {
-                ArrayList<String> locs = getLocs();
-                if (locs != null)
-                    for (String locations : locs) {
-                        //Create TWING via API and filename
-                        TWING wing = new WingUtils().getByName(builder.getString(locations.replace(".", "") + ".name"));
-
-                        if (wing != null) {
-                            times++;
-                            //EditPreview
-                            times = handleEditPreview(times, wing);
-                            //Send preview
-                            wing.general.drawWings(builder.getLocation(locations));
-                        }
-
-                    }
+                for (TWING wing : wings.keySet()) {
+                    wing.general.drawWings(wings.get(wing));
+                }
             }
-        }, 100, Main.getInstance().getConfig().getInt("Wings.updaterate"));
+        }, 20, Main.getInstance().getConfig().getInt("Wings.updaterate"));
 
     }
 
     private ArrayList<String> getLocs() {
         return builder.getStringList("");
-    }
-
-    private int handleEditPreview(int times, TWING wing) {
-        /*
-         * EditPreview (Updates a specific Wings each Run) if it was run over 3000 times
-         * it will automatically be changed and wont go through any more.
-         */
-        if (edit == null) return 0;
-
-        // if TWING edit isn't null it will register the TWING again;
-
-        if (edit.getItemName().equalsIgnoreCase(wing.getItemName()))
-            wing.register();
-
-
-        if (times >= 3000) {
-            edit = null;
-            return 0;
-        }
-        return times;
     }
 }
