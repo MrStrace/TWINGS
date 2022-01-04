@@ -17,7 +17,6 @@ public class PlayWings {
         Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
 
             if (handleShowWithPerms()) return;
-
             if (CurrentWings.getCurrent().isEmpty())
                 return;
 
@@ -29,13 +28,12 @@ public class PlayWings {
 
     private void handleShowTwings() {
         for (UUID uuid : CurrentWings.getCurrent().keySet()) {
-            if (Bukkit.getPlayer(uuid) != null) {
-                Player p = Bukkit.getPlayer(uuid);
-                if (p != null && p.isOnline()) {
-                    for (File file : CurrentWings.getCurrent().get(uuid))
-                        WingUtils.winglist.get(file).general.drawWings(p);
-                }
-            }
+            if (Bukkit.getPlayer(uuid) == null) return;
+            Player p = Bukkit.getPlayer(uuid);
+            if (p == null && !p.isOnline()) return;
+
+            for (File file : CurrentWings.getCurrent().get(uuid))
+                WingUtils.winglist.get(file).general.drawWings(p);
         }
     }
 
