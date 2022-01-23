@@ -73,5 +73,4 @@ public class MyColors {
         L.getWorld().spawnParticle(code.getParticle(), L, 1, 0.0F, 0F, 0F, code.getSpeed());
 
     }
-
 }
