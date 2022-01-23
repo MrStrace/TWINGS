@@ -102,6 +102,8 @@ public class Main extends JavaPlugin {
             if (p.hasPermission("twings.admin"))
                 p.sendMessage(Main.getInstance().getPrefix() + MyColors.format(" &cparticles reloaded."));
         }
+        // Creates or loads the Config.yml
+        Main.getInstance().config = new ConfigManager("config");
     }
 
     /**
