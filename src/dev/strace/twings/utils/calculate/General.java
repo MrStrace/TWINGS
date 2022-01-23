@@ -2,7 +2,6 @@ package dev.strace.twings.utils.calculate;
 
 import dev.strace.twings.Main;
 import dev.strace.twings.listener.PlayerMoveListener;
-import dev.strace.twings.utils.ConfigManager;
 import dev.strace.twings.utils.MyColors;
 import dev.strace.twings.utils.objects.ParticleCode;
 import dev.strace.twings.utils.objects.TWING;
@@ -83,9 +82,6 @@ public class General {
         }
     }
 
-    /**
-     * @param location
-     */
     public void drawWings(Location location) {
         int addition = twing.getDegreeAddition();
         int patternlenght = twing.getPattern()[0].length;
@@ -151,22 +147,22 @@ public class General {
      * This function will handle all vector calculations/changes and will send it to
      * the location, after that it will turn back to the normal vector.
      *
-     * @param code
-     * @param target
-     * @param tochange
-     * @param left
-     * @param fire
+     * @param code ParticleCode
+     * @param target Target Location
+     * @param tochange Location wich is going to be changed
+     * @param left left wing? yes no
+     * @param fire degrees
      */
     private void handleVectorChangeAndSend(ParticleCode code, Location target, Location tochange, boolean left,
                                            double fire) {
-        double rotani = 0;
+        double rotani;
         Vector v = target.toVector().subtract(tochange.toVector());
         Vector vpitch = Rotating.rotateAroundAxisX(v, twing.tilt);
         Vector v2 = Rotating.getBackVector(tochange, left);
 
         if (Main.getInstance().getAnimation().getRotation().get(twing) != null) {
             rotani = Main.getInstance().getAnimation().getRotation().get(twing);
-            v = Rotating.rotateAroundAxisY(v, (double) (rotani / ((double) Main.getInstance().getConfig().getDouble("rotation speed") * 90)));
+            v = Rotating.rotateAroundAxisY(v, rotani / (Main.getInstance().getConfig().getDouble("rotation speed") * 90));
         } else
             v = Rotating.rotateAroundAxisY(v, fire + twing.getRotation());
 
