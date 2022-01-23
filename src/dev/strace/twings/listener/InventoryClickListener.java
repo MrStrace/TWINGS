@@ -26,6 +26,7 @@ public class InventoryClickListener implements Listener {
 
         if (e.getView().getTitle().contains(
                 Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix()))) {
+
             e.setCancelled(true);
 
             if (e.getCurrentItem() == null)
@@ -83,7 +84,8 @@ public class InventoryClickListener implements Listener {
 
     private void handleCategoryMenu(InventoryClickEvent e, Player p) {
         if (!e.getView().getTitle().equalsIgnoreCase(new CategoryGUI(null).getTitle())) return;
-        if (e.getClick().isLeftClick() || e.getClick().isRightClick())
+        if (e.getClick().isLeftClick() || e.getClick().isRightClick()) {
+            e.setCancelled(true);
             for (Category cats : Category.categories)
                 if (cats.getItem().equals(e.getCurrentItem())) {
                     if (menuMap.containsKey(p))
@@ -102,12 +104,14 @@ public class InventoryClickListener implements Listener {
                     menuMap.remove(p);
                     return;
                 }
-        new WingGUI(p, 0, "XXX");
+            new WingGUI(p, 0, "XXX");
+        }
     }
 
     public void handlePreviewMenu(InventoryClickEvent e, Player p) {
         if (!e.getView().getTitle().contains(MyColors.format(" &c&lPREVIEW"))) return;
         if (e.getCurrentItem() == null) return;
+        e.setCancelled(true);
         String cat = currentCat.get(p).toString();
         for (TWING wing : WingUtils.categorymap.get(currentCat.get(p).getName())) {
             if (e.getCurrentItem().equals(wing.getItem(p, GUI.CAT.PREVIEW))) {
@@ -142,6 +146,7 @@ public class InventoryClickListener implements Listener {
     public void handleEditMenu(InventoryClickEvent e, Player p) {
         if (!e.getView().getTitle().contains(MyColors.format(" &c&lEDIT"))) return;
         if (e.getCurrentItem() == null) return;
+        e.setCancelled(true);
         for (TWING wing : WingUtils.categorymap.get(currentCat.get(p).getName())) {
             if (e.getCurrentItem().equals(wing.getItem(p, GUI.CAT.EDIT))) {
 
@@ -172,6 +177,7 @@ public class InventoryClickListener implements Listener {
     private void equipNewTwing(Player p, TWING wing) {
         if (CurrentWings.getCurrent().get(p.getUniqueId()) != null)
             if (CurrentWings.getCurrent().get(p.getUniqueId()).contains(wing.getFile())) return;
+
         if (!p.hasPermission(wing.getPermission())) {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.4F, 0.7F);
             p.sendMessage(Main.getInstance().getMsg().getNopermission());
@@ -192,6 +198,7 @@ public class InventoryClickListener implements Listener {
                 Main.getInstance().getConfigString("Menu.title").replace("%prefix%", Main.getInstance().getPrefix())))
             return;
         if (e.getCurrentItem() == null) return;
+        e.setCancelled(true);
         for (TWING wing : WingUtils.categorymap.get(currentCat.get(p).getName())) {
 
             /*
@@ -248,7 +255,7 @@ public class InventoryClickListener implements Listener {
         // try's to create the particles per picture:
         if (e.getCurrentItem() == null) return;
         if (e.getCurrentItem().getItemMeta() == null) return;
-
+        e.setCancelled(true);
         boolean bool = new WingTemplate(e.getCurrentItem().getItemMeta().getDisplayName().replace("§a", ""))
                 .createFromPicture(new ReadImage().getImage(e.getCurrentItem().getItemMeta().getDisplayName().replace("§a", "")),
                         Material.COOKIE, e.getCurrentItem().getItemMeta().getDisplayName().replace("§a", ""),
